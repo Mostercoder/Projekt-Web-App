@@ -4,7 +4,7 @@ This is a Web App project
 
 set up guide (debugging & development):
 
--> install github codespaces plug in
+-> install github codespaces plug-in
 
 -> connect to codespace
 
