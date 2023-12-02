@@ -10,4 +10,4 @@ set up guide (debugging & development):
 
 -> run "python -m http.server" in code editor terminal
 
--> VSCode: open in simple browser cuz easier to debug
+-> VSCode: open in editor cuz easier to debug
