@@ -11,6 +11,7 @@ i just dont want to do english rn
         https://www.wildapricot.com/blog/online-payment-services
     current bids
     current "ausschriebungen"
+    feedback and rating system
 3.
   discovery
     recommended
@@ -31,9 +32,11 @@ i just dont want to do english rn
       you do dat shit
     js
       GPT 4 do dat shit
+      do the thing where it stays on the same page
     html
       we do it together i guess
 5.
+  
   
 
       
