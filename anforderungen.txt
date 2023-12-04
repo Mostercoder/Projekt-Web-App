@@ -12,4 +12,29 @@ i just dont want to do english rn
     current bids
     current "ausschriebungen"
 3.
+  discovery
+    recommended
+      good luck witrh this one
+    search options
+      sort by
+        price
+        ending soon
+        fits search
+      text search
+      negative search
+        everything i guess
+      location radius
+        integrated map (google maps)
+4.
+  website design
+    css
+      you do dat shit
+    js
+      GPT 4 do dat shit
+    html
+      we do it together i guess
+5.
+  
+
+      
   
