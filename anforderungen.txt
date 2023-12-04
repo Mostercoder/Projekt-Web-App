@@ -26,6 +26,7 @@ i just dont want to do english rn
         everything i guess
       location radius
         integrated map (google maps)
+      product catogories
 4.
   website design
     css
