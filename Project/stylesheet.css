@@ -1,9 +1,46 @@
+.logo {
+  width: 150px;
+  height: 150px;
+}
+
 body {
-    background-color: #00142c;
-  }
+  background-color: #00142c; /* just for backup*/
+  background: linear-gradient(0deg, rgba(1,63,138,1) 0%, rgba(0,20,44,1) 80%);
+  background-attachment: fixed;
+}
+
+.category_box {
+  width: 10%;
+  height: 5%; 
+  background-color: rgb(16, 73, 143);
   
+  /*border*/
+  border: 3px solid rgb(221, 221, 221);
+  box-shadow: 2px 2px 5px rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+
+  cursor: pointer;
+  
+  /*position*/
+  position: absolute;
+  top: 55px;
+  left: 200px;
+}
+
+.category_box:hover {
+  background-color: rgb(44, 89, 145);
+}
+
+.category_box p {
+  font-family: "Guill Sans", sans-serif;
+  font-size: 100%;
+  font-weight: bolder;
+  color: #ffffff; 
+  text-align:center;
+}
+
 h1 {
-  color: lavender;
+  color: lavenderblush;
   text-align: center;
   font-family: 'Segoe UI'
 }
@@ -50,7 +87,7 @@ p {
   background-color: #f0f0f0; 
   padding: 20px; 
   border: 1px solid #ccc; 
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 2px 5px rgba(255, 255, 255, 0.1);
   border-radius: 20px;
   text-align: center;
   
