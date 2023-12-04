@@ -1,0 +1,15 @@
+idk put some stuff in here some day
+i just dont want to do english rn
+1.
+  ER-diagramm
+2.
+  accounts
+    security
+      password storage
+      external logins (google, microsoft, steam?)
+      wallet <- payment system
+        https://www.wildapricot.com/blog/online-payment-services
+    current bids
+    current "ausschriebungen"
+3.
+  
