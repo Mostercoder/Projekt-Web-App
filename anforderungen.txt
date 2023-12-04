@@ -1,7 +1,9 @@
 idk put some stuff in here some day
 i just dont want to do english rn
 1.
-  ER-diagramm
+  databank structure  
+    ER-diagramm
+    
 2.
   accounts
     security
@@ -22,6 +24,8 @@ i just dont want to do english rn
         ending soon
         fits search
       text search
+        (autocomplete)
+        https://datascienceillustrated.com/search-engine-algorithms-open-source-technologies
       negative search
         everything i guess
       location radius
@@ -37,7 +41,15 @@ i just dont want to do english rn
     html
       we do it together i guess
 5.
-  
+  payment options
+    hyperswitch
+    (crypto)
+6.
+  name
+    TellSell
+  logo
+    mostly done
+7.
   
 
       
