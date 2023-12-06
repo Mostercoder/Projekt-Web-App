@@ -13,7 +13,7 @@ import json
 # Create app and configure database
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://username:password@localhost/tellsell'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tellsell.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
