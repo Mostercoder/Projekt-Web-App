@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- CSS style sheet -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <!-- Main heading for the page -->
+  <title>Item List</title>
+  <!-- Button position -->
+  <style>
+    #logout_button {
+      position: fixed;
+      top: 2px;
+      right: 2px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Add this link where you want to open the email client -->
+  <a href="mailto:{{ current_user_email }}?subject=Regarding%20Your%20Item&body=Hello%20{{ current_user_email }},%0D%0A%0D%0AI'm%20interested%20in%20your%20item.%20Can%20we%20discuss%20further?">Contact Seller</a>
+
+
+  <script type="module" src="./static/script.js"></script>
+
+  <!-- Button to logout -->
+  <form action="{{ url_for('logout')}}" method="POST">
+    <button id="logout_button" type="submit">Logout</button>
+  </form>
+  <!-- Button to sell item -->
+  <form action="{{ url_for('sell_item')}}" method="POST">
+    <button id="goto_sell_item" type="submit">sell stuff</button>
+  </form>
+
+
+
+  <!-- Display all items -->
+  <h2>Item List</h2>
+  <ul>
+    <li>Hardcoded Name - Hardcoded Description - $99.99</li>
+    {% for item in items %}
+    <li onclick="displayOwnerEmail('{{ item[4] }}')">{{ item[1] }} - {{ item[2] }} - ${{ item[3] }}</li>
+    {% endfor %}
+  </ul>
+
+  <!-- JavaScript to handle item click -->
+  <script>
+    function displayOwnerEmail(email) {
+      alert('Owner Email: ' + "{{ current_user_email }}");
+    }
+  </script>
+</body>
+
+</html>
