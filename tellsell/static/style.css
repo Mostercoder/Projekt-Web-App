@@ -1,10 +1,15 @@
-top_bar {
-  background-color: #000000; /* Hintergrundfarbe für die gefärbte Hälfte */
-  color: white; /* Textfarbe für die gefärbte Hälfte */
-  height: 25%; /* Vollständige Höhe des Viewports */
-  width: 100%; /* Die gefärbte Hälfte nimmt 50% der Breite ein */
-  float: left; /* Positionierung der beiden Hälften nebeneinander */
-  
+.top_bar {
+  margin: 0;
+  padding: 0;
+  position: fixed; /* Fixed position to stay in place while scrolling */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 25%; /* 25% of the viewport height */
+  background-color: rgba(0,20,44,1);
+  color: white;
+  box-sizing: border-box;
+  padding: 20px;
 }
 
 .logo {
@@ -23,8 +28,14 @@ ul {
 
 .logout_button {
   position: fixed;
-      top: 2px;
-      right: 2px;
+  top: 10px;
+  right: 20px;
+}
+
+.sell_stuff {
+  position: fixed;
+  top: 10px;
+  right: 120px;
 }
 
 li {
@@ -42,7 +53,7 @@ li a {
   text-align: center;
   font-family: "Guill Sans", sans-serif;
 
-  padding: 14px 16px;
+  padding: 10px 10px;
   text-decoration: none;
   background-color: rgb(16, 73, 143);
 
@@ -60,8 +71,9 @@ p {
 /* ###########################*/
 
 body {
+  padding-top: 25vh;
   background-color: #00142c;  /*just for backup*/
-  /*background: linear-gradient(0deg, rgba(1,63,138,1) 0%, rgba(0,20,44,1) 80%);*/
+  background: linear-gradient(0deg, rgba(1,63,138,1) 0%, rgba(0,20,44,1) 80%);/**/
   background-attachment: fixed;
 }
 

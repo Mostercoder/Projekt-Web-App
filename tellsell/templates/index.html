@@ -3,30 +3,29 @@
 <html>
 
 <head>
-  <top_bar>
+  <div class="top_bar">
     <!-- Logo -->
     <img class="logo" src="{{ url_for('static', filename='logo.jpg') }}" alt="TellSellLogo">
     <!-- Categories -->
     <ul>
-    <li><a href="#start">Start</a></li>
+    <li><a href="#start">Alle Kategorien</a></li>
     <li><a href="#überuns">Über uns</a></li>
     <li><a href="#leistungen">Leistungen</a></li>
     <li><a href="#kontakt">Kontakt</a></li>
     </ul>
     <!-- Button to sell item -->
     <form action="{{ url_for('sell_item')}}" method="POST">
-      <button id="goto_sell_item" type="submit">sell stuff</button>
+      <button class="sell_stuff" id="goto_sell_item" type="submit">sell stuff</button>
     </form>
     <form action="{{ url_for('logout')}}" method="POST">
       <button class="logout_button" id="logout_button" type="submit">Logout</button><!-- Button to logout -->
     </form>
 
-  </top_bar>
+  </div>
 </head>
 
 <body>
   <script type="module" src="./static/script.js"></script>
-
   <title>Item List</title><!-- Main heading for the page -->
 
   <!-- Display all items -->
