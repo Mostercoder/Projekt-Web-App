@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
+
 <html>
 
 <head>
@@ -8,17 +10,18 @@
     <img class="logo" src="{{ url_for('static', filename='logo.jpg') }}" alt="TellSellLogo">
     <!-- Categories -->
     <ul>
-    <li><a href="#start">Alle Kategorien</a></li>
-    <li><a href="#überuns">Über uns</a></li>
-    <li><a href="#leistungen">Leistungen</a></li>
-    <li><a href="#kontakt">Kontakt</a></li>
+    <li><a href="#start"><ion-icon name="apps"></ion-icon>Alle Kategorien</a></li>
+    <li><a href="#überuns">Bücher</a></li>
+    <li><a href="#leistungen">Elektronik</a></li>
+    <li><a href="#kontakt">Teste</a></li>
     </ul>
     <!-- Button to sell item -->
     <form action="{{ url_for('sell_item')}}" method="POST">
-      <button class="sell_stuff" id="goto_sell_item" type="submit">sell stuff</button>
+      <button class="sell_stuff" id="goto_sell_item" type="submit">Angebot erstellen</button>
     </form>
+    <!-- Button to logout -->
     <form action="{{ url_for('logout')}}" method="POST">
-      <button class="logout_button" id="logout_button" type="submit">Logout</button><!-- Button to logout -->
+      <button class="logout_button" id="logout_button" type="submit">Logout</button>
     </form>
 
   </div>
