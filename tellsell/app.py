@@ -146,8 +146,8 @@ def login():
 # Index page, accessible only to logged-in users
 @app.route('/')
 def index():
-    if 'email' not in session:
-        return redirect(url_for('login'))
+    #if 'email' not in session:
+    #    return redirect(url_for('login')) # DEVELOPMENT PURPOSES
     
     current_user_email = session.get('email', None)
 

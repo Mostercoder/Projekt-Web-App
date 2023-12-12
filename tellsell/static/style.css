@@ -1,10 +1,62 @@
+.logo {
+  width: 150px;
+  height: 150px;
+}
+
+body {
+  background-color: #00142c; /* just for backup*/
+  background: linear-gradient(0deg, rgba(1,63,138,1) 0%, rgba(0,20,44,1) 80%);
+  background-attachment: fixed;
+}
+
+
+/* #### shit for menubar ####*/
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding-top: 40px;
+  overflow: hidden;
+  
+}
+
+li {
+  float: left;
+}
+
+li + li {
+  margin-left: 10px;
+}
+
+li a {
+  display: block;
+  color: white;
+  font-weight: bolder;
+  text-align: center;
+  font-family: "Guill Sans", sans-serif;
+
+  padding: 14px 16px;
+  text-decoration: none;
+  background-color: rgb(16, 73, 143);
+
+  box-shadow: 2px 2px 5px rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+li a:hover {
+  background-color: rgb(44, 89, 145);
+}
+
+p {
+  font-family: 'Tahoma';
+  font-size: 20px;
+}
+/* ###########################*/
+
 /* Styles for the main heading */
 h1 {
-  font-size: 36px;
+  color: lavenderblush;
   text-align: center;
-  margin-top: 50px;
-  font-family: Helvetica, Arial, sans-serif;
-  color: #acacbe;
+  font-family: 'Segoe UI'
 }
 
 /* Styles for the subheadings */
@@ -31,22 +83,64 @@ ul li {
   align-items: center;
 }
 
+/* not really in use ¯\_(ツ)_/¯ */
 input[type="text"] {
   font-size: 18px;
-  padding: 5px;
   border: 1px solid #ccc;
   border-radius: 3px;
   flex-grow: 1;
-  font-family: Helvetica, Arial, sans-serif;
+
+  padding: 14px 16px;
+  text-decoration: none;
+  background-color: rgb(255, 255, 255);
+
+  box-shadow: 2px 2px 5px rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
 }
 
+/*item name and email*/
+input[type="text"],
+button[type="submit"] {
+  margin-left: 10px;
+  margin-top: 10px;
+  border: none;
+  padding: 8px 16px;
+  background-color: #ebebeb;
+  border-radius: 3px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, .1); 
+}
+
+/*only submit buttons*/
 button[type="submit"] {
   font-size: 18px;
   padding: 5px 10px;
-  border: none;
   border-radius: 3px;
+
+  background-color: rgb(255, 255, 255);
   cursor: pointer;
   font-family: Helvetica, Arial, sans-serif;
+
+  box-shadow: 2px 2px 5px rgba(255, 255, 255, 0.1);
+}
+
+/*only price button*/
+input[type="number"] {
+  margin-left: 10px;
+  margin-top: 10px;
+  border: none;
+  padding: 8px 16px;
+  background-color: #ebebeb;
+  border-radius: 3px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, .1); 
+}
+
+/* for discription of product */
+textarea {
+  margin-left: 10px;
+  margin-top: 10px;
+  background-color: #ebebeb;
+  border-radius: 3px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, .1); 
 }
 
 .save-button {
@@ -80,16 +174,6 @@ label {
   font-size: 18px;
   font-family: Helvetica, Arial, sans-serif;
   color: #acacbe;
-}
-
-input[type="text"],
-button[type="submit"] {
-  margin-left: 10px;
-}
-
-button[type="submit"] {
-  background-color: #715fde;
-  color: #ffffff;
 }
 
 /* Dark mode */

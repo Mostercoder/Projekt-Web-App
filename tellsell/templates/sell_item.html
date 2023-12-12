@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-  <!-- CSS style sheet -->
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <!-- Main heading for the page -->
-  <title>Sell Item</title>
+  <title>Login</title>
   <!-- Button position -->
   <style>
     #logout_button {
@@ -23,7 +20,7 @@
     <button id="logout_button" type="submit">Logout</button>
   </form>
 
-  <h2>Sell Item</h2>
+  <h1>Sell Item</h1>
   
   <form action="{{ url_for('add_item')}}" method="POST">
     <label for="itemname">Item Name:</label>
