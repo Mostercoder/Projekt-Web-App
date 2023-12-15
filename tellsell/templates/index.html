@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='style_index.css') }}">
 <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
 
 <html>
@@ -29,10 +29,9 @@
 
 <body>
   <script type="module" src="./static/script.js"></script>
-  <ion-icon name="list-outline"></ion-icon><title>Item List</title><!-- Main heading for the page -->
 
   <!-- Display all items -->
-  <h2>Item List</h2>
+  <h2><ion-icon name="list-outline"></ion-icon>Item List</h2>
   <ul_1>
     <li_1>Hardcoded Name - Hardcoded Description - $99.99</li_1>
     {% for item in items %}
