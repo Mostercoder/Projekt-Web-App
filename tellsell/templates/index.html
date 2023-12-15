@@ -9,35 +9,44 @@
     <!-- Logo -->
     <img class="logo" src="{{ url_for('static', filename='logo.jpg') }}" alt="TellSellLogo">
     <!-- Categories -->
-    <ul>
+    <ul class="categories">
     <li><a href="#start"><ion-icon name="apps"></ion-icon>Alle Kategorien</a></li>
     <li><a href="#überuns"><ion-icon name="book-outline"></ion-icon>Bücher</a></li>
     <li><a href="#leistungen"><ion-icon name="laptop-outline"></ion-icon>Elektronik</a></li>
-    <li><a href="#kontakt"><ion-icon name="document-outline"></ion-icon>Teste</a></li>
+    <li><a href="#kontakt"><ion-icon name="help-outline"></ion-icon>Fundwaren</a></li>
+    <li><a href="#kontakt"><ion-icon name="business-outline"></ion-icon>Jobs</a></li>
+    <li><a href="#kontakt"><ion-icon name="shirt-outline"></ion-icon>Kleidung</a></li>
+    <li><a href="#kontakt"><ion-icon name="document-outline"></ion-icon>Notizen</a></li>
+    <li><a href="#kontakt"><ion-icon name="basketball-outline"></ion-icon>Sportartikel</a></li>
+    <li><a href="#kontakt"><ion-icon name="bulb-outline"></ion-icon>Tutoring</a></li>
     </ul>
     <!-- Button to sell item -->
+    <ul class="account_options">
     <form action="{{ url_for('sell_item')}}" method="POST">
-      <button class="sell_stuff" id="goto_sell_item" type="submit"><ion-icon name="add-circle-outline"></ion-icon>Angebot erstellen</button>
+      <button class="sell_stuff" id="goto_sell_item" type="submit"><a><ion-icon name="add-circle-outline"></ion-icon>Angebot erstellen</a></button>
     </form>
     <!-- Button to logout -->
     <form action="{{ url_for('logout')}}" method="POST">
-      <button class="logout_button" id="logout_button" type="submit"><ion-icon name="log-out-outline"></ion-icon>Logout</button>
+      <button class="logout_button" id="logout_button" type="submit"><a><ion-icon name="log-out-outline"></ion-icon>Logout</a></button>
     </form>
+    </ul>
 
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
   </div>
 </head>
 
 <body>
   <script type="module" src="./static/script.js"></script>
-
   <!-- Display all items -->
   <h2><ion-icon name="list-outline"></ion-icon>Item List</h2>
-  <ul_1>
-    <li_1>Hardcoded Name - Hardcoded Description - $99.99</li_1>
+  <ul>
+    <li>Hardcoded Name - Hardcoded Description - $99.99</li>
     {% for item in items %}
-    <li_1 onclick="displayOwnerEmail('{{ item[4] }}')">{{ item[1] }} - {{ item[2] }} - ${{ item[3] }}</li_1>
+    <li onclick="displayOwnerEmail('{{ item[4] }}')">{{ item[1] }} - {{ item[2] }} - ${{ item[3] }}</li>
     {% endfor %}
-  </ul_1>
+  </ul>
 
 
   <!-- JavaScript to handle item click -->
