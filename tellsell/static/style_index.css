@@ -132,16 +132,30 @@ ion-icon {
 body {
   padding-top: 25vh;
   padding-left: 21%;
+  padding-right: 21%;
   background-color: #00142c;  /*just for backup*/
   background: linear-gradient(0deg, rgba(1,63,138,1) 0%, rgba(0,20,44,1) 80%);/**/
   background-attachment: fixed;
 }
 
-/* Styles for the main heading */
 h1 {
+  display: flex;
+  align-items: center;
+}
+
+h1 ion-icon {
+  width: 30px;
+  height: 30px;
+  color: lavender;
+}
+
+/* Styles for the main heading */
+h1 a {
+  align-items: center;
   color: lavenderblush;
-  text-align: center;
-  font-family: 'Segoe UI'
+  text-align: left;
+  font-family: 'Segoe UI';
+  margin-left: 12px;
 }
 
 /* Styles for the subheadings */
@@ -150,6 +164,20 @@ h2 {
   margin-top: 30px;
   font-family: Helvetica, Arial, sans-serif;
   color: #acacbe;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 14px;
+  padding: 20px;
+}
+
+.grid-item {
+  background-color: #acacbe;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
 }
 
 /*only price button*/
@@ -173,12 +201,6 @@ textarea {
 ul {
   list-style: none;
   overflow-y: auto;
-}
-
-label {
-  font-size: 18px;
-  font-family: Helvetica, Arial, sans-serif;
-  color: #acacbe;
 }
 
 input[type="text"].dark-mode {

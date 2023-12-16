@@ -23,11 +23,13 @@
     <!-- Button to sell item -->
     <ul class="account_options">
     <form action="{{ url_for('sell_item')}}" method="POST">
-      <button class="sell_stuff" id="goto_sell_item" type="submit"><a><ion-icon name="add-circle-outline"></ion-icon>Angebot erstellen</a></button>
+      <button id="goto_sell_item" type="submit"><a><ion-icon name="add-outline"></ion-icon>Angebot erstellen</a></button>
     </form>
+    <!-- Button to remember -->
+    <button id="remember" type="submit"><a><ion-icon name="heart-outline"></ion-icon>Merkliste</a></button>
     <!-- Button to logout -->
     <form action="{{ url_for('logout')}}" method="POST">
-      <button class="logout_button" id="logout_button" type="submit"><a><ion-icon name="log-out-outline"></ion-icon>Logout</a></button>
+      <button id="logout_button" type="submit"><a><ion-icon name="log-out-outline"></ion-icon>Logout</a></button>
     </form>
     </ul>
 
@@ -40,14 +42,16 @@
 <body>
   <script type="module" src="./static/script.js"></script>
   <!-- Display all items -->
-  <h2><ion-icon name="list-outline"></ion-icon>Item List</h2>
-  <ul>
-    <li>Hardcoded Name - Hardcoded Description - $99.99</li>
-    {% for item in items %}
-    <li onclick="displayOwnerEmail('{{ item[4] }}')">{{ item[1] }} - {{ item[2] }} - ${{ item[3] }}</li>
-    {% endfor %}
-  </ul>
-
+  <h1><ion-icon name="list-outline"></ion-icon><a>Angebote</a></h1>
+  <div class="grid-container">
+    <ul>
+      {% for item in items %}
+        <li onclick="displayOwnerEmail('{{ item[4] }}')">
+          <div class="grid-item">{{ item[1] }} - {{ item[2] }} - ${{ item[3] }}</div>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
 
   <!-- JavaScript to handle item click -->
   <script>
