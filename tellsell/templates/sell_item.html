@@ -1,28 +1,70 @@
 <!DOCTYPE html>
+<link rel="stylesheet" href="{{ url_for('static', filename='style_index.css') }}">
+<script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
+
 <html>
+
 <head>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <title>Login</title>
+  <div class="top_bar">
+    <!-- Logo -->
+    <img class="logo" src="{{ url_for('static', filename='logo.jpg') }}" alt="TellSellLogo">
+    <!-- Categories -->
+    <ul class="categories">
+    <li><a href="#start"><ion-icon name="apps"></ion-icon>Alle Kategorien</a></li>
+    <li><a href="#überuns"><ion-icon name="book-outline"></ion-icon>Bücher</a></li>
+    <li><a href="#leistungen"><ion-icon name="laptop-outline"></ion-icon>Elektronik</a></li>
+    <li><a href="#kontakt"><ion-icon name="help-outline"></ion-icon>Fundwaren</a></li>
+    <li><a href="#kontakt"><ion-icon name="business-outline"></ion-icon>Jobs</a></li>
+    <li><a href="#kontakt"><ion-icon name="shirt-outline"></ion-icon>Kleidung</a></li>
+    <li><a href="#kontakt"><ion-icon name="document-outline"></ion-icon>Notizen</a></li>
+    <li><a href="#kontakt"><ion-icon name="basketball-outline"></ion-icon>Sportartikel</a></li>
+    <li><a href="#kontakt"><ion-icon name="bulb-outline"></ion-icon>Tutoring</a></li>
+    </ul>
+    <!-- Button to sell item -->
+    <ul class="account_options">
+    <form action="{{ url_for('sell_item')}}" method="POST">
+      <button id="goto_sell_item" type="submit"><a><ion-icon name="add-outline"></ion-icon>Angebot erstellen</a></button>
+    </form>
+    <!-- Button to remember -->
+    <button id="remember" type="submit"><a><ion-icon name="heart-outline"></ion-icon>Merkliste</a></button>
+    <!-- Button to logout -->
+    <form action="{{ url_for('logout')}}" method="POST">
+      <button id="logout_button" type="submit"><a><ion-icon name="log-out-outline"></ion-icon>Logout</a></button>
+    </form>
+    </ul>
+
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+  </div>
 </head>
 
 <body>
 
   <!-- Button to logout -->
-  <form action="{{ url_for('logout')}}" method="POST">
-    <button class="logout_button" id="logout_button" type="submit">Logout</button>
-  </form>
+  <ul class="account_options">
+    <form action="{{ url_for('logout')}}" method="POST">
+      <button id="logout_button" type="submit"><a><ion-icon name="log-out-outline"></ion-icon>Logout</a></button>
+    </form>
+  </ul>
 
-  <h1>Sell Item</h1>
+  <h1><ion-icon name="card-outline"></ion-icon><a>Verkaufen</a></h1>
   
   <form action="{{ url_for('add_item')}}" method="POST">
-    <label for="itemname">Item Name:</label>
-    <input type="text" id="itemname" name="itemname" required><br>
+    <h2>
+      <a>Item Name:</a>
+      <input type="text" id="itemname" name="itemname" required>
+    </h2>
 
-    <label for="itemdesc">Item Description:</label>
-    <textarea id="itemdesc" name="itemdesc" required></textarea><br>
+    <h2>
+    <a>Item Description:</a>
+    <textarea id="itemdesc" name="itemdesc" required></textarea>
+    </h2>
 
-    <label for="price">Price:</label>
-    <input type="number" id="price" name="price" step="0.01" required><br>
+    <h2>
+    <a>Price:</a>
+    <input type="number" id="price" name="price" step="0.01" required>
+    </h2>
 
     <button type="submit" id="addItemButton">Add Item</button>
   </form>
