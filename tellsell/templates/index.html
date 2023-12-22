@@ -49,13 +49,11 @@
   <!-- Display all items -->
   <h1><ion-icon name="list-outline"></ion-icon><a>Angebote</a></h1>
   <div class="grid-container">
-    <ul>
-      {% for item in items %}
-        <li class="grid-item" onclick="displayOwnerEmail('{{ item[4] }}')">
-          <div>{{ item[1] }} - {{ item[2] }} - ${{ item[3] }}</div>
-        </li>
-      {% endfor %}
-    </ul>
+    {% for item in items %}
+      <div class="grid-item" onclick="displayOwnerEmail('{{ item[4] }}')">
+        <div>{{ item[1] }} - {{ item[2] }} - ${{ item[3] }}</div>
+      </div>
+    {% endfor %}
   </div>
 
   <!-- JavaScript to handle item click -->
