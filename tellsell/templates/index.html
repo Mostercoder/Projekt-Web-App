@@ -33,6 +33,11 @@
     </form>
     </ul>
 
+    <div class="searchbar">
+      <ion-icon name="search-outline" id="search-icon"></ion-icon>
+      <input type="text" id="search">
+    </div>
+
     <div class="line"></div>
     <div class="line"></div>
     <div class="line"></div>
@@ -46,8 +51,8 @@
   <div class="grid-container">
     <ul>
       {% for item in items %}
-        <li onclick="displayOwnerEmail('{{ item[4] }}')">
-          <div class="grid-item">{{ item[1] }} - {{ item[2] }} - ${{ item[3] }}</div>
+        <li class="grid-item" onclick="displayOwnerEmail('{{ item[4] }}')">
+          <div>{{ item[1] }} - {{ item[2] }} - ${{ item[3] }}</div>
         </li>
       {% endfor %}
     </ul>

@@ -35,6 +35,40 @@
   height: 175px;
 }
 
+.searchbar {
+  display: flex;
+  height: 20px;  
+  padding-left: 21%;
+  margin-top: -5%;
+  position: relative;
+}
+
+.searchbar input[type="text"] {
+  display: flex;
+  align-items: center;
+  font-weight: bolder;
+  font-size: medium;
+  font-family: "Guill Sans", sans-serif;
+  color: black;
+  text-decoration: none;
+
+  border-color: rgb(255, 255, 255);
+  border-style: solid;
+  border-radius: 3px;
+
+  width: 74.3%;
+  height: 175%;
+  padding-left: 40px;
+}
+
+#search-icon {
+  position: absolute;
+  left: 21.5%;
+  top: 100%;
+  transform: translateY(-50%);
+  color: #000000;
+}
+
 ion-icon {
   width: 25px;
   height: 25px;
@@ -141,6 +175,7 @@ body {
 h1 {
   display: flex;
   align-items: center;
+  padding-top: 5%;
 }
 
 h1 ion-icon {
