@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<link rel="stylesheet" href="{{ url_for('static', filename='style_index.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='style_sell.css') }}">
 <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
 
 <html>
@@ -33,6 +33,11 @@
     </form>
     </ul>
 
+    <div class="searchbar">
+      <ion-icon name="search-outline" id="search-icon"></ion-icon>
+      <input type="text" id="search">
+    </div>
+
     <div class="line"></div>
     <div class="line"></div>
     <div class="line"></div>
@@ -51,22 +56,46 @@
   <h1><ion-icon name="card-outline"></ion-icon><a>Verkaufen</a></h1>
   
   <form action="{{ url_for('add_item')}}" method="POST">
-    <h2>
-      <a>Item Name:</a>
+    <div class="sellgrid">
+      <a>Artikelname:</a>
+
       <input type="text" id="itemname" name="itemname" required>
-    </h2>
 
-    <h2>
-    <a>Item Description:</a>
-    <textarea id="itemdesc" name="itemdesc" required></textarea>
-    </h2>
+      <a>Kategorie:</a>
 
-    <h2>
-    <a>Price:</a>
-    <input type="number" id="price" name="price" step="0.01" required>
-    </h2>
+      <div>
+        <div class="category"><a href="#überuns"><ion-icon name="book-outline"></ion-icon>Bücher</a></div>
+        <div class="category"><a href="#leistungen"><ion-icon name="laptop-outline"></ion-icon>Elektronik</a></div>
+        <div class="category"><a href="#kontakt"><ion-icon name="help-outline"></ion-icon>Fundwaren</a></div>
+        <div class="category"><a href="#kontakt"><ion-icon name="business-outline"></ion-icon>Jobs</a></div>
+        <div class="category"><a href="#kontakt"><ion-icon name="shirt-outline"></ion-icon>Kleidung</a></div>
+        <div class="category"><a href="#kontakt"><ion-icon name="document-outline"></ion-icon>Notizen</a></div>
+        <div class="category"><a href="#kontakt"><ion-icon name="basketball-outline"></ion-icon>Sportartikel</a></div>
+        <div class="category"><a href="#kontakt"><ion-icon name="bulb-outline"></ion-icon>Tutoring</a></div>
+      </div>
 
-    <button type="submit" id="addItemButton">Add Item</button>
+      <a>Beschreibung:</a>
+
+      <textarea id="itemdesc" name="itemdesc" required></textarea>
+
+      <a>Zustand:</a>
+
+      <div>
+        <div class="condition" id="trash"><a>Defekt</a></div>
+        <div class="condition" id="used"><a>Gebraucht</a></div>
+        <div class="condition" id="like_new"><a>Wie Neu</a></div>
+        <div class="condition" id="new"><a>Neu</a></div>
+      </div>
+
+      <a>Preis:</a>
+
+      <input type="number" id="price" name="price" step="0.01" required>
+
+      <div></div>
+
+      <button type="submit" id="addItemButton"><a><ion-icon name="add-circle-outline"></ion-icon>Erstellen</a></button>
+
+    </div>
   </form>
 </body>
 </html>
