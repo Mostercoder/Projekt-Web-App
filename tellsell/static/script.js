@@ -25,3 +25,13 @@
 //}
 //
 //document.getElementById('addItemButton').addEventListener('click', addItem);
+function toggleHeart() {
+    var heartIcon = document.getElementById('heartIcon');
+    
+    if (heartIcon.getAttribute('name') === 'heart-outline') {
+      heartIcon.setAttribute('name', 'heart');
+    } else {
+      heartIcon.setAttribute('name', 'heart-outline');
+    }
+    }
+

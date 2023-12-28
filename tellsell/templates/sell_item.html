@@ -8,6 +8,10 @@
   <div class="top_bar">
     <!-- Logo -->
     <img class="logo" src="{{ url_for('static', filename='logo.jpg') }}" alt="TellSellLogo">
+<div class="searchbar">
+      <ion-icon name="search-outline" id="search-icon"></ion-icon>
+      <input type="text" id="search">
+    </div>
     <!-- Categories -->
     <ul class="categories">
     <li><a href="#start"><ion-icon name="apps"></ion-icon>Alle Kategorien</a></li>
@@ -32,11 +36,6 @@
       <button id="logout_button" type="submit"><a><ion-icon name="log-out-outline"></ion-icon>Logout</a></button>
     </form>
     </ul>
-
-    <div class="searchbar">
-      <ion-icon name="search-outline" id="search-icon"></ion-icon>
-      <input type="text" id="search">
-    </div>
 
     <div class="line"></div>
     <div class="line"></div>

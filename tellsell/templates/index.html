@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <link rel="stylesheet" href="{{ url_for('static', filename='style_index.css') }}">
+<script src="{{ url_for('static', filename='script.js') }}"></script>
 <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
 
 <html>
@@ -8,6 +9,10 @@
   <div class="top_bar">
     <!-- Logo -->
     <img class="logo" src="{{ url_for('static', filename='logo.jpg') }}" alt="TellSellLogo">
+    <div class="searchbar">
+      <ion-icon name="search-outline" id="search-icon"></ion-icon>
+      <input type="text" id="search">
+    </div>
     <!-- Categories -->
     <ul class="categories">
     <li><a href="#start"><ion-icon name="apps"></ion-icon>Alle Kategorien</a></li>
@@ -33,11 +38,6 @@
     </form>
     </ul>
 
-    <div class="searchbar">
-      <ion-icon name="search-outline" id="search-icon"></ion-icon>
-      <input type="text" id="search">
-    </div>
-
     <div class="line"></div>
     <div class="line"></div>
     <div class="line"></div>
@@ -51,7 +51,11 @@
   <div class="grid-container">
     {% for item in items %}
       <div class="grid-item" onclick="displayOwnerEmail('{{ item[4] }}')">
-        <div>{{ item[1] }} - {{ item[2] }} - ${{ item[3] }}</div>
+        <img src="{{ url_for('static', filename='noimage.jpg') }}"></img> 
+        <ion-icon id="heartIcon" name="heart-outline" onclick="toggleHeart()"></ion-icon>
+        <div class="name">{{ item[1] }}</div>
+        <!--<div>{{ item[2] }}</div>  Beschreibung muss nicht auf startseite-->
+        <div class="price">{{ item[3] }}.-</div>
       </div>
     {% endfor %}
   </div>
@@ -62,6 +66,7 @@
       alert('Owner Email: ' + "{{ current_user_email }}");
     }
   </script>
+
 </body>
 
 </html>
