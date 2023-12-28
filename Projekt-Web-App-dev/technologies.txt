@@ -1,0 +1,17 @@
+1.
+  Bun
+2.
+  css
+3.
+  html
+4.
+  javascript
+5.
+  sqlite
+6.
+  flask
+7.
+  python
+8.
+  DBML
+  (for database)

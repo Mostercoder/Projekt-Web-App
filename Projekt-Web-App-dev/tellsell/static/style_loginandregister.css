@@ -1,0 +1,157 @@
+/*account options*/
+.account_options {
+  display:flex;
+  margin: 0;
+  padding: 0;
+  position: fixed;
+  top: 2%;
+  right: 21%;
+}
+
+.account_options a ion-icon {
+  margin-right: 8px; 
+}
+
+.account_options button {
+  float: right;
+  margin-left: 10px;
+
+  padding: 5px 10px;
+  
+  border: solid;
+  border-color: #ffffff;
+  border-width: 1px;
+  border-radius: 3px;
+  background-color: #ebebeb;
+}
+
+.account_options button a{
+  display: flex;
+  align-items: center;
+  font-weight: bolder;
+  font-size: 18px;
+  font-family: Helvetica, Arial, sans-serif;
+  color: black;
+  text-decoration: none;
+}
+
+.account_options button:hover {
+  background-color: rgba(1,63,138,1);
+  cursor: pointer; 
+}
+
+.account_options button:hover a{
+  color: lavender;
+}
+
+.account_options button:hover ion-icon {
+  color: lavender;
+}
+
+/* ###########################*/
+body {
+  padding-top: 25vh;
+  padding-left: 21%;
+  padding-right: 21%;
+  background-color: #00142c;  /*just for backup*/
+  background: linear-gradient(0deg, rgba(1,63,138,1) 0%, rgba(0,20,44,1) 80%);/**/
+  background-attachment: fixed;
+}
+
+h1 {
+  display: flex;
+  align-items: center;
+}
+
+h1 ion-icon {
+  width: 30px;
+  height: 30px;
+  color: lavender;
+}
+
+/* Styles for the main heading */
+h1 a {
+  align-items: center;
+  color: lavenderblush;
+  text-align: left;
+  font-family: 'Segoe UI';
+  margin-left: 12px;
+}
+
+/* Styles for the subheadings */
+h2 {
+  font-size: 24px;
+  margin-top: 30px;
+  font-family: Helvetica, Arial, sans-serif;
+  color: #acacbe;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 14px;
+  padding: 20px;
+}
+
+.grid-item {
+  background-color: #acacbe;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+}
+
+/*only price button*/
+input[type="number"] {
+  margin-left: 10px;
+  margin-top: 10px;
+  border: none;
+  padding: 8px 16px;
+  background-color: #ebebeb;
+  border-radius: 3px;
+}
+
+/* for discription of product */
+textarea {
+  margin-left: 10px;
+  margin-top: 10px;
+  background-color: #ebebeb;
+  border-radius: 3px;
+}
+
+ul {
+  list-style: none;
+  overflow-y: auto;
+}
+
+input[type="text"].dark-mode {
+  background-color: #6e6e80;
+  color: #ffffff;
+  border: 1px solid #353740;
+}
+
+.collapsed {
+  display: none;
+}
+
+input[type="text"].light-mode {
+  background-color: #f0f0f0;
+  color: #353740;
+  border: 1px solid #ccc;
+}
+
+.arrow {
+  border: solid black;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+}
+
+.right {
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+
+.down {
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}

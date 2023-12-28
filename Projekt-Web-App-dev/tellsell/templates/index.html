@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="{{ url_for('static', filename='style_index.css') }}">
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+<script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
+
+<html>
+
+<head>
+  <div class="top_bar">
+    <!-- Logo -->
+    <img class="logo" src="{{ url_for('static', filename='logo.jpg') }}" alt="TellSellLogo">
+    <div class="searchbar">
+      <ion-icon name="search-outline" id="search-icon"></ion-icon>
+      <input type="text" id="search">
+    </div>
+    <!-- Categories -->
+    <ul class="categories">
+    <li><a href="#start"><ion-icon name="apps"></ion-icon>Alle Kategorien</a></li>
+    <li><a href="#überuns"><ion-icon name="book-outline"></ion-icon>Bücher</a></li>
+    <li><a href="#leistungen"><ion-icon name="laptop-outline"></ion-icon>Elektronik</a></li>
+    <li><a href="#kontakt"><ion-icon name="help-outline"></ion-icon>Fundwaren</a></li>
+    <li><a href="#kontakt"><ion-icon name="business-outline"></ion-icon>Jobs</a></li>
+    <li><a href="#kontakt"><ion-icon name="shirt-outline"></ion-icon>Kleidung</a></li>
+    <li><a href="#kontakt"><ion-icon name="document-outline"></ion-icon>Notizen</a></li>
+    <li><a href="#kontakt"><ion-icon name="basketball-outline"></ion-icon>Sportartikel</a></li>
+    <li><a href="#kontakt"><ion-icon name="bulb-outline"></ion-icon>Tutoring</a></li>
+    </ul>
+    <!-- Button to sell item -->
+    <ul class="account_options">
+    <form action="{{ url_for('sell_item')}}" method="POST">
+      <button id="goto_sell_item" type="submit"><a><ion-icon name="add-outline"></ion-icon>Angebot erstellen</a></button>
+    </form>
+    <!-- Button to remember -->
+    <button id="remember" type="submit"><a><ion-icon name="heart-outline"></ion-icon>Merkliste</a></button>
+    <!-- Button to logout -->
+    <form action="{{ url_for('logout')}}" method="POST">
+      <button id="logout_button" type="submit"><a><ion-icon name="log-out-outline"></ion-icon>Logout</a></button>
+    </form>
+    </ul>
+
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+  </div>
+</head>
+
+<body>
+  <script type="module" src="./static/script.js"></script>
+  <!-- Display all items -->
+  <h1><ion-icon name="list-outline"></ion-icon><a>Angebote</a></h1>
+  <div class="grid-container">
+    {% for item in items %}
+      <div class="grid-item" onclick="displayOwnerEmail('{{ item[4] }}')">
+        <img src="{{ url_for('static', filename='noimage.jpg') }}"></img> 
+        <ion-icon id="heartIcon" name="heart-outline" onclick="toggleHeart()"></ion-icon>
+        <div class="name">{{ item[1] }}</div>
+        <!--<div>{{ item[2] }}</div>  Beschreibung muss nicht auf startseite-->
+        <div class="price">{{ item[3] }}.-</div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- JavaScript to handle item click -->
+  <script>
+    function displayOwnerEmail(email) {
+      alert('Owner Email: ' + "{{ current_user_email }}");
+    }
+  </script>
+
+</body>
+
+</html>
