@@ -1,6 +1,7 @@
 import sqlite3
 import random
 import bcrypt
+import time
 
 # Function to generate a random name for the item
 def generate_item_name():
@@ -20,7 +21,13 @@ cursor = conn.cursor()
 for i in range(3):
     first_name = f"User{i+1}"
     last_name = "Doe"
-    email = f"{first_name.lower()}.{last_name.lower()}@stud.gyminterlaken.ch"
+    
+    # Append a timestamp to ensure unique email addresses
+    timestamp = int(time.time())
+    email = f"{first_name.lower()}.{last_name.lower()}.{timestamp}@stud.gyminterlaken.ch"
+    
+    print(f"Creating user: {first_name} {last_name}, Email: {email}")
+
     password = "password123"  # You may want to hash this password in a real scenario
 
     # Generate a salt and hash the password
@@ -35,6 +42,8 @@ for i in range(3):
     cursor.execute("SELECT id FROM users WHERE email = ?", (email,))
     user_id = cursor.fetchone()[0]
 
+    print(f"User created with ID: {user_id}")
+
     # Insert placeholder items for the user
     for _ in range(5):  # Insert 5 items for each user
         item_name = generate_item_name()
@@ -43,6 +52,8 @@ for i in range(3):
 
         cursor.execute("INSERT INTO items (itemname, itemdesc, price, user_id) VALUES (?, ?, ?, ?)",
                        (item_name, item_desc, item_price, user_id))
+
+    print(f"Items created for user with ID: {user_id}")
 
 # Commit the changes and close the connection
 conn.commit()

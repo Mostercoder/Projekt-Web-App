@@ -55,7 +55,12 @@
   <div class="grid-container">
     {% for item in items %}
       <div class="grid-item" onclick="displayOwnerEmail('{{ item[4] }}')">
-        <img src="{{ url_for('static', filename='noimage.jpg') }}"></img> 
+        <!-- Use a conditional to check if the item has a picture -->
+        {% if item[5] %}
+          <img src="{{ url_for('static', filename='item_pictures/' + item[5]) }}" alt="Item Picture">
+        {% else %}
+          <img src="{{ url_for('static', filename='noimage.jpg') }}" alt="No Image">
+        {% endif %}
         <ion-icon id="heartIcon" name="heart-outline" onclick="toggleHeart()"></ion-icon>
         <div class="name">{{ item[1] }}</div>
         <!--<div>{{ item[2] }}</div>  Beschreibung muss nicht auf startseite-->
