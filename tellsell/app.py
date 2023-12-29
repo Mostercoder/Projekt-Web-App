@@ -1,4 +1,4 @@
-from flask import Flask, url_for, render_template, redirect, session, request, g, jsonify, send_from_directory
+from flask import Flask, url_for, render_template, redirect, session, request, g, jsonify, send_from_directory, flash
 from werkzeug.utils import secure_filename
 import sqlite3
 import time
@@ -81,7 +81,8 @@ def calculate_average_rating(reviews):
     if not reviews:
         return 0  # Default value when no reviews are available
 
-    total_rating = sum(review.rating for review in reviews)
+    print(reviews)
+    total_rating = sum(review[2] for review in reviews)  # Sum the rating from each review
     average_rating = total_rating / len(reviews)
     return round(average_rating, 2)  # Round to two decimal places for clarity
 
@@ -350,8 +351,15 @@ def delete_item(item_id):
     else:
         return "User not found", 404
 
-# Add a review for a user
-@app.route('/add_review/<int:receiver_id>', methods=['POST'])
+@app.route('/add_review_page/<int:receiver_id>', methods=['GET'])
+def add_review_page(receiver_id):
+    if 'email' not in session:
+        return redirect(url_for('login'))
+
+    return render_template('reviews.html', receiver_id=receiver_id)
+
+
+@app.route('/add_review/<int:receiver_id>', methods=['POST', 'GET'])
 def add_review(receiver_id):
     if 'email' not in session:
         return redirect(url_for('login'))
@@ -362,22 +370,39 @@ def add_review(receiver_id):
     cursor.execute("SELECT id FROM users WHERE email = ?", (session['email'],))
     reviewer_id = cursor.fetchone()[0]
 
-    # Get review data from the request
-    rating = int(request.form.get('rating'))
-    comment = request.form.get('comment')
+    if request.method == 'POST':
+        # Get review data from the request
+        rating = float(request.form.get('rating'))  # Convert rating to float
+        comment = request.form.get('comment')
 
-    # Insert the review into the 'reviews' table
-    cursor.execute("INSERT INTO reviews (reviewer, receiver, rating, comment) VALUES (?, ?, ?, ?)",
-                   (reviewer_id, receiver_id, rating, comment))
+        # Check if the review already exists
+        cursor.execute("SELECT id FROM reviews WHERE reviewer = ? AND receiver = ?", (reviewer_id, receiver_id))
+        existing_review = cursor.fetchone()
 
-    # Update the average rating and number of reviews for the receiver
-    cursor.execute("UPDATE users SET reputation = (reputation * num_reviews + ?) / (num_reviews + 1), "
-                   "num_reviews = num_reviews + 1 WHERE id = ?", (rating, receiver_id))
+        if existing_review:
+            return redirect(url_for('index'))
+        elif receiver_id != reviewer_id:
+            # Insert the review into the 'reviews' table
+            cursor.execute("INSERT INTO reviews (reviewer, receiver, rating, comment) VALUES (?, ?, ?, ?)",
+                           (reviewer_id, receiver_id, rating, comment))
 
-    conn.commit()
-    conn.close()
+            # Update the average rating and number of reviews for the receiver
+            cursor.execute("UPDATE users SET reputation = (reputation * num_reviews + ?) / (num_reviews + 1), "
+                           "num_reviews = num_reviews + 1 WHERE id = ?", (rating, receiver_id))
 
-    return redirect(url_for('user_reviews', user_id=receiver_id))
+            conn.commit()
+            conn.close()
+
+            return render_template('review.html', rating=rating, receiver_id=receiver_id)
+
+        else:
+            conn.close()
+            return redirect(url_for('index'))
+
+
+    return render_template('review.html', receiver_id=receiver_id)
+
+
 
 
 @app.route('/user_profile/<int:user_id>', methods=['GET'])
@@ -405,7 +430,7 @@ def user_profile(user_id):
 
         # Pass the user_id parameter to the template
         return render_template('user_profile.html', user=user, user_reviews=user_reviews,
-                               average_rating=average_rating, num_reviews=num_reviews, user_id=user_id)
+                       average_rating=average_rating, num_reviews=num_reviews, user_id=user_id)
     else:
         conn.close()
         return "User not found", 404

@@ -16,8 +16,13 @@
     <h2>User Reviews</h2>
     <ul>
         {% for review in user_reviews %}
-            <li>{{ review.reviewer }} rated {{ review.rating }} - {{ review.comment }}</li>
+            <li>{{ review[1] }} rated {{ review[3] }} - {{ review[4] }}</li>
         {% endfor %}
     </ul>
+
+    <!-- Button to add a review -->
+    <form action="{{ url_for('add_review', receiver_id=user[0]) }}" method="get">
+        <input type="submit" value="Review This User">
+    </form>
 </body>
 </html>
