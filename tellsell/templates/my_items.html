@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Items</title>
+</head>
+<body>
+    <h1>My Items</h1>
+
+    {% if items %}
+        <ul>
+            {% for item in items %}
+                <li>
+                    <strong>{{ item.itemname }}</strong>
+                    <p>{{ item.itemdesc }}</p>
+                    <p>Price: ${{ item.price }}</p>
+                    <form method="post" action="{{ url_for('delete_item', item_id=item.id) }}">
+                        <input type="submit" value="Delete">
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No items found.</p>
+    {% endif %}
+
+    <a href="{{ url_for('index') }}">Back to Home</a>
+</body>
+</html>

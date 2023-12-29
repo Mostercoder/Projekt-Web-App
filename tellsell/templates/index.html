@@ -36,6 +36,10 @@
     <form action="{{ url_for('logout')}}" method="POST">
       <button id="logout_button" type="submit"><a><ion-icon name="log-out-outline"></ion-icon>Logout</a></button>
     </form>
+    <!-- Button to go to the user's items -->
+    <form action="{{ url_for('my_items') }}" method="GET">
+      <button id="my_items_button" type="submit"><a><ion-icon name="list-outline"></ion-icon>Meine Angebote</a></button>
+    </form>
     </ul>
 
     <div class="line"></div>

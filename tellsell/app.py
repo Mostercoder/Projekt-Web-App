@@ -4,6 +4,7 @@ import time
 import datetime
 import hashlib
 import os
+import bcrypt
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'mysecretkey')
@@ -64,8 +65,11 @@ def register():
         password = request.form["password"]
         email = request.form["email"]
 
+        # Generate a salt
+        salt = bcrypt.gensalt()
+
         # Hash the password
-        hashed_password = hashlib.sha256(password.encode("utf-8")).hexdigest()
+        hashed_password = bcrypt.hashpw(password.encode("utf-8"), salt).decode("utf-8")
 
         # Extract first name and last name from email
         names = extract_name(email)
@@ -228,6 +232,62 @@ def sell_item():
     sellers = cursor.fetchall()
 
     return render_template('sell_item.html', sellers=sellers)
+
+# Display all items created by the logged-in user
+@app.route('/my_items', methods=['GET'])
+def my_items():
+    if 'email' not in session:
+        return redirect(url_for('login'))
+
+    current_user_email = session.get('email', None)
+
+    # Fetch items created by the current user from the 'items' table
+    conn = get_db()
+    cursor = conn.cursor()
+
+    # Fetch the user_id based on the current session
+    cursor.execute("SELECT id FROM users WHERE email = ?", (current_user_email,))
+    result = cursor.fetchone()
+
+    if result is not None:
+        user_id = result[0]
+
+        # Fetch items created by the user
+        cursor.execute('SELECT * FROM items WHERE user_id = ?', (user_id,))
+        items = cursor.fetchall()
+
+        conn.close()
+
+        return render_template('my_items.html', items=items, current_user_email=current_user_email)
+    else:
+        return "User not found", 404
+
+
+# Delete a specific item created by the user
+@app.route('/delete_item/<int:item_id>', methods=['POST'])
+def delete_item(item_id):
+    if 'email' not in session:
+        return redirect(url_for('login'))
+
+    # Fetch the user_id based on the current session
+    current_user_email = session['email']
+    conn = get_db()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT id FROM users WHERE email = ?", (current_user_email,))
+    result = cursor.fetchone()
+
+    if result is not None:
+        user_id = result[0]
+
+        # Delete the item only if it belongs to the logged-in user
+        cursor.execute("DELETE FROM items WHERE id = ? AND user_id = ?", (item_id, user_id))
+        conn.commit()
+        conn.close()
+
+        return redirect(url_for('my_items'))
+    else:
+        return "User not found", 404
 
 if __name__ == '__main__':
     app.run(debug=True)
