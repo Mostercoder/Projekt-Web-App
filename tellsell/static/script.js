@@ -34,4 +34,10 @@ function toggleHeart() {
       heartIcon.setAttribute('name', 'heart-outline');
     }
     }
-
+function displayOwnerProfile(element) {
+  // Get the user_id from the data attribute
+  var user_id = element.getAttribute("data-user-id");
+  
+  // Redirect to the user profile page
+  window.location.href = "/user_profile/" + user_id;
+}

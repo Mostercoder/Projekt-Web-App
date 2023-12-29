@@ -51,7 +51,19 @@ c.execute('''CREATE TABLE IF NOT EXISTS users
              firstname TEXT NOT NULL,
              lastname TEXT NOT NULL,
              password TEXT NOT NULL,
-             email TEXT NOT NULL UNIQUE
+             email TEXT NOT NULL UNIQUE,
+             reputation DECIMAL DEFAULT 0,
+             num_reviews     
+             );''')
+
+c.execute('''CREATE TABLE IF NOT EXISTS reviews
+             (id INTEGER PRIMARY KEY AUTOINCREMENT,
+             reviewer INTEGER,
+             receiver INTEGER,
+             rating INTEGER,
+             comment TEXT,
+             FOREIGN KEY (reviewer) REFERENCES users (id),
+             FOREIGN KEY (receiver) REFERENCES users (id)
              );''')
 
 c.execute('''CREATE TABLE IF NOT EXISTS items
@@ -64,6 +76,15 @@ c.execute('''CREATE TABLE IF NOT EXISTS items
              );''')
 conn.commit()
 conn.close()
+
+def calculate_average_rating(reviews):
+    if not reviews:
+        return 0  # Default value when no reviews are available
+
+    total_rating = sum(review.rating for review in reviews)
+    average_rating = total_rating / len(reviews)
+    return round(average_rating, 2)  # Round to two decimal places for clarity
+
 
 # Function to check if the file extension is allowed
 def allowed_file(filename):
@@ -95,8 +116,8 @@ def register():
 
             try:
                 # Insert the user into the database
-                c.execute("INSERT INTO users (firstname, lastname, password, email) VALUES (?, ?, ?, ?)",
-                          (first_name, last_name, hashed_password, email))
+                c.execute("INSERT INTO users (firstname, lastname, password, email, reputation) VALUES (?, ?, ?, ?, ?)",
+                    (first_name, last_name, hashed_password, email, 0))
                 conn.commit()
                 print('User registered successfully')
 
@@ -327,6 +348,66 @@ def delete_item(item_id):
         return redirect(url_for('my_items'))
 
     else:
+        return "User not found", 404
+
+# Add a review for a user
+@app.route('/add_review/<int:receiver_id>', methods=['POST'])
+def add_review(receiver_id):
+    if 'email' not in session:
+        return redirect(url_for('login'))
+
+    # Fetch the reviewer's user_id based on the current session
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT id FROM users WHERE email = ?", (session['email'],))
+    reviewer_id = cursor.fetchone()[0]
+
+    # Get review data from the request
+    rating = int(request.form.get('rating'))
+    comment = request.form.get('comment')
+
+    # Insert the review into the 'reviews' table
+    cursor.execute("INSERT INTO reviews (reviewer, receiver, rating, comment) VALUES (?, ?, ?, ?)",
+                   (reviewer_id, receiver_id, rating, comment))
+
+    # Update the average rating and number of reviews for the receiver
+    cursor.execute("UPDATE users SET reputation = (reputation * num_reviews + ?) / (num_reviews + 1), "
+                   "num_reviews = num_reviews + 1 WHERE id = ?", (rating, receiver_id))
+
+    conn.commit()
+    conn.close()
+
+    return redirect(url_for('user_reviews', user_id=receiver_id))
+
+
+@app.route('/user_profile/<int:user_id>', methods=['GET'])
+def user_profile(user_id):
+    if 'email' not in session:
+        return redirect(url_for('login'))
+
+    conn = get_db()
+    cursor = conn.cursor()
+
+    # Fetch user information
+    cursor.execute("SELECT * FROM users WHERE id = ?", (user_id,))
+    user = cursor.fetchone()
+
+    if user:
+        # Fetch user reviews
+        cursor.execute("SELECT * FROM reviews WHERE receiver = ?", (user_id,))
+        user_reviews = cursor.fetchall()
+
+        # Calculate average rating and number of reviews
+        average_rating = calculate_average_rating(user_reviews)
+        num_reviews = len(user_reviews)
+
+        conn.close()
+
+        # Pass the user_id parameter to the template
+        return render_template('user_profile.html', user=user, user_reviews=user_reviews,
+                               average_rating=average_rating, num_reviews=num_reviews, user_id=user_id)
+    else:
+        conn.close()
         return "User not found", 404
 
 if __name__ == '__main__':
