@@ -57,7 +57,7 @@
       <div class="grid-item" onclick="displayOwnerEmail('{{ item[4] }}')">
         <!-- Use a conditional to check if the item has a picture -->
         {% if item[5] %}
-          <img src="{{ url_for('static', filename='item_pictures/' + item[5]) }}" alt="Item Picture">
+        <img src="{{ url_for('uploads', filename=item[5].replace('\\', '/')) }}" alt="Item Picture">
         {% else %}
           <img src="{{ url_for('static', filename='noimage.jpg') }}" alt="No Image">
         {% endif %}

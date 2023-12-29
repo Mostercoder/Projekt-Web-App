@@ -1,4 +1,4 @@
-from flask import Flask, url_for, render_template, redirect, session, request, g, jsonify
+from flask import Flask, url_for, render_template, redirect, session, request, g, jsonify, send_from_directory
 from werkzeug.utils import secure_filename
 import sqlite3
 import time
@@ -17,9 +17,8 @@ salt = bcrypt.gensalt()
 
 DATABASE = 'tellsell.db'
 UPLOAD_FOLDER = 'uploads'
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
-
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 
 def get_db():
@@ -60,8 +59,8 @@ c.execute('''CREATE TABLE IF NOT EXISTS items
              itemname TEXT NOT NULL ,
              itemdesc TEXT NOT NULL,
              price Decimal,
-             user_id int
-
+             user_id int,
+             item_picture TEXT
              );''')
 conn.commit()
 conn.close()
@@ -69,6 +68,10 @@ conn.close()
 # Function to check if the file extension is allowed
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@app.route('/uploads/<path:filename>')
+def uploads(filename):
+    return send_from_directory(os.path.join(os.path.pardir, 'uploads'), filename)
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -171,7 +174,7 @@ def index():
     items = cursor.fetchall()
     conn.close()
 
-    print(items)  # Add this line for debugging
+    print(items)
 
     return render_template('index.html', items=items, current_user_email=current_user_email)
 
@@ -192,7 +195,7 @@ def no_account():
 def much_account():
     return redirect(url_for('login', _method='GET'))
 
-#add the item into the db
+# add the item into the db
 @app.route('/add_item', methods=['POST', 'GET'])
 def add_item():
     print("trying to get the data")
@@ -210,8 +213,10 @@ def add_item():
         file = request.files['item_picture']
         if file.filename != '' and allowed_file(file.filename):
             filename = secure_filename(file.filename)
+            relative_path = filename
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(file_path)
+            print(file_path)
 
     # Fetch the user_id based on the current session
     if 'email' in session:
@@ -223,8 +228,8 @@ def add_item():
         if result is not None:
             user_id = result[0]
 
-            cursor.execute('''INSERT INTO items (itemname, itemdesc, price, user_id)
-                             VALUES (?, ?, ?, ?)''', (itemname, itemdesc, price, user_id))
+            cursor.execute("INSERT INTO items (itemname, itemdesc, price, user_id, item_picture) VALUES (?, ?, ?, ?, ?)",
+                           (itemname, itemdesc, price, user_id, filename))
 
             # Commit the changes and close the connection
             conn.commit()
@@ -236,6 +241,7 @@ def add_item():
     else:
         print("User not logged in")
         return redirect(url_for('login'))
+
 
 
 
@@ -290,16 +296,28 @@ def delete_item(item_id):
     if 'email' not in session:
         return redirect(url_for('login'))
 
+    current_user_email = session.get('email', None)
+
     # Fetch the user_id based on the current session
-    current_user_email = session['email']
     conn = get_db()
     cursor = conn.cursor()
 
     cursor.execute("SELECT id FROM users WHERE email = ?", (current_user_email,))
-    result = cursor.fetchone()
+    user_id = cursor.fetchone()
 
-    if result is not None:
-        user_id = result[0]
+    if user_id:
+        user_id = user_id[0]
+
+        # Retrieve the file path of the picture associated with the item
+        cursor.execute("SELECT item_picture FROM items WHERE id = ? AND user_id = ?", (item_id, user_id))
+        picture_path = cursor.fetchone()
+
+        if picture_path:
+            picture_path = picture_path[0]
+
+            # Delete the picture file if it exists
+            if os.path.exists(picture_path):
+                os.remove(picture_path)
 
         # Delete the item only if it belongs to the logged-in user
         cursor.execute("DELETE FROM items WHERE id = ? AND user_id = ?", (item_id, user_id))
@@ -307,6 +325,7 @@ def delete_item(item_id):
         conn.close()
 
         return redirect(url_for('my_items'))
+
     else:
         return "User not found", 404
 
