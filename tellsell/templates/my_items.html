@@ -13,10 +13,10 @@
         <ul>
             {% for item in items %}
                 <li>
-                    <strong>{{ item.itemname }}</strong>
-                    <p>{{ item.itemdesc }}</p>
-                    <p>Price: ${{ item.price }}</p>
-                    <form method="post" action="{{ url_for('delete_item', item_id=item.id) }}">
+                    <strong>{{ item[1] }}</strong>  {# Access the itemname using index 1 #}
+                    <p>{{ item[2] }}</p>  {# Access the itemdesc using index 2 #}
+                    <p>Price: ${{ item[3] }}</p>  {# Access the price using index 3 #}
+                    <form method="post" action="{{ url_for('delete_item', item_id=item[0]) }}">
                         <input type="submit" value="Delete">
                     </form>
                 </li>

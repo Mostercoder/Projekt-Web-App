@@ -13,12 +13,14 @@ app.secret_key = os.environ.get('SECRET_KEY', 'mysecretkey')
 
 conn = sqlite3.connect('tellsell.db')
 c = conn.cursor()
+salt = bcrypt.gensalt()
 
 DATABASE = 'tellsell.db'
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
 
 def get_db():
     db = getattr(g, '_database', None)
@@ -59,6 +61,7 @@ c.execute('''CREATE TABLE IF NOT EXISTS items
              itemdesc TEXT NOT NULL,
              price Decimal,
              user_id int
+
              );''')
 conn.commit()
 conn.close()
@@ -73,9 +76,6 @@ def register():
         # Retrieve form values
         password = request.form["password"]
         email = request.form["email"]
-
-        # Generate a salt
-        salt = bcrypt.gensalt()
 
         # Hash the password
         hashed_password = bcrypt.hashpw(password.encode("utf-8"), salt).decode("utf-8")
@@ -126,7 +126,7 @@ def login():
         # Check if there have been multiple failed login attempts within a certain time window
         if email in login_attempts:
             last_attempt_time = login_attempts[email]
-            cooldown_duration = 10  # Cool-down duration in seconds
+            cooldown_duration = 5  # Cool-down duration in seconds
             elapsed_time = time.time() - last_attempt_time
 
             if elapsed_time < cooldown_duration:
@@ -135,7 +135,7 @@ def login():
                 return render_template('login.html', error=error_message)
 
         # Hash the password to compare it with the stored hash
-        hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
+        hashed_password = bcrypt.hashpw(password.encode("utf-8"), salt).decode("utf-8")
         conn = sqlite3.connect('tellsell.db')
         c = conn.cursor()
         c.execute("SELECT * FROM users WHERE email = ? AND password = ?", (email, hashed_password))
@@ -242,6 +242,9 @@ def add_item():
 # Route to sell an item
 @app.route('/sell_item', methods=['GET','POST'])
 def sell_item():
+    if 'email' not in session:
+        return redirect(url_for('login'))
+
     conn = get_db()
     cursor = conn.cursor()
 
