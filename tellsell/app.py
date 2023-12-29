@@ -1,4 +1,5 @@
 from flask import Flask, url_for, render_template, redirect, session, request, g, jsonify
+from werkzeug.utils import secure_filename
 import sqlite3
 import time
 import datetime
@@ -6,14 +7,18 @@ import hashlib
 import os
 import bcrypt
 
+
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'mysecretkey')
-
 
 conn = sqlite3.connect('tellsell.db')
 c = conn.cursor()
 
 DATABASE = 'tellsell.db'
+UPLOAD_FOLDER = 'uploads'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def get_db():
     db = getattr(g, '_database', None)
@@ -57,6 +62,10 @@ c.execute('''CREATE TABLE IF NOT EXISTS items
              );''')
 conn.commit()
 conn.close()
+
+# Function to check if the file extension is allowed
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -196,6 +205,14 @@ def add_item():
     conn = get_db()
     cursor = conn.cursor()
 
+    # Handle file upload
+    if 'item_picture' in request.files:
+        file = request.files['item_picture']
+        if file.filename != '' and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(file_path)
+
     # Fetch the user_id based on the current session
     if 'email' in session:
         email = session['email']
@@ -217,7 +234,8 @@ def add_item():
         else:
             return "User not found", 404
     else:
-        return "User not logged in", 401
+        print("User not logged in")
+        return redirect(url_for('login'))
 
 
 
