@@ -32,6 +32,10 @@
     </form>
     <!-- Button to remember -->
     <button id="remember" type="submit"><a><ion-icon name="heart-outline"></ion-icon>Merkliste</a></button>
+    <!-- Button to go to the user's items -->
+    <form action="{{ url_for('my_items') }}" method="GET">
+      <button id="my_items_button" type="submit"><a><ion-icon name="list-outline"></ion-icon>Meine Angebote</a></button>
+    </form>
     <!-- Button to logout -->
     <form action="{{ url_for('logout')}}" method="POST">
       <button id="logout_button" type="submit">
@@ -40,10 +44,6 @@
           {% if current_user_email %}Logout{% else %}Login{% endif %}
         </a>
       </button>
-    </form>
-    <!-- Button to go to the user's items -->
-    <form action="{{ url_for('my_items') }}" method="GET">
-      <button id="my_items_button" type="submit"><a><ion-icon name="list-outline"></ion-icon>Meine Angebote</a></button>
     </form>
     </ul>
 
