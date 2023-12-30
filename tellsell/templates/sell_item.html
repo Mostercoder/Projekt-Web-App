@@ -14,27 +14,36 @@
     </div>
     <!-- Categories -->
     <ul class="categories">
-      <li><a href="#start"><ion-icon name="apps"></ion-icon>Alle Kategorien</a></li>
-      <li><a href="#überuns"><ion-icon name="book-outline"></ion-icon>Bücher</a></li>
-      <li><a href="#leistungen"><ion-icon name="laptop-outline"></ion-icon>Elektronik</a></li>
-      <li><a href="#kontakt"><ion-icon name="help-outline"></ion-icon>Fundwaren</a></li>
-      <li><a href="#kontakt"><ion-icon name="business-outline"></ion-icon>Jobs</a></li>
-      <li><a href="#kontakt"><ion-icon name="shirt-outline"></ion-icon>Kleidung</a></li>
-      <li><a href="#kontakt"><ion-icon name="document-outline"></ion-icon>Notizen</a></li>
-      <li><a href="#kontakt"><ion-icon name="basketball-outline"></ion-icon>Sportartikel</a></li>
-      <li><a href="#kontakt"><ion-icon name="bulb-outline"></ion-icon>Tutoring</a></li>
+    <li><a href="#start"><ion-icon name="apps"></ion-icon>Alle Kategorien</a></li>
+    <li><a href="#überuns"><ion-icon name="book-outline"></ion-icon>Bücher</a></li>
+    <li><a href="#leistungen"><ion-icon name="laptop-outline"></ion-icon>Elektronik</a></li>
+    <li><a href="#kontakt"><ion-icon name="help-outline"></ion-icon>Fundwaren</a></li>
+    <li><a href="#kontakt"><ion-icon name="business-outline"></ion-icon>Jobs</a></li>
+    <li><a href="#kontakt"><ion-icon name="shirt-outline"></ion-icon>Kleidung</a></li>
+    <li><a href="#kontakt"><ion-icon name="document-outline"></ion-icon>Notizen</a></li>
+    <li><a href="#kontakt"><ion-icon name="basketball-outline"></ion-icon>Sportartikel</a></li>
+    <li><a href="#kontakt"><ion-icon name="bulb-outline"></ion-icon>Tutoring</a></li>
     </ul>
     <!-- Button to sell item -->
     <ul class="account_options">
-      <form action="{{ url_for('sell_item')}}" method="POST">
-        <button id="goto_sell_item" type="submit"><a><ion-icon name="add-outline"></ion-icon>Angebot erstellen</a></button>
-      </form>
-      <!-- Button to remember -->
-      <button id="remember" type="submit"><a><ion-icon name="heart-outline"></ion-icon>Merkliste</a></button>
-      <!-- Button to logout -->
-      <form action="{{ url_for('logout')}}" method="POST">
-        <button id="logout_button" type="submit"><a><ion-icon name="log-out-outline"></ion-icon>Logout</a></button>
-      </form>
+    <form action="{{ url_for('sell_item')}}" method="POST">
+      <button id="goto_sell_item" type="submit"><a><ion-icon name="add-outline"></ion-icon>Angebot erstellen</a></button>
+    </form>
+    <!-- Button to remember -->
+    <button id="remember" type="submit"><a><ion-icon name="heart-outline"></ion-icon>Merkliste</a></button>
+    <!-- Button to go to the user's items -->
+    <form action="{{ url_for('my_items') }}" method="GET">
+      <button id="my_items_button" type="submit"><a><ion-icon name="list-outline"></ion-icon>Meine Angebote</a></button>
+    </form>
+    <!-- Button to logout -->
+    <form action="{{ url_for('logout')}}" method="POST">
+      <button id="logout_button" type="submit">
+        <a>
+          <ion-icon name="{% if current_user_email %}log-out-outline{% else %}log-in-outline{% endif %}"></ion-icon>
+          {% if current_user_email %}Logout{% else %}Login{% endif %}
+        </a>
+      </button>
+    </form>
     </ul>
 
     <div class="line"></div>
