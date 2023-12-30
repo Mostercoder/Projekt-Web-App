@@ -1,5 +1,7 @@
-
 .top_bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: fixed; /* Fixed position to stay in place while scrolling */
   top: 0;
   left: 0;
@@ -8,7 +10,6 @@
   background-color: rgba(0,20,44,1);
   box-sizing: border-box;
   z-index: 1;
-
   border-bottom: 6px solid #0a51bb;
 }
 
@@ -32,8 +33,7 @@
 }
 
 .logo {
-  padding-left: 42%;
-  padding-top:.5%;
+
   width: 250px;
   height: 250px;
 }
@@ -41,8 +41,6 @@
 /* ###########################*/
 /* BODY CODE */
 body {
-  padding-left: 40%;
-  padding-right: 40%;
   padding-top: 20%;
   background: linear-gradient(0deg, rgba(1,63,138,1) 0%, rgba(0,20,44,1) 70%);/**/
   background-attachment: fixed;
@@ -68,33 +66,84 @@ h1 a {
   margin-left: 12px;
 }
 
-label {
+.error {
+  display: flex;
+  justify-content: center; /* This will center the text */
   font-size: 24px;
-  margin-top: 30px;
   font-family: Helvetica, Arial, sans-serif;
-  color: #ffffff;
+  color: rgb(0, 191, 255);
 }
 
-.login_box {
-  padding: 20px;
-  border-radius: 5%;
-  background-color: rgb(1, 42, 93);
-  position: fixed; /* Fixed position to stay in place while scrolling */
-
-  box-sizing: border-box;
+.error ion-icon{
+  padding-right: 10px;
+  align-self: center;
 }
 
 .login_grid {
   display: grid;
+  align-items: center;
+  padding-left: 20px;
+  padding-right: 20px;
   padding-bottom: 20px;
 
-  grid-template-columns: .5fr 1fr;
+  grid-template-columns: repeat(2, .5fr);
   grid-template-rows: repeat(2, 1fr);
-  grid-column-gap: 0px;
-  grid-row-gap: 0px;
+  grid-row-gap: 18px;
+  grid-column-gap: 18px;
 }
 
-.grid_item {
-  align-items: start;
-  margin: 5px;
+label {
+  font-size: 28px;
+  font-family: 'Segoe UI';
+  color: #ffffff;
+}
+
+.login_box {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  box-sizing: border-box;
+  padding: 20px;
+  border-radius: 5%;
+  border: none;
+  box-shadow: 0px 0px 33px 0px rgba(0,0,0,0.5);
+  background-color: rgb(1, 42, 93);
+}
+
+.login_box input{
+  display: flex;
+  align-items: center;
+  padding: 8px 13px;
+  
+  border: solid;
+  border-color: #ffffff;
+  border-width: 1px;
+  border-radius: 3px;
+  background-color: #ffffff;
+}
+
+.login_box button {
+  display: block;
+  margin: auto;
+  text-align: center;
+
+  padding: 5px 10px;
+  margin-bottom: 15px;
+  width:90%;
+  cursor:pointer;
+  border: solid;
+  border-color: #ffffff;
+  border-width: 2px;
+  border-radius: 5px;
+  background-color: #ffffff;
+  font-size: 24px;
+  font-family: 'Segoe UI';
+  font-weight:500;
+}
+
+.login_box button:hover {
+  background-color: rgba(1,63,138,1);
+  color:white;
 }
