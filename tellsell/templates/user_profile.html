@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+</head>
+<body>
+    <h1>User Profile</h1>
+    <p>Name: {{ user[1] }} {{ user[2] }}</p>
+    <p>Email: {{ user[4] }}</p>
+    <p>Average Rating: {{ average_rating }}</p>
+    <p>Number of Reviews: {{ num_reviews }}</p>
+
+    <!-- Display user reviews -->
+    <h2>User Reviews</h2>
+    <ul>
+        {% for review in user_reviews %}
+            <li>{{ review[1] }} rated {{ review[3] }} - {{ review[4] }}</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Button to add a review -->
+    <form action="{{ url_for('add_review', receiver_id=user[0]) }}" method="get">
+        <input type="submit" value="Review This User">
+    </form>
+</body>
+</html>

@@ -1,41 +1,103 @@
 <!DOCTYPE html>
+<link rel="stylesheet" href="{{ url_for('static', filename='style_sell.css') }}">
+<script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
+
 <html>
 
 <head>
-  <!-- CSS style sheet -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <!-- Main heading for the page -->
-  <title>Sell Item</title>
-  <!-- Button position -->
-  <style>
-    #logout_button {
-      position: fixed;
-      top: 2px;
-      right: 2px;
-    }
-  </style>
+  <div class="top_bar">
+    <!-- Logo -->
+    <img class="logo" src="{{ url_for('static', filename='logo.jpg') }}" alt="TellSellLogo">
+    <div class="searchbar">
+      <ion-icon name="search-outline" id="search-icon"></ion-icon>
+      <input type="text" id="search">
+    </div>
+    <!-- Categories -->
+    <ul class="categories">
+      <li><a href="#start"><ion-icon name="apps"></ion-icon>Alle Kategorien</a></li>
+      <li><a href="#überuns"><ion-icon name="book-outline"></ion-icon>Bücher</a></li>
+      <li><a href="#leistungen"><ion-icon name="laptop-outline"></ion-icon>Elektronik</a></li>
+      <li><a href="#kontakt"><ion-icon name="help-outline"></ion-icon>Fundwaren</a></li>
+      <li><a href="#kontakt"><ion-icon name="business-outline"></ion-icon>Jobs</a></li>
+      <li><a href="#kontakt"><ion-icon name="shirt-outline"></ion-icon>Kleidung</a></li>
+      <li><a href="#kontakt"><ion-icon name="document-outline"></ion-icon>Notizen</a></li>
+      <li><a href="#kontakt"><ion-icon name="basketball-outline"></ion-icon>Sportartikel</a></li>
+      <li><a href="#kontakt"><ion-icon name="bulb-outline"></ion-icon>Tutoring</a></li>
+    </ul>
+    <!-- Button to sell item -->
+    <ul class="account_options">
+      <form action="{{ url_for('sell_item')}}" method="POST">
+        <button id="goto_sell_item" type="submit"><a><ion-icon name="add-outline"></ion-icon>Angebot erstellen</a></button>
+      </form>
+      <!-- Button to remember -->
+      <button id="remember" type="submit"><a><ion-icon name="heart-outline"></ion-icon>Merkliste</a></button>
+      <!-- Button to logout -->
+      <form action="{{ url_for('logout')}}" method="POST">
+        <button id="logout_button" type="submit"><a><ion-icon name="log-out-outline"></ion-icon>Logout</a></button>
+      </form>
+    </ul>
+
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+  </div>
 </head>
 
 <body>
 
   <!-- Button to logout -->
-  <form action="{{ url_for('logout')}}" method="POST">
-    <button id="logout_button" type="submit">Logout</button>
-  </form>
+  <ul class="account_options">
+    <form action="{{ url_for('logout')}}" method="POST">
+      <button id="logout_button" type="submit"><a><ion-icon name="log-out-outline"></ion-icon>Logout</a></button>
+    </form>
+  </ul>
 
-  <h2>Sell Item</h2>
-  
-  <form action="{{ url_for('add_item')}}" method="POST">
-    <label for="itemname">Item Name:</label>
-    <input type="text" id="itemname" name="itemname" required><br>
+  <h1><ion-icon name="card-outline"></ion-icon><a>Verkaufen</a></h1>
 
-    <label for="itemdesc">Item Description:</label>
-    <textarea id="itemdesc" name="itemdesc" required></textarea><br>
+  <form action="{{ url_for('add_item')}}" method="POST" enctype="multipart/form-data">
+    <div class="sellgrid">
+      <a>Artikelname:</a>
 
-    <label for="price">Price:</label>
-    <input type="number" id="price" name="price" step="0.01" required><br>
+      <input type="text" id="itemname" name="itemname" required>
 
-    <button type="submit" id="addItemButton">Add Item</button>
+      <a>Kategorie:</a>
+
+      <div>
+        <div class="category"><a href="#überuns"><ion-icon name="book-outline"></ion-icon>Bücher</a></div>
+        <div class="category"><a href="#leistungen"><ion-icon name="laptop-outline"></ion-icon>Elektronik</a></div>
+        <div class="category"><a href="#kontakt"><ion-icon name="help-outline"></ion-icon>Fundwaren</a></div>
+        <div class="category"><a href="#kontakt"><ion-icon name="business-outline"></ion-icon>Jobs</a></div>
+        <div class="category"><a href="#kontakt"><ion-icon name="shirt-outline"></ion-icon>Kleidung</a></div>
+        <div class="category"><a href="#kontakt"><ion-icon name="document-outline"></ion-icon>Notizen</a></div>
+        <div class="category"><a href="#kontakt"><ion-icon name="basketball-outline"></ion-icon>Sportartikel</a></div>
+        <div class="category"><a href="#kontakt"><ion-icon name="bulb-outline"></ion-icon>Tutoring</a></div>
+      </div>
+
+      <a>Beschreibung:</a>
+
+      <textarea id="itemdesc" name="itemdesc" required></textarea>
+
+      <a>Zustand:</a>
+
+      <div>
+        <div class="condition" id="trash"><a>Defekt</a></div>
+        <div class="condition" id="used"><a>Gebraucht</a></div>
+        <div class="condition" id="like_new"><a>Wie Neu</a></div>
+        <div class="condition" id="new"><a>Neu</a></div>
+      </div>
+
+      <a>Preis:</a>
+
+      <input type="number" id="price" name="price" step="0.01" required>
+
+      <a>Bild hochladen:</a>
+      <input type="file" id="item_picture" name="item_picture">
+
+      <div></div>
+
+      <button type="submit" id="addItemButton"><a><ion-icon name="add-circle-outline"></ion-icon>Erstellen</a></button>
+
+    </div>
   </form>
 </body>
 </html>

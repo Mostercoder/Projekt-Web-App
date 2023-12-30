@@ -25,3 +25,19 @@
 //}
 //
 //document.getElementById('addItemButton').addEventListener('click', addItem);
+function toggleHeart() {
+    var heartIcon = document.getElementById('heartIcon');
+    
+    if (heartIcon.getAttribute('name') === 'heart-outline') {
+      heartIcon.setAttribute('name', 'heart');
+    } else {
+      heartIcon.setAttribute('name', 'heart-outline');
+    }
+    }
+function displayOwnerProfile(element) {
+  // Get the user_id from the data attribute
+  var user_id = element.getAttribute("data-user-id");
+  
+  // Redirect to the user profile page
+  window.location.href = "/user_profile/" + user_id;
+}
