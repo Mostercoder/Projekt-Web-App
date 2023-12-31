@@ -17,7 +17,7 @@ c = conn.cursor()
 salt = bcrypt.gensalt()
 
 DATABASE = 'tellsell.db'
-UPLOAD_FOLDER = 'uploads'
+UPLOAD_FOLDER = '/home/dreamingdodo/Projekt-Web-App/uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 uploads_directory = os.path.join(os.path.dirname(__file__), '..', 'uploads')
@@ -443,4 +443,4 @@ def user_profile(user_id):
         return "User not found", 404
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000)
