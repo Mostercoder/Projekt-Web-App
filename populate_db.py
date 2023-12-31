@@ -18,7 +18,7 @@ conn = sqlite3.connect('tellsell.db')
 cursor = conn.cursor()
 
 # Create three users
-for i in range(3):
+for i in range(300):
     first_name = f"User{i+1}"
     last_name = "Doe"
     
