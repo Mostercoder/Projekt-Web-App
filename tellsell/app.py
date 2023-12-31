@@ -19,6 +19,7 @@ DATABASE = 'tellsell.db'
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+uploads_directory = os.path.join(os.path.dirname(__file__), '..', 'uploads')
 
 
 def get_db():
@@ -225,7 +226,7 @@ def add_item():
     itemname = request.form.get('itemname')
     itemdesc = request.form.get('itemdesc')
     price = request.form.get('price')
-
+    
     # Insert the item into the 'items' table
     conn = get_db()
     cursor = conn.cursor()
@@ -240,29 +241,39 @@ def add_item():
             file.save(file_path)
             print(file_path)
 
-    # Fetch the user_id based on the current session
-    if 'email' in session:
-        email = session['email']
-        print(email)
-        cursor.execute("SELECT id FROM users WHERE email = ?", (email,))
-        result = cursor.fetchone()
 
-        if result is not None:
-            user_id = result[0]
+        # Fetch the user_id based on the current session
+        if 'email' in session:
+            email = session['email']
+            print(email)
+            cursor.execute("SELECT id FROM users WHERE email = ?", (email,))
+            result = cursor.fetchone()
 
-            cursor.execute("INSERT INTO items (itemname, itemdesc, price, user_id, item_picture) VALUES (?, ?, ?, ?, ?)",
-                           (itemname, itemdesc, price, user_id, filename))
+            if result is not None:
+                user_id = result[0]
 
-            # Commit the changes and close the connection
-            conn.commit()
-            conn.close()
+                try:
+                    cursor.execute("INSERT INTO items (itemname, itemdesc, price, user_id, item_picture) VALUES (?, ?, ?, ?, ?)",
+                               (itemname, itemdesc, price, user_id, filename))
 
-            return redirect(url_for('index'))
+                    conn.commit()
+                
+                except: #no picture provided
+                    print("no image")
+                    cursor.execute("INSERT INTO items (itemname, itemdesc, price, user_id) VALUES (?, ?, ?, ?)",
+                               (itemname, itemdesc, price, user_id))
+                    conn.commit()
+
+                finally:    
+                    conn.close()
+
+                return redirect(url_for('index'))
+            else:
+                return "User not found", 404
         else:
-            return "User not found", 404
-    else:
-        print("User not logged in")
-        return redirect(url_for('login'))
+            print("User not logged in")
+            return redirect(url_for('login'))
+
 
 
 
@@ -336,7 +347,11 @@ def delete_item(item_id):
 
         if picture_path:
             picture_path = picture_path[0]
+            print(picture_path)
 
+            picture_path = os.path.join(uploads_directory, picture_path)
+            print(picture_path)
+            
             # Delete the picture file if it exists
             if os.path.exists(picture_path):
                 os.remove(picture_path)
