@@ -89,8 +89,13 @@
       <input type="number" id="price" name="price" step="0.01" required>
 
       <a>Bild hochladen:</a>
-      <input type="file" id="item_picture" name="item_picture" accept="image/*">
-
+      <div class="upload">
+          <div class="upload-content">
+              <ion-icon name="cloud-upload-outline"></ion-icon><a>Hochladen</a>
+          </div>
+          <input type="file" id="item_picture" name="item_picture" accept="image/*">
+      </div>
+    
       <div></div>
 
       <button type="submit" id="addItemButton"><a><ion-icon name="add-circle-outline"></ion-icon>Erstellen</a></button>
