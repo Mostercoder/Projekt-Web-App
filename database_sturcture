@@ -1,7 +1,6 @@
 Table users {
   id integer [pk, increment]
-  firstname varchar [not null]
-  lastname varchar [not null]
+  name TEXT [not null]
   password varchar [not null]
   email varchar [not null, unique]
   reputation decimal [ref: < reviews.rating]
