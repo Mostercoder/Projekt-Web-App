@@ -1,5 +1,6 @@
 from flask import Flask, url_for, render_template, redirect, session, request, g, jsonify, send_from_directory, flash
 from werkzeug.utils import secure_filename
+from email_validator import validate_email, EmailNotValidError
 import sqlite3
 import time
 import datetime
@@ -28,18 +29,15 @@ def get_db():
         db = g._database = sqlite3.connect(DATABASE)
     return db
 
-def extract_name(email):
-    # Check if the email is in the correct format
-    if email.endswith("@stud.gyminterlaken.ch"):
-        # Split the email address at the '@' symbol
-        local_part, domain = email.split('@')
+def is_valid_email(email):
+    try:
+        # Validate email
+        v = validate_email(email)
+        return True
+    except EmailNotValidError as e:
+        # Email is not valid, exception message is human-readable
+        return False
 
-        # Split the local part at the '.' symbol
-        first_name, last_name = local_part.split('.')
-
-        return first_name, last_name
-    else:
-        return render_template('register')
 
 @app.teardown_appcontext
 def close_connection(exception):
@@ -49,12 +47,11 @@ def close_connection(exception):
 
 c.execute('''CREATE TABLE IF NOT EXISTS users
              (id INTEGER PRIMARY KEY AUTOINCREMENT,
-             firstname TEXT NOT NULL,
-             lastname TEXT NOT NULL,
+             name TEXT,
              password TEXT NOT NULL,
              email TEXT NOT NULL UNIQUE,
              reputation DECIMAL DEFAULT 0,
-             num_reviews     
+             num_reviews DECIMAL DEFAULT 0 
              );''')
 
 c.execute('''CREATE TABLE IF NOT EXISTS reviews
@@ -99,42 +96,37 @@ def uploads(filename):
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
+        print(request.form)
         # Retrieve form values
         password = request.form["password"]
         email = request.form["email"]
+        name = request.form["name"]
+
+        # Validate email
+        if not is_valid_email(email):
+            print("Invalid email format")
+            return redirect(url_for('register'))
 
         # Hash the password
         hashed_password = bcrypt.hashpw(password.encode("utf-8"), salt).decode("utf-8")
-
-        # Extract first name and last name from email
-        names = extract_name(email)
         
-        if names:
-            first_name, last_name = names
-
-            # connect to tellsell
-            conn = sqlite3.connect('tellsell.db')
-            c = conn.cursor()
-
-            try:
-                # Insert the user into the database
-                c.execute("INSERT INTO users (firstname, lastname, password, email, reputation) VALUES (?, ?, ?, ?, ?)",
-                    (first_name, last_name, hashed_password, email, 0))
-                conn.commit()
-                print('User registered successfully')
-
-            except Exception as e:
-                print('Error registering user:', e)
-                conn.rollback()
-                return redirect(url_for('login'))
-
-            finally:
-                conn.close()
-                return redirect(url_for('login'))
-        else:
-            print("Invalid email format")
+        # connect to tellsell
+        conn = sqlite3.connect('tellsell.db')
+        c = conn.cursor()
+        try:
+            # Insert the user into the database
+            c.execute("INSERT INTO users (name, password, email, reputation) VALUES (?, ?, ?, ?)",
+                (name, hashed_password, email, 0,))
+            conn.commit()
+            print('User registered successfully')
+        except Exception as e:
+            print('Error registering user:', e)
+            conn.rollback()
             return redirect(url_for('register'))
-    else:
+        finally:
+            conn.close()
+            return redirect(url_for('login'))
+    else:          
         return render_template('register.html')
 
 
@@ -169,7 +161,7 @@ def login():
         conn.close()
 
         if user is not None:
-            session['email'] = user[4]
+            session['email'] = user[3]
             login_attempts.pop(email, None)  # Clear the login attempts for the user
             return redirect(url_for('index'))
         else:
