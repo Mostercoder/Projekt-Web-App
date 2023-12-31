@@ -199,7 +199,7 @@ h1 a {
 .sellgrid {
   display: grid;
   align-items: start;
-  grid-template-columns: 0.2fr 0.35fr;
+  grid-template-columns: 0.2fr 0.27fr;
   grid-template-rows: 0.3fr 3fr 2.5fr 0.4fr 0.4fr;
   grid-column-gap: 0px;
   grid-row-gap: 18px;
@@ -253,18 +253,20 @@ h1 a {
   color: rgb(255, 255, 255);
 }
 
+.category_grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
+}
+
 .category {
   display: flex;
-  justify-content: space-between;
-  width: 41.5%;
-  float:left;
+  width: auto;
   padding: 5px 10px;
-  margin-right: 10px;
-  margin-top: 10px;
   
   border: none;
-  border-color: #ffffff;
-  border-width: 1px;
   border-radius: 3px;
   background-color: #ffffff;
 }
@@ -281,10 +283,14 @@ h1 a {
   text-decoration: none;
 }
 
+.condition_container {
+  display: flex;
+  justify-content: space-between;
+}
+
 .condition {
   display: flex;
   justify-content: space-between;
-  margin-left: 5.35px;
   float: left;
   padding: 5px 10px;
   
@@ -292,6 +298,9 @@ h1 a {
   border-color: #ffffff;
   border-radius: 3px;
   background-color: #ffffff;
+
+  flex-grow: 1;
+  text-align: center;
 }
 
 div[id="trash"] {
@@ -308,6 +317,10 @@ div[id="like_new"] {
 
 div[id="new"] {
   background-color: #008b02;
+}
+
+.condition:not(:first-child) {
+  margin-left: 10px; /* Adjust as needed */
 }
 
 .condition:hover {
@@ -329,7 +342,7 @@ form input[type="text"] {
   background-color: #ffffff;
   border-radius: 3px;
 
-  width: 100%;
+  width: auto;
   height: 100%;
 }
 
@@ -340,7 +353,7 @@ textarea {
   resize: none;
   border-radius: 3px;
 
-  width: 100%;
+  width: auto;
   height: 100%;
 }
 
@@ -350,11 +363,13 @@ input[type="number"] {
   background-color: #ffffff;
   border-radius: 3px;
   
-  width: 100%;
-  height: 90%;
+  width: auto;
+  height: 100%;
 }
 
 ul {
   list-style: none;
   overflow-y: auto;
 }
+
+

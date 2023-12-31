@@ -45,21 +45,10 @@
       </button>
     </form>
     </ul>
-
-    <div class="line"></div>
-    <div class="line"></div>
-    <div class="line"></div>
   </div>
 </head>
 
 <body>
-
-  <!-- Button to logout -->
-  <ul class="account_options">
-    <form action="{{ url_for('logout')}}" method="POST">
-      <button id="logout_button" type="submit"><a><ion-icon name="log-out-outline"></ion-icon>Logout</a></button>
-    </form>
-  </ul>
 
   <h1><ion-icon name="card-outline"></ion-icon><a>Verkaufen</a></h1>
 
@@ -71,7 +60,7 @@
 
       <a>Kategorie:</a>
 
-      <div>
+      <div class="category_grid">
         <div class="category"><a href="#überuns"><ion-icon name="book-outline"></ion-icon>Bücher</a></div>
         <div class="category"><a href="#leistungen"><ion-icon name="laptop-outline"></ion-icon>Elektronik</a></div>
         <div class="category"><a href="#kontakt"><ion-icon name="help-outline"></ion-icon>Fundwaren</a></div>
@@ -88,7 +77,7 @@
 
       <a>Zustand:</a>
 
-      <div>
+      <div class="condition_container">
         <div class="condition" id="trash"><a>Defekt</a></div>
         <div class="condition" id="used"><a>Gebraucht</a></div>
         <div class="condition" id="like_new"><a>Wie Neu</a></div>
