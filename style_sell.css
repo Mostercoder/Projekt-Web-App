@@ -1,0 +1,450 @@
+/* HEADER CODE */
+
+.top_bar {
+  position: fixed; /* Fixed position to stay in place while scrolling */
+  top: 0;
+  left: 0;
+  width: 100%;/* 100% of the viewport height */
+  height: 300px;
+  background-color: rgba(0,20,44,1);
+  box-sizing: border-box;
+  z-index: 1;
+
+  border-bottom: 6px solid #0a51bb;
+}
+
+.top_bar::before,
+.top_bar::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 6px;
+}
+
+.top_bar::before {
+  top: 300px;
+  background-color: #1fb2e8; /* Red */
+}
+
+.top_bar::after {
+  top: 306px; /* Adjust the distance of the third line from the bottom */
+  background-color: #3bf1ff; /* Blue */
+}
+
+.logo {
+  padding-left: 20%;
+  width: 175px;
+  height: 175px;
+}
+
+.searchbar {
+  display: flex;
+  height: 20px;  
+  padding-left: 21%;
+  position: relative;
+}
+
+.searchbar input[type="text"] {
+  display: flex;
+  align-items: center;
+  font-weight: bolder;
+  font-size: medium;
+  font-family: "Guill Sans", sans-serif;
+  color: black;
+  text-decoration: none;
+
+  border-color: rgb(255, 255, 255);
+  border-style: solid;
+  border-radius: 3px;
+
+  width: 74.4%;
+  height: 175%;
+  padding-left: 40px;
+}
+
+#search-icon {
+  position: absolute;
+  left: 21.5%;
+  top: 100%;
+  transform: translateY(-50%);
+  color: #000000;
+}
+
+ion-icon {
+  width: 25px;
+  height: 25px;
+  color: rgb(0, 0, 0);
+}
+
+/* categories */
+.categories {
+  margin: 0;
+  padding: 0;
+  padding-top:37px;
+}
+
+.categories li:first-of-type {
+  padding-left: 21%;
+}
+
+.categories li {
+  float: left;
+  padding-left: 10px;
+}
+
+.categories li a {
+  display: flex;
+  align-items: center;
+  font-weight: bolder;
+  font-family: "Guill Sans", sans-serif;
+  color: black;
+  text-decoration: none;
+  
+  background-color: rgb(255, 255, 255);
+  transition: background-color 0.3s ease;
+  border-radius: 3px;
+  padding: 8px;
+}
+
+.categories li a:hover {
+  background-color: rgb(155, 155, 155);
+}
+
+.categories li a ion-icon {
+  margin-right: 8px; 
+}
+
+/*account options*/
+.account_options {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  position: fixed;
+  top: 2%;
+  right: 18.5%;
+}
+
+.account_options a ion-icon {
+  margin-right: 8px; 
+}
+
+.account_options button {
+  float: right;
+  margin-left: 10px;
+
+  padding: 5px 10px;
+  
+  border: solid;
+  border-color: #ffffff;
+  border-width: 1px;
+  border-radius: 3px;
+  background-color: #ffffff;
+  transition: background-color 0.2s ease;
+}
+
+.account_options button a{
+  display: flex;
+  align-items: center;
+  font-weight: bolder;
+  font-size: 18px;
+  font-family: Helvetica, Arial, sans-serif;
+  color: black;
+  text-decoration: none;
+}
+
+.account_options button:hover {
+  background-color: rgba(1,63,138,1);
+  cursor: pointer; 
+}
+
+.account_options button:hover a{
+  color: rgb(255, 255, 255);
+}
+
+.account_options button:hover ion-icon {
+  color: rgb(255, 255, 255);
+}
+
+/* ###########################*/
+/* BODY CODE */
+body {
+  margin-top: 275px;
+  padding-left: 21%;
+  padding-right: 21%;
+  background-color: #00142c;  /*just for backup*/
+  background: linear-gradient(0deg, rgba(1,63,138,1) 0%, rgba(0,20,44,1) 80%);/**/
+  background-attachment: fixed;
+}
+
+h1 {
+  display: flex;
+  align-items: center;
+  padding-top: 5%;
+}
+
+h1 ion-icon {
+  width: 30px;
+  height: 30px;
+  color: rgb(255, 255, 255);
+}
+
+/* Styles for the main heading */
+h1 a {
+  align-items: center;
+  color: rgb(255, 255, 255);
+  text-align: left;
+  font-family: 'Segoe UI';
+  margin-left: 12px;
+}
+
+.sellgrid {
+  display: grid;
+  align-items: start;
+  grid-template-columns: 0.2fr 0.27fr;
+  grid-template-rows: 0.3fr 3fr 2.5fr 0.4fr 0.4fr;
+  grid-column-gap: 0px;
+  grid-row-gap: 18px;
+  padding-left: 4%;
+}
+
+.sellgrid a {
+  font-size: 24px;
+  font-family: 'Segoe UI';
+  color: #ffffff;
+}
+
+.sellgrid button {
+  display: flex;
+  justify-content: center;
+  padding: 5px 10px;
+  
+  border: solid;
+  border-color: #ffffff;
+  border-width: 1px;
+  border-radius: 3px;
+  background-color: #ffffff;
+  transition: background-color 0.2s ease;
+}
+
+.sellgrid button:hover {
+  background-color: rgba(1,63,138,1);
+  cursor: pointer; 
+}
+
+.sellgrid button a{
+  display: flex;
+  align-items: center;
+  font-weight: bolder;
+  font-size: 18px;
+  font-family: Helvetica, Arial, sans-serif;
+  color: black;
+  text-decoration: none;
+}
+
+.sellgrid button:hover a{
+  color: rgb(255, 255, 255);
+}
+
+.sellgrid a ion-icon {
+  margin-right: 8px; 
+}
+
+.sellgrid button:hover ion-icon {
+  color: rgb(255, 255, 255);
+}
+
+.category_grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
+}
+
+.category {
+  display: flex;
+  width: auto;
+  padding: 5px 10px;
+  
+  border: none;
+  border-radius: 3px;
+  background-color: #ffffff;
+  transition: background-color 0.3s ease;
+}
+
+.category:hover {
+  background-color: #cdcdcd;
+  cursor: pointer; 
+}
+
+.category a {
+  display: flex;
+  align-items: center;
+  color: black;
+  text-decoration: none;
+}
+
+.condition_container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.condition {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  float: left;
+  padding: 5px 10px;
+  
+  border-radius: 3px;
+
+  flex-grow: 1;
+  text-align: center;
+  cursor: pointer; 
+}
+
+div[id="trash"]:hover {
+  background-color: #ff5555;
+}
+
+div[id="trash"] {
+  background-color: #ff3333;
+  transition: background-color 0.2s ease;
+}
+
+div[id="used"]:hover {
+  background-color: #ffca5f;
+}
+
+div[id="used"] {
+  background-color: #fbb831;
+  transition: background-color 0.2s ease;
+}
+
+div[id="like_new"]:hover {
+  background-color: #95ff9a;
+}
+
+div[id="like_new"] {
+  background-color: #43ff4c;
+  transition: background-color 0.2s ease;
+}
+
+div[id="new"]:hover {
+  background-color: #008b02;
+}
+
+div[id="new"] {
+  background-color: #006b02;
+  transition: background-color 0.2s ease;
+}
+
+.condition:not(:first-child) {
+  margin-left: 10px; /* Adjust as needed */
+}
+
+.condition a {
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  color: rgb(0, 0, 0);
+  text-decoration: none;
+} 
+
+/*only price button*/
+form input[type="text"] {
+  border: none;
+  background-color: #ffffff;
+  border-radius: 3px;
+
+  width: auto;
+  height: 100%;
+}
+
+/* for discription of product */
+textarea {
+  background-color: #ffffff;
+  border: none;
+  resize: none;
+  border-radius: 3px;
+
+  width: auto;
+  height: 100%;
+}
+
+/*only price button*/
+input[type="number"] {
+  border: none;
+  background-color: #ffffff;
+  border-radius: 3px;
+  
+  width: auto;
+  height: 100%;
+}
+
+.upload {
+  position: relative;
+  display: flex;
+
+  border-style: solid;
+  border-color: white;
+  border-width: 1px;
+
+  background-color: #ffffff;
+  transition: background-color 0.2s ease;
+  border-radius: 3px;
+  
+  width: auto;
+  height: 100%;
+}
+
+.upload:hover {
+  background-color: rgba(1,63,138,1);
+}
+
+.upload input[type=file] {
+ opacity: 0;
+ width: 100%;
+ height: 100%;
+ cursor: pointer;
+}
+
+.upload ion-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-weight: bolder;
+  font-size: 18px;
+  font-family: Helvetica, Arial, sans-serif;
+  color: black;
+
+  transform: translate(-220%, -50%);
+}
+
+.upload:hover ion-icon {
+  color: white;
+}
+
+.upload a {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-weight: bolder;
+  font-size: 18px;
+  font-family: Helvetica, Arial, sans-serif;
+  color: black;
+
+  transform: translate(-25%, -50%);
+}
+
+.upload:hover a {
+  color:white;
+}
+
+ul {
+  list-style: none;
+  overflow-y: auto;
+}
+
+
