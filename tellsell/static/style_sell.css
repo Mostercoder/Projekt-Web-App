@@ -102,6 +102,7 @@ ion-icon {
   text-decoration: none;
   
   background-color: rgb(255, 255, 255);
+  transition: background-color 0.3s ease;
   border-radius: 3px;
   padding: 8px;
 }
@@ -139,6 +140,7 @@ ion-icon {
   border-width: 1px;
   border-radius: 3px;
   background-color: #ffffff;
+  transition: background-color 0.2s ease;
 }
 
 .account_options button a{
@@ -222,6 +224,7 @@ h1 a {
   border-width: 1px;
   border-radius: 3px;
   background-color: #ffffff;
+  transition: background-color 0.2s ease;
 }
 
 .sellgrid button:hover {
@@ -267,6 +270,7 @@ h1 a {
   border: none;
   border-radius: 3px;
   background-color: #ffffff;
+  transition: background-color 0.3s ease;
 }
 
 .category:hover {
@@ -306,6 +310,7 @@ div[id="trash"]:hover {
 
 div[id="trash"] {
   background-color: #ff3333;
+  transition: background-color 0.2s ease;
 }
 
 div[id="used"]:hover {
@@ -314,6 +319,7 @@ div[id="used"]:hover {
 
 div[id="used"] {
   background-color: #fbb831;
+  transition: background-color 0.2s ease;
 }
 
 div[id="like_new"]:hover {
@@ -322,6 +328,7 @@ div[id="like_new"]:hover {
 
 div[id="like_new"] {
   background-color: #43ff4c;
+  transition: background-color 0.2s ease;
 }
 
 div[id="new"]:hover {
@@ -330,6 +337,7 @@ div[id="new"]:hover {
 
 div[id="new"] {
   background-color: #006b02;
+  transition: background-color 0.2s ease;
 }
 
 .condition:not(:first-child) {
@@ -384,6 +392,7 @@ input[type="number"] {
   border-width: 1px;
 
   background-color: #ffffff;
+  transition: background-color 0.2s ease;
   border-radius: 3px;
   
   width: auto;
