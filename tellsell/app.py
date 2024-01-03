@@ -73,7 +73,8 @@ c.execute('''CREATE TABLE IF NOT EXISTS items
              itemdesc TEXT NOT NULL,
              price Decimal,
              user_id int,
-             item_picture TEXT
+             item_picture TEXT,
+             cat TEXT NOT NULL
              );''')
 conn.commit()
 conn.close()
@@ -177,7 +178,7 @@ def login():
     else:
         return render_template('login.html')
 
-# Index page, accessible only to logged-in users
+# Index page
 @app.route('/')
 def index():
     #if 'email' not in session:
@@ -185,10 +186,15 @@ def index():
     
     current_user_email = session.get('email', None)
 
+    category = request.args.get('category')
+
     # Fetch all items from the 'items' table
     conn = get_db()
     cursor = conn.cursor()
-    cursor.execute('SELECT * FROM items')
+    if category:
+        cursor.execute('SELECT * FROM items WHERE cat = ?', (category,))
+    else:
+        cursor.execute('SELECT * FROM items')
     items = cursor.fetchall()
     conn.close()
 
@@ -221,6 +227,7 @@ def add_item():
     itemname = request.form.get('itemname')
     itemdesc = request.form.get('itemdesc')
     price = request.form.get('price')
+    category = request.form.get('category')
     
     # Insert the item into the 'items' table
     conn = get_db()
@@ -247,14 +254,14 @@ def add_item():
                     file.save(file_path)
                     print(file_path)
             try:
-                cursor.execute("INSERT INTO items (itemname, itemdesc, price, user_id, item_picture) VALUES (?, ?, ?, ?, ?)",
-                           (itemname, itemdesc, price, user_id, filename))
+                cursor.execute("INSERT INTO items (itemname, itemdesc, price, user_id, item_picture, cat) VALUES (?, ?, ?, ?, ?, ?)",
+                           (itemname, itemdesc, price, user_id, filename, category))
                 conn.commit()
             
             except: #no picture provided
                 print("no image")
-                cursor.execute("INSERT INTO items (itemname, itemdesc, price, user_id) VALUES (?, ?, ?, ?)",
-                           (itemname, itemdesc, price, user_id))
+                cursor.execute("INSERT INTO items (itemname, itemdesc, price, user_id, cat) VALUES (?, ?, ?, ?, ?)",
+                           (itemname, itemdesc, price, user_id, category))
                 conn.commit()
 
             finally:    
@@ -264,12 +271,16 @@ def add_item():
 
         else:
             return "User not found", 404
-            
+
     else:
         print("User not logged in")
         return redirect(url_for('login'))
 
 
+@app.route('/process_category', methods=['POST'])
+def process_category():
+    selected_category = request.form.get('category')
+    return f'Selected category: {selected_category}'
 
 
 

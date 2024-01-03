@@ -15,15 +15,15 @@
     </div>
     <!-- Categories -->
     <ul class="categories">
-    <li><a href="#start"><ion-icon name="apps"></ion-icon>Alle Kategorien</a></li>
-    <li><a href="#überuns"><ion-icon name="book-outline"></ion-icon>Bücher</a></li>
-    <li><a href="#leistungen"><ion-icon name="laptop-outline"></ion-icon>Elektronik</a></li>
-    <li><a href="#kontakt"><ion-icon name="help-outline"></ion-icon>Fundwaren</a></li>
-    <li><a href="#kontakt"><ion-icon name="business-outline"></ion-icon>Jobs</a></li>
-    <li><a href="#kontakt"><ion-icon name="shirt-outline"></ion-icon>Kleidung</a></li>
-    <li><a href="#kontakt"><ion-icon name="document-outline"></ion-icon>Notizen</a></li>
-    <li><a href="#kontakt"><ion-icon name="basketball-outline"></ion-icon>Sportartikel</a></li>
-    <li><a href="#kontakt"><ion-icon name="bulb-outline"></ion-icon>Tutoring</a></li>
+      <li><a href="{{ url_for('index') }}"><ion-icon name="apps"></ion-icon>Alle Kategorien</a></li>
+      <li><a href="{{ url_for('index', category='Bücher') }}"><ion-icon name="book-outline"></ion-icon>Bücher</a></li>
+      <li><a href="{{ url_for('index', category='Elektronik') }}"><ion-icon name="laptop-outline"></ion-icon>Elektronik</a></li>
+      <li><a href="{{ url_for('index', category='Fundwaren') }}"><ion-icon name="help-outline"></ion-icon>Fundwaren</a></li>
+      <li><a href="{{ url_for('index', category='Jobs') }}"><ion-icon name="business-outline"></ion-icon>Jobs</a></li>
+      <li><a href="{{ url_for('index', category='Kleidung') }}"><ion-icon name="shirt-outline"></ion-icon>Kleidung</a></li>
+      <li><a href="{{ url_for('index', category='Notizen') }}"><ion-icon name="document-outline"></ion-icon>Notizen</a></li>
+      <li><a href="{{ url_for('index', category='Sportartikel') }}"><ion-icon name="basketball-outline"></ion-icon>Sportartikel</a></li>
+      <li><a href="{{ url_for('index', category='Tutoring') }}"><ion-icon name="bulb-outline"></ion-icon>Tutoring</a></li>
     </ul>
     <!-- Button to sell item -->
     <ul class="account_options">

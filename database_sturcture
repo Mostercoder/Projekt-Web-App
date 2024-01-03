@@ -14,7 +14,7 @@ Table items {
   price decimal
   user_id integer [ref: - users.id]
   item_picture TEXT
-  cat TEXT
+  cat varchar [not null]
   condition TEXT
 }
 
