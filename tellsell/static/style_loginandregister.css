@@ -138,6 +138,7 @@ label {
   border-width: 2px;
   border-radius: 5px;
   background-color: #ffffff;
+  transition: background-color 0.4s ease;
   font-size: 24px;
   font-family: 'Segoe UI';
   font-weight:500;
