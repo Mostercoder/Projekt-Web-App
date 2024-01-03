@@ -344,12 +344,14 @@ def delete_item(item_id):
             picture_path = picture_path[0]
             print(picture_path)
 
-            picture_path = os.path.join(uploads_directory, picture_path)
-            print(picture_path)
+            #check if picturepath is not empty
+            if picture_path != None:
+                picture_path = os.path.join(uploads_directory, picture_path)
+                print(picture_path)
             
-            # Delete the picture file if it exists
-            if os.path.exists(picture_path):
-                os.remove(picture_path)
+                # Delete the picture file if it exists
+                if os.path.exists(picture_path):
+                    os.remove(picture_path)
 
         # Delete the item only if it belongs to the logged-in user
         cursor.execute("DELETE FROM items WHERE id = ? AND user_id = ?", (item_id, user_id))
