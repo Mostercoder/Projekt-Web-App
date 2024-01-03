@@ -226,48 +226,48 @@ def add_item():
     conn = get_db()
     cursor = conn.cursor()
 
-    # Handle file upload
-    if 'item_picture' in request.files:
-        file = request.files['item_picture']
-        if file.filename != '' and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            relative_path = filename
-            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            file.save(file_path)
-            print(file_path)
-
-
         # Fetch the user_id based on the current session
-        if 'email' in session:
-            email = session['email']
-            print(email)
-            cursor.execute("SELECT id FROM users WHERE email = ?", (email,))
-            result = cursor.fetchone()
+    if 'email' in session:
+        email = session['email']
+        print(email)
+        cursor.execute("SELECT id FROM users WHERE email = ?", (email,))
+        result = cursor.fetchone()
 
-            if result is not None:
-                user_id = result[0]
+        if result is not None:
+            user_id = result[0]
 
-                try:
-                    cursor.execute("INSERT INTO items (itemname, itemdesc, price, user_id, item_picture) VALUES (?, ?, ?, ?, ?)",
-                               (itemname, itemdesc, price, user_id, filename))
+                # Handle file upload
+            if 'item_picture' in request.files:
+                file = request.files['item_picture']
 
-                    conn.commit()
-                
-                except: #no picture provided
-                    print("no image")
-                    cursor.execute("INSERT INTO items (itemname, itemdesc, price, user_id) VALUES (?, ?, ?, ?)",
-                               (itemname, itemdesc, price, user_id))
-                    conn.commit()
+                if file.filename != '' and allowed_file(file.filename):
+                    filename = secure_filename(file.filename)
+                    relative_path = filename
+                    file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                    file.save(file_path)
+                    print(file_path)
+            try:
+                cursor.execute("INSERT INTO items (itemname, itemdesc, price, user_id, item_picture) VALUES (?, ?, ?, ?, ?)",
+                           (itemname, itemdesc, price, user_id, filename))
+                conn.commit()
+            
+            except: #no picture provided
+                print("no image")
+                cursor.execute("INSERT INTO items (itemname, itemdesc, price, user_id) VALUES (?, ?, ?, ?)",
+                           (itemname, itemdesc, price, user_id))
+                conn.commit()
 
-                finally:    
-                    conn.close()
+            finally:    
+                conn.close()
 
-                return redirect(url_for('index'))
-            else:
-                return "User not found", 404
+            return redirect(url_for('index'))
+
         else:
-            print("User not logged in")
-            return redirect(url_for('login'))
+            return "User not found", 404
+            
+    else:
+        print("User not logged in")
+        return redirect(url_for('login'))
 
 
 
