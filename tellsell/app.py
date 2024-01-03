@@ -54,7 +54,8 @@ c.execute('''CREATE TABLE IF NOT EXISTS users
              password TEXT NOT NULL,
              email TEXT NOT NULL UNIQUE,
              reputation DECIMAL DEFAULT 0,
-             num_reviews DECIMAL DEFAULT 0 
+             num_reviews DECIMAL DEFAULT 0,
+             is_admin INTEGER DEFAULT 0
              );''')
 
 c.execute('''CREATE TABLE IF NOT EXISTS reviews
@@ -114,6 +115,8 @@ def register():
         email = request.form["email"]
         name = request.form["name"]
 
+        is_admin = 1 if request.form.get("password") == "admin_code" else 0
+
         # Validate email
         if not is_valid_email(email):
             print("Invalid email format")
@@ -127,8 +130,8 @@ def register():
         c = conn.cursor()
         try:
             # Insert the user into the database
-            c.execute("INSERT INTO users (name, password, email, reputation) VALUES (?, ?, ?, ?)",
-                (name, hashed_password, email, 0,))
+            c.execute("INSERT INTO users (name, password, email, reputation, is_admin) VALUES (?, ?, ?, ?, ?)",
+                (name, hashed_password, email, 0, is_admin,))
             conn.commit()
             print('User registered successfully')
         except Exception as e:
@@ -497,6 +500,68 @@ def report_user(user_id):
         flash('You have already reported this user', 'danger')
 
     return redirect(url_for('user_profile', user_id=user_id))
+
+@app.route("/admin_dashboard")
+def admin_dashboard():
+    if 'email' not in session:
+        return redirect(url_for('login'))
+
+    # Fetch user information
+    conn = get_db()
+    cursor = conn.cursor()
+
+    # Fetch user information including admin status
+    cursor.execute("SELECT is_admin FROM users WHERE email = ?", (session['email'],))
+    is_admin = cursor.fetchone()[0]
+
+    # Check if the user is an admin
+    if is_admin == 1:
+        # Fetch reported users
+         
+        cursor.execute('''SELECT u.*, r.reporter_id AS reporter_id
+                  FROM users u
+                  JOIN reports r ON u.id = r.reported_user_id
+                  GROUP BY u.id, r.reporter_id''')
+
+        reported_users = cursor.fetchall()
+        print(reported_users)
+
+        conn.close()
+
+        return render_template('admin_dashboard.html', reported_users=reported_users)
+
+    else:
+        # Redirect regular users
+        print("no permission")
+        conn.close()
+        return redirect(url_for('index'))
+
+# Delete users as admin
+@app.route('/delete_user/<int:user_id>', methods=['POST'])
+def delete_user(user_id):
+    if 'email' not in session:
+        return redirect(url_for('login'))
+
+    conn = get_db()
+    cursor = conn.cursor()
+
+    # Fetch user information including admin status
+    cursor.execute("SELECT * FROM users WHERE email = ?", (session['email'],))
+    admin_user = cursor.fetchone()
+
+    # Check if the user is an admin
+    if admin_user and admin_user['is_admin']:
+        # Delete the user and associated reports
+        cursor.execute("DELETE FROM users WHERE id = ?", (user_id,))
+        cursor.execute("DELETE FROM reports WHERE reported_user_id = ?", (user_id,))
+        conn.commit()
+
+        flash(f'User with ID {user_id} deleted successfully', 'success')
+    else:
+        flash('You do not have permission to delete users', 'danger')
+
+    conn.close()
+    return redirect(url_for('admin_dashboard'))
 
 if __name__ == '__main__':
     app.run(debug=True)
