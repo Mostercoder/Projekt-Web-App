@@ -14,15 +14,15 @@
     </div>
     <!-- Categories -->
     <ul class="categories">
-    <li><a href="#start"><ion-icon name="apps"></ion-icon>Alle Kategorien</a></li>
-    <li><a href="#überuns"><ion-icon name="book-outline"></ion-icon>Bücher</a></li>
-    <li><a href="#leistungen"><ion-icon name="laptop-outline"></ion-icon>Elektronik</a></li>
-    <li><a href="#kontakt"><ion-icon name="help-outline"></ion-icon>Fundwaren</a></li>
-    <li><a href="#kontakt"><ion-icon name="business-outline"></ion-icon>Jobs</a></li>
-    <li><a href="#kontakt"><ion-icon name="shirt-outline"></ion-icon>Kleidung</a></li>
-    <li><a href="#kontakt"><ion-icon name="document-outline"></ion-icon>Notizen</a></li>
-    <li><a href="#kontakt"><ion-icon name="basketball-outline"></ion-icon>Sportartikel</a></li>
-    <li><a href="#kontakt"><ion-icon name="bulb-outline"></ion-icon>Tutoring</a></li>
+      <li><a href="#start"><ion-icon name="apps"></ion-icon>Alle Kategorien</a></li>
+      <li><a href="#überuns"><ion-icon name="book-outline"></ion-icon>Bücher</a></li>
+      <li><a href="#leistungen"><ion-icon name="laptop-outline"></ion-icon>Elektronik</a></li>
+      <li><a href="#kontakt"><ion-icon name="help-outline"></ion-icon>Fundwaren</a></li>
+      <li><a href="#kontakt"><ion-icon name="business-outline"></ion-icon>Jobs</a></li>
+      <li><a href="#kontakt"><ion-icon name="shirt-outline"></ion-icon>Kleidung</a></li>
+      <li><a href="#kontakt"><ion-icon name="document-outline"></ion-icon>Notizen</a></li>
+      <li><a href="#kontakt"><ion-icon name="basketball-outline"></ion-icon>Sportartikel</a></li>
+      <li><a href="#kontakt"><ion-icon name="bulb-outline"></ion-icon>Tutoring</a></li>
     </ul>
     <!-- Button to sell item -->
     <ul class="account_options">
@@ -59,17 +59,16 @@
       <input type="text" id="itemname" name="itemname" required>
 
       <a>Kategorie:</a>
-
-      <div class="category_grid">
-        <div class="category"><a href="#überuns"><ion-icon name="book-outline"></ion-icon>Bücher</a></div>
-        <div class="category"><a href="#leistungen"><ion-icon name="laptop-outline"></ion-icon>Elektronik</a></div>
-        <div class="category"><a href="#kontakt"><ion-icon name="help-outline"></ion-icon>Fundwaren</a></div>
-        <div class="category"><a href="#kontakt"><ion-icon name="business-outline"></ion-icon>Jobs</a></div>
-        <div class="category"><a href="#kontakt"><ion-icon name="shirt-outline"></ion-icon>Kleidung</a></div>
-        <div class="category"><a href="#kontakt"><ion-icon name="document-outline"></ion-icon>Notizen</a></div>
-        <div class="category"><a href="#kontakt"><ion-icon name="basketball-outline"></ion-icon>Sportartikel</a></div>
-        <div class="category"><a href="#kontakt"><ion-icon name="bulb-outline"></ion-icon>Tutoring</a></div>
-      </div>
+        <div class="category_grid">
+          <div class="category"><label><input type="radio" name="category" value="Bücher" required><ion-icon name="book-outline"></ion-icon>Bücher</a></div>
+          <div class="category"><label><input type="radio" name="category" value="Elektronik"><ion-icon name="laptop-outline"></ion-icon>Elektronik</label></div>
+          <div class="category"><label><input type="radio" name="category" value="Fundwaren"><ion-icon name="help-outline"></ion-icon>Fundwaren</a></div>
+          <div class="category"><label><input type="radio" name="category" value="jobs"><ion-icon name="business-outline"></ion-icon>Jobs</a></div>
+          <div class="category"><label><input type="radio" name="category" value="Kleidung"><ion-icon name="shirt-outline"></ion-icon>Kleidung</a></div>
+          <div class="category"><label><input type="radio" name="category" value="Notizen"><ion-icon name="document-outline"></ion-icon>Notizen</a></div>
+          <div class="category"><label><input type="radio" name="category" value="Sportartikel"><ion-icon name="basketball-outline"></ion-icon>Sportartikel</a></div>
+          <div class="category"><label><input type="radio" name="category" value="Tutoring"><ion-icon name="bulb-outline"></ion-icon>Tutoring</a></div>
+        </div>
 
       <a>Beschreibung:</a>
 
@@ -86,11 +85,16 @@
 
       <a>Preis:</a>
 
-      <input type="number" id="price" name="price" step="0.01" required>
+      <input type="number" id="price" name="price" step="0.01" min="0.01" required>
 
       <a>Bild hochladen:</a>
-      <input type="file" id="item_picture" name="item_picture" accept="image/*">
-
+      <div class="upload">
+          <div class="upload-content">
+              <ion-icon name="cloud-upload-outline"></ion-icon><a>Hochladen</a>
+          </div>
+          <input type="file" id="item_picture" name="item_picture" accept="image/*">
+      </div>
+    
       <div></div>
 
       <button type="submit" id="addItemButton"><a><ion-icon name="add-circle-outline"></ion-icon>Erstellen</a></button>
