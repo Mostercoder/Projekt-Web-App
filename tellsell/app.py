@@ -76,6 +76,14 @@ c.execute('''CREATE TABLE IF NOT EXISTS items
              item_picture TEXT,
              cat TEXT NOT NULL
              );''')
+
+c.execute('''CREATE TABLE IF NOT EXISTS reports
+             (id INTEGER PRIMARY KEY AUTOINCREMENT,
+             reporter_id INTEGER,
+             reported_user_id INTEGER,
+             FOREIGN KEY (reporter_id) REFERENCES users (id),
+             FOREIGN KEY (reported_user_id) REFERENCES users (id)
+             );''')
 conn.commit()
 conn.close()
 
@@ -457,6 +465,38 @@ def user_profile(user_id):
     else:
         conn.close()
         return "User not found", 404
+
+@app.route('/report_user/<int:user_id>', methods=['POST'])
+def report_user(user_id):
+    if 'email' not in session:
+        return redirect(url_for('login'))
+
+    # Fetch the reporter's user_id based on the current session
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT id FROM users WHERE email = ?", (session['email'],))
+    reporter_id = cursor.fetchone()[0]
+
+    print(f"Reporter ID: {reporter_id}, Reported User ID: {user_id}")
+
+    # Check if the report already exists
+    cursor.execute("SELECT id FROM reports WHERE reporter_id = ? AND reported_user_id = ?", (reporter_id, user_id))
+    existing_report = cursor.fetchone()
+
+    if not existing_report and user_id != reporter_id:
+        # Insert the report into the 'reports' table
+        cursor.execute("INSERT INTO reports (reporter_id, reported_user_id) VALUES (?, ?)",
+                       (reporter_id, user_id))
+        conn.commit()
+        conn.close()
+
+        print("User reported successfully")
+        flash('User reported successfully', 'success')
+    else:
+        print("You have already reported this user")
+        flash('You have already reported this user', 'danger')
+
+    return redirect(url_for('user_profile', user_id=user_id))
 
 if __name__ == '__main__':
     app.run(debug=True)
