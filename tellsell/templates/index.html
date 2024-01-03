@@ -11,7 +11,10 @@
     <img class="logo" src="{{ url_for('static', filename='logo.jpg') }}" alt="TellSellLogo">
     <div class="searchbar">
       <ion-icon name="search-outline" id="search-icon"></ion-icon>
-      <input type="text" id="search">
+      <form action="{{ url_for('index') }}" method="get">
+          <input type="text" id="search" name="search" placeholder="Search">
+          <button type="submit">Search</button>
+      </form>
     </div>
     <!-- Categories -->
     <ul class="categories">

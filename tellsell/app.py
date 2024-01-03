@@ -198,14 +198,19 @@ def index():
     current_user_email = session.get('email', None)
 
     category = request.args.get('category')
-
-    # Fetch all items from the 'items' table
-    conn = get_db()
+    search_query = request.args.get('search')
+    
+    conn = sqlite3.connect('tellsell.db')
     cursor = conn.cursor()
-    if category:
+
+    if search_query:
+        cursor.execute('SELECT * FROM items WHERE itemname LIKE ? OR itemdesc LIKE ?',
+                       (f'%{search_query}%', f'%{search_query}%'))
+    elif category:
         cursor.execute('SELECT * FROM items WHERE cat = ?', (category,))
     else:
         cursor.execute('SELECT * FROM items')
+
     items = cursor.fetchall()
     conn.close()
 

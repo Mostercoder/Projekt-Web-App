@@ -1,0 +1,33 @@
+Table users {
+  id INTEGER [primary key, unique, not null, note: 'User ID']
+  name TEXT [not null]
+  password TEXT [not null, note: 'Hashed password']
+  email TEXT [not null, unique, note: 'User email']
+  reputation DECIMAL [default: 0, note: 'User reputation']
+  num_reviews DECIMAL [default: 0, note: 'Number of reviews']
+  is_admin INTEGER [default: 0, note: 'Admin status']
+}
+
+Table reviews {
+  id INTEGER [primary key, unique, not null, note: 'Review ID']
+  reviewer INTEGER [ref: > users.id, not null, note: 'User ID of the reviewer']
+  receiver INTEGER [ref: > users.id, not null, note: 'User ID of the receiver']
+  rating INTEGER [not null, note: 'Rating given in the review']
+  comment TEXT [note: 'Review comment']
+}
+
+Table items {
+  id INTEGER [primary key, unique, not null, note: 'Item ID']
+  itemname TEXT [not null, note: 'Name of the item']
+  itemdesc TEXT [not null, note: 'Description of the item']
+  price Decimal [note: 'Price of the item']
+  user_id INTEGER [ref: > users.id, not null, note: 'User ID of the item creator']
+  item_picture TEXT [note: 'Path to the item picture']
+  cat TEXT [not null, note: 'Category of the item']
+}
+
+Table reports {
+  id INTEGER [primary key, unique, not null, note: 'Report ID']
+  reporter_id INTEGER [ref: > users.id, not null, note: 'User ID of the reporter']
+  reported_user_id INTEGER [ref: > users.id, not null, note: 'User ID of the reported user']
+}
