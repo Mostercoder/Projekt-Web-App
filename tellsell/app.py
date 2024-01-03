@@ -22,6 +22,9 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 uploads_directory = os.path.join(os.path.dirname(__file__), '..', 'uploads')
 
+# Check if the 'uploads' folder exists, create it if not
+if not os.path.exists(uploads_directory):
+    os.makedirs(uploads_directory)
 
 def get_db():
     db = getattr(g, '_database', None)
