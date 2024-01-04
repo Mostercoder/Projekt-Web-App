@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <link rel="stylesheet" href="{{ url_for('static', filename='style_index.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='style_header.css') }}">
 <script src="{{ url_for('static', filename='script.js') }}"></script>
 <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
 
 <html>
-
+  
 <head>
   <div class="top_bar">
     <!-- Logo -->
     <img class="logo" src="{{ url_for('static', filename='logo.jpg') }}" alt="TellSellLogo">
     <div class="searchbar">
       <ion-icon name="search-outline" id="search-icon"></ion-icon>
-      <form action="{{ url_for('index') }}" method="get">
+      <form class="searchform" action="{{ url_for('index') }}" method="get">
           <input type="text" id="search" name="search" placeholder="Search">
-          <button type="submit">Search</button>
+          <button type="submit"></button>
       </form>
     </div>
     <!-- Categories -->
