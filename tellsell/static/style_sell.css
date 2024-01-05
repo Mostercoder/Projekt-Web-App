@@ -45,6 +45,15 @@ h1 a {
   color: #ffffff;
 }
 
+.sellgrid input {
+  border: none;
+  background-color: #ffffff;
+  border-radius: 3px;
+
+  width: auto;
+  height: 100%;
+}
+
 .sellgrid button {
   display: flex;
   justify-content: center;
@@ -97,11 +106,26 @@ h1 a {
   display: flex;
   width: auto;
   padding: 5px 10px;
+  align-items: center;
   
   border: none;
   border-radius: 3px;
   background-color: #ffffff;
   transition: background-color 0.3s ease;
+}
+
+/*
+.category input {
+  position: absolute;
+  margin-left: -10px;
+  width:8%;
+  height:3%;
+  opacity: 0%;
+}
+*/
+
+.category ion-icon {
+  padding-right: 8px;
 }
 
 .category:hover {
@@ -278,4 +302,43 @@ ul {
   overflow-y: auto;
 }
 
+.home {
+  position: absolute;
+  bottom: 5%;
 
+  padding: 5px 10px;
+  
+  border: solid;
+  border-color: #ffffff;
+  border-width: 1px;
+  border-radius: 3px;
+  background-color: #ffffff;
+  transition: background-color 0.2s ease;
+}
+
+.home a{
+  display: flex;
+  align-items: center;
+  font-weight: bolder;
+  font-size: 18px;
+  font-family: Helvetica, Arial, sans-serif;
+  color: black;
+  text-decoration: none;
+}
+
+.home a ion-icon {
+  margin-right: 8px; 
+}
+
+.home:hover {
+  background-color: rgba(1,63,138,1);
+  cursor: pointer; 
+}
+
+.home:hover a{
+  color: rgb(255, 255, 255);
+}
+
+.home:hover ion-icon {
+  color: rgb(255, 255, 255);
+}

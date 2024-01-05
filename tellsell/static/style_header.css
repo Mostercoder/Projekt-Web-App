@@ -105,6 +105,10 @@ ion-icon {
 
 /* categories */
 .categories {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+
   margin: 0;
   padding: 0;
   padding-top:37px;
@@ -144,6 +148,9 @@ ion-icon {
 /*account options*/
 .account_options {
   display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+
   margin: 0;
   padding: 0;
   position: fixed;

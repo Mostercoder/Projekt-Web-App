@@ -8,15 +8,44 @@
   
 <head>
   <div class="top_bar">
+    
+    
+    <ul class="account_options">
+      <!-- Button to sell item -->
+      <form action="{{ url_for('sell_item')}}" method="POST">
+        <button id="goto_sell_item" type="submit"><a><ion-icon name="add-outline"></ion-icon>Angebot erstellen</a></button>
+      </form>
+
+      <!-- Button to remember -->
+      <button id="remember" type="submit"><a><ion-icon name="heart-outline"></ion-icon>Merkliste</a></button>
+
+      <!-- Button to go to the user's items -->
+      <form action="{{ url_for('my_items') }}" method="GET">
+        <button id="my_items_button" type="submit"><a><ion-icon name="list-outline"></ion-icon>Meine Angebote</a></button>
+      </form>
+
+      <!-- Button to logout -->
+      <form action="{{ url_for('logout')}}" method="POST">
+        <button id="logout_button" type="submit">
+          <a>
+            <ion-icon name="{% if current_user_email %}log-out-outline{% else %}log-in-outline{% endif %}"></ion-icon>
+            {% if current_user_email %}Logout{% else %}Login{% endif %}
+          </a>
+        </button>
+      </form>
+
+    </ul>
+
     <!-- Logo -->
     <img class="logo" src="{{ url_for('static', filename='logo.jpg') }}" alt="TellSellLogo">
     <div class="searchbar">
       <ion-icon name="search-outline" id="search-icon"></ion-icon>
       <form class="searchform" action="{{ url_for('index') }}" method="get">
-          <input type="text" id="search" name="search" placeholder="Search">
+          <input type="text" id="search" name="search" placeholder="Suchen">
           <button type="submit"></button>
       </form>
     </div>
+
     <!-- Categories -->
     <ul class="categories">
       <li><a href="{{ url_for('index') }}"><ion-icon name="apps"></ion-icon>Alle Kategorien</a></li>
@@ -29,35 +58,16 @@
       <li><a href="{{ url_for('index', category='Sportartikel') }}"><ion-icon name="basketball-outline"></ion-icon>Sportartikel</a></li>
       <li><a href="{{ url_for('index', category='Tutoring') }}"><ion-icon name="bulb-outline"></ion-icon>Tutoring</a></li>
     </ul>
-    <!-- Button to sell item -->
-    <ul class="account_options">
-    <form action="{{ url_for('sell_item')}}" method="POST">
-      <button id="goto_sell_item" type="submit"><a><ion-icon name="add-outline"></ion-icon>Angebot erstellen</a></button>
-    </form>
-    <!-- Button to remember -->
-    <button id="remember" type="submit"><a><ion-icon name="heart-outline"></ion-icon>Merkliste</a></button>
-    <!-- Button to go to the user's items -->
-    <form action="{{ url_for('my_items') }}" method="GET">
-      <button id="my_items_button" type="submit"><a><ion-icon name="list-outline"></ion-icon>Meine Angebote</a></button>
-    </form>
-    <!-- Button to logout -->
-    <form action="{{ url_for('logout')}}" method="POST">
-      <button id="logout_button" type="submit">
-        <a>
-          <ion-icon name="{% if current_user_email %}log-out-outline{% else %}log-in-outline{% endif %}"></ion-icon>
-          {% if current_user_email %}Logout{% else %}Login{% endif %}
-        </a>
-      </button>
-    </form>
-    
-    </ul>
+  
   </div>
 </head>
 
 <body>
   <script type="module" src="./static/script.js"></script>
+  
   <!-- Display all items -->
   <h1><ion-icon name="list-outline"></ion-icon><a>Angebote</a></h1>
+
   <div class="grid-container">
     {% for item in items %}
     <div class="grid-item" data-user-id="{{ item[4] }}" onclick="displayOwnerProfile(this)">

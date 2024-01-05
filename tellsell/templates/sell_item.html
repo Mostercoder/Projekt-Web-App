@@ -16,6 +16,7 @@
           <button type="submit"></button>
       </form>
     </div>
+    
     <!-- Categories -->
     <ul class="categories">
       <li><a href="{{ url_for('index') }}"><ion-icon name="apps"></ion-icon>Alle Kategorien</a></li>
@@ -28,6 +29,7 @@
       <li><a href="{{ url_for('index', category='Sportartikel') }}"><ion-icon name="basketball-outline"></ion-icon>Sportartikel</a></li>
       <li><a href="{{ url_for('index', category='Tutoring') }}"><ion-icon name="bulb-outline"></ion-icon>Tutoring</a></li>
     </ul>
+
     <!-- Button to sell item -->
     <ul class="account_options">
     <form action="{{ url_for('sell_item')}}" method="POST">
@@ -65,14 +67,14 @@
 
       <a>Kategorie:</a>
         <div class="category_grid">
-          <div class="category"><label><input type="radio" name="category" value="Bücher" required><ion-icon name="book-outline"></ion-icon>Bücher</a></div>
-          <div class="category"><label><input type="radio" name="category" value="Elektronik"><ion-icon name="laptop-outline"></ion-icon>Elektronik</label></div>
-          <div class="category"><label><input type="radio" name="category" value="Fundwaren"><ion-icon name="help-outline"></ion-icon>Fundwaren</a></div>
-          <div class="category"><label><input type="radio" name="category" value="jobs"><ion-icon name="business-outline"></ion-icon>Jobs</a></div>
-          <div class="category"><label><input type="radio" name="category" value="Kleidung"><ion-icon name="shirt-outline"></ion-icon>Kleidung</a></div>
-          <div class="category"><label><input type="radio" name="category" value="Notizen"><ion-icon name="document-outline"></ion-icon>Notizen</a></div>
-          <div class="category"><label><input type="radio" name="category" value="Sportartikel"><ion-icon name="basketball-outline"></ion-icon>Sportartikel</a></div>
-          <div class="category"><label><input type="radio" name="category" value="Tutoring"><ion-icon name="bulb-outline"></ion-icon>Tutoring</a></div>
+          <div class="category"><input type="radio" name="category" value="Bücher" required><ion-icon name="book-outline"></ion-icon><a>Bücher</a></div>
+          <div class="category"><input type="radio" name="category" value="Elektronik"><ion-icon name="laptop-outline"></ion-icon><a>Elektronik</a></div>
+          <div class="category"><input type="radio" name="category" value="Fundwaren"><ion-icon name="help-outline"></ion-icon><a>Fundwaren</a></div>
+          <div class="category"><input type="radio" name="category" value="Jobs"><ion-icon name="business-outline"></ion-icon><a>Jobs</a></div>
+          <div class="category"><input type="radio" name="category" value="Kleidung"><ion-icon name="shirt-outline"></ion-icon><a>Kleidung</a></div>
+          <div class="category"><input type="radio" name="category" value="Notizen"><ion-icon name="document-outline"></ion-icon><a>Notizen</a></div>
+          <div class="category"><input type="radio" name="category" value="Sportartikel"><ion-icon name="basketball-outline"></ion-icon><a>Sportartikel</a></div>
+          <div class="category"><input type="radio" name="category" value="Tutoring"><ion-icon name="bulb-outline"></ion-icon><a>Tutoring</a></div>
         </div>
 
       <a>Beschreibung:</a>
@@ -106,5 +108,9 @@
 
     </div>
   </form>
+
+  <button class="home">
+    <a href="{{ url_for('index') }}"><ion-icon name="home-outline"></ion-icon>Back to Home</a>
+  </button>
 </body>
 </html>

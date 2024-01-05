@@ -1,19 +1,76 @@
 <!DOCTYPE html>
-<html lang="en">
+<link rel="stylesheet" href="{{ url_for('static', filename='style_my_itemsanduser_profile.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='style_header.css') }}">
+<script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile</title>
+  <div class="top_bar">
+
+    <ul class="account_options">
+      <!-- Button to sell item -->
+      <form action="{{ url_for('sell_item')}}" method="POST">
+        <button id="goto_sell_item" type="submit"><a><ion-icon name="add-outline"></ion-icon>Angebot erstellen</a></button>
+      </form>
+
+      <!-- Button to remember -->
+      <button id="remember" type="submit"><a><ion-icon name="heart-outline"></ion-icon>Merkliste</a></button>
+
+      <!-- Button to go to the user's items -->
+      <form action="{{ url_for('my_items') }}" method="GET">
+        <button id="my_items_button" type="submit"><a><ion-icon name="list-outline"></ion-icon>Meine Angebote</a></button>
+      </form>
+
+      <!-- Button to logout -->
+      <form action="{{ url_for('logout')}}" method="POST">
+        <button id="logout_button" type="submit">
+          <a>
+            <ion-icon name="{% if current_user_email %}log-out-outline{% else %}log-in-outline{% endif %}"></ion-icon>
+            {% if current_user_email %}Logout{% else %}Login{% endif %}
+          </a>
+        </button>
+      </form>
+
+    </ul>
+
+    <!-- Logo -->
+    <img class="logo" src="{{ url_for('static', filename='logo.jpg') }}" alt="TellSellLogo">
+    <div class="searchbar">
+      <ion-icon name="search-outline" id="search-icon"></ion-icon>
+      <form class="searchform" action="{{ url_for('index') }}" method="get">
+          <input type="text" id="search" name="search" placeholder="Suchen">
+          <button type="submit"></button>
+      </form>
+    </div>
+
+    <!-- Categories -->
+    <ul class="categories">
+      <li><a href="{{ url_for('index') }}"><ion-icon name="apps"></ion-icon>Alle Kategorien</a></li>
+      <li><a href="{{ url_for('index', category='Bücher') }}"><ion-icon name="book-outline"></ion-icon>Bücher</a></li>
+      <li><a href="{{ url_for('index', category='Elektronik') }}"><ion-icon name="laptop-outline"></ion-icon>Elektronik</a></li>
+      <li><a href="{{ url_for('index', category='Fundwaren') }}"><ion-icon name="help-outline"></ion-icon>Fundwaren</a></li>
+      <li><a href="{{ url_for('index', category='Jobs') }}"><ion-icon name="business-outline"></ion-icon>Jobs</a></li>
+      <li><a href="{{ url_for('index', category='Kleidung') }}"><ion-icon name="shirt-outline"></ion-icon>Kleidung</a></li>
+      <li><a href="{{ url_for('index', category='Notizen') }}"><ion-icon name="document-outline"></ion-icon>Notizen</a></li>
+      <li><a href="{{ url_for('index', category='Sportartikel') }}"><ion-icon name="basketball-outline"></ion-icon>Sportartikel</a></li>
+      <li><a href="{{ url_for('index', category='Tutoring') }}"><ion-icon name="bulb-outline"></ion-icon>Tutoring</a></li>
+    </ul>
+  
+  </div>
 </head>
+
 <body>
-    <h1>User Profile</h1>
+    <h1><ion-icon name="list-outline"></ion-icon><a>Nutzerprofil</a></h1>
+
     <p>Name: {{ user[1] }}</p>
-    <p>Email: {{ user[3] }}</p>
-    <p>Average Rating: {{ average_rating }}</p>
-    <p>Number of Reviews: {{ num_reviews }}</p>
+    <p>E-Mail: {{ user[3] }}</p>
 
     <!-- Display user reviews -->
-    <h2>User Reviews</h2>
+    <h2>Nutzerbewertungen</h2>
+
+    <p>Average Rating: {{ average_rating }}</p>
+    <p>Number of Reviews: {{ num_reviews }}</p>
+    
     <ul>
         {% for review in user_reviews %}
             <li>{{ review[1] }} rated {{ review[3] }} - {{ review[4] }}</li>
@@ -29,5 +86,9 @@
     <form action="{{ url_for('report_user', user_id=user[0]) }}" method="post">
         <input type="submit" value="Report User">
     </form>
+
+    <button class="home">
+        <a href="{{ url_for('index') }}"><ion-icon name="home-outline"></ion-icon>Back to Home</a>
+    </button>
 </body>
 </html>
