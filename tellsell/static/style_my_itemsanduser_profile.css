@@ -34,7 +34,7 @@ h2 {
   font-size: 24px;
   margin-top: 30px;
   font-family: Helvetica, Arial, sans-serif;
-  color: #acacbe;
+  color: #ffffff;
 }
 
 .grid-container {
@@ -47,7 +47,6 @@ h2 {
 .grid-item {
   background-color: #ffffff;
   padding: 10px;
-  cursor: pointer;
   border-radius: 5px;
   align-items: center;
   font-family: "Guill Sans", sans-serif;  
@@ -105,7 +104,62 @@ textarea {
   border-radius: 3px;
 }
 
+.delete_button {
+  float: right;
+  cursor: pointer;
+  background-color: white;
+  border: none;
+}
+
 ul {
   list-style: none;
   overflow-y: hidden;
+}
+
+p {
+  font-family: "Guill Sans", sans-serif;  
+  color: rgb(255, 255, 255);
+  font-weight: bolder;
+  text-decoration: none;
+}
+
+.home {
+  position: absolute;
+  bottom: 5%;
+
+  padding: 5px 10px;
+  
+  border: solid;
+  border-color: #ffffff;
+  border-width: 1px;
+  border-radius: 3px;
+  background-color: #ffffff;
+  transition: background-color 0.2s ease;
+}
+
+.home a{
+  display: flex;
+  align-items: center;
+  font-weight: bolder;
+  font-size: 18px;
+  font-family: Helvetica, Arial, sans-serif;
+  color: black;
+  text-decoration: none;
+}
+
+.home a ion-icon {
+  margin-right: 8px; 
+}
+
+.home:hover {
+  background-color: rgba(1,63,138,1);
+  cursor: pointer; 
+}
+
+.home:hover a{
+  color: rgb(255, 255, 255);
+}
+
+.home:hover ion-icon {
+  color: rgb(255, 255, 255);
 }

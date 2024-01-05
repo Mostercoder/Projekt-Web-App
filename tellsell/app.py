@@ -1,5 +1,6 @@
 from flask import Flask, url_for, render_template, redirect, session, request, g, jsonify, send_from_directory, flash
 from werkzeug.utils import secure_filename
+from email_validator import validate_email, EmailNotValidError
 import sqlite3
 import time
 import datetime
@@ -19,7 +20,11 @@ DATABASE = 'tellsell.db'
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+uploads_directory = os.path.join(os.path.dirname(__file__), '..', 'uploads')
 
+# Check if the 'uploads' folder exists, create it if not
+if not os.path.exists(uploads_directory):
+    os.makedirs(uploads_directory)
 
 def get_db():
     db = getattr(g, '_database', None)
@@ -27,18 +32,15 @@ def get_db():
         db = g._database = sqlite3.connect(DATABASE)
     return db
 
-def extract_name(email):
-    # Check if the email is in the correct format
-    if email.endswith("@stud.gyminterlaken.ch"):
-        # Split the email address at the '@' symbol
-        local_part, domain = email.split('@')
+def is_valid_email(email):
+    try:
+        # Validate email
+        v = validate_email(email)
+        return True
+    except EmailNotValidError as e:
+        # Email is not valid, exception message is human-readable
+        return False
 
-        # Split the local part at the '.' symbol
-        first_name, last_name = local_part.split('.')
-
-        return first_name, last_name
-    else:
-        return render_template('register')
 
 @app.teardown_appcontext
 def close_connection(exception):
@@ -48,12 +50,12 @@ def close_connection(exception):
 
 c.execute('''CREATE TABLE IF NOT EXISTS users
              (id INTEGER PRIMARY KEY AUTOINCREMENT,
-             firstname TEXT NOT NULL,
-             lastname TEXT NOT NULL,
+             name TEXT,
              password TEXT NOT NULL,
              email TEXT NOT NULL UNIQUE,
              reputation DECIMAL DEFAULT 0,
-             num_reviews     
+             num_reviews DECIMAL DEFAULT 0,
+             is_admin INTEGER DEFAULT 0
              );''')
 
 c.execute('''CREATE TABLE IF NOT EXISTS reviews
@@ -72,7 +74,16 @@ c.execute('''CREATE TABLE IF NOT EXISTS items
              itemdesc TEXT NOT NULL,
              price Decimal,
              user_id int,
-             item_picture TEXT
+             item_picture TEXT,
+             cat TEXT NOT NULL
+             );''')
+
+c.execute('''CREATE TABLE IF NOT EXISTS reports
+             (id INTEGER PRIMARY KEY AUTOINCREMENT,
+             reporter_id INTEGER,
+             reported_user_id INTEGER,
+             FOREIGN KEY (reporter_id) REFERENCES users (id),
+             FOREIGN KEY (reported_user_id) REFERENCES users (id)
              );''')
 conn.commit()
 conn.close()
@@ -98,42 +109,39 @@ def uploads(filename):
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
+        print(request.form)
         # Retrieve form values
         password = request.form["password"]
         email = request.form["email"]
+        name = request.form["name"]
+
+        is_admin = 1 if request.form.get("password") == "admin_code" else 0
+
+        # Validate email
+        if not is_valid_email(email):
+            print("Invalid email format")
+            return redirect(url_for('register'))
 
         # Hash the password
         hashed_password = bcrypt.hashpw(password.encode("utf-8"), salt).decode("utf-8")
-
-        # Extract first name and last name from email
-        names = extract_name(email)
         
-        if names:
-            first_name, last_name = names
-
-            # connect to tellsell
-            conn = sqlite3.connect('tellsell.db')
-            c = conn.cursor()
-
-            try:
-                # Insert the user into the database
-                c.execute("INSERT INTO users (firstname, lastname, password, email, reputation) VALUES (?, ?, ?, ?, ?)",
-                    (first_name, last_name, hashed_password, email, 0))
-                conn.commit()
-                print('User registered successfully')
-
-            except Exception as e:
-                print('Error registering user:', e)
-                conn.rollback()
-                return redirect(url_for('login'))
-
-            finally:
-                conn.close()
-                return redirect(url_for('login'))
-        else:
-            print("Invalid email format")
+        # connect to tellsell
+        conn = sqlite3.connect('tellsell.db')
+        c = conn.cursor()
+        try:
+            # Insert the user into the database
+            c.execute("INSERT INTO users (name, password, email, reputation, is_admin) VALUES (?, ?, ?, ?, ?)",
+                (name, hashed_password, email, 0, is_admin,))
+            conn.commit()
+            print('User registered successfully')
+        except Exception as e:
+            print('Error registering user:', e)
+            conn.rollback()
             return redirect(url_for('register'))
-    else:
+        finally:
+            conn.close()
+            return redirect(url_for('login'))
+    else:          
         return render_template('register.html')
 
 
@@ -168,7 +176,7 @@ def login():
         conn.close()
 
         if user is not None:
-            session['email'] = user[4]
+            session['email'] = user[3]
             login_attempts.pop(email, None)  # Clear the login attempts for the user
             return redirect(url_for('index'))
         else:
@@ -181,7 +189,7 @@ def login():
     else:
         return render_template('login.html')
 
-# Index page, accessible only to logged-in users
+# Index page
 @app.route('/')
 def index():
     #if 'email' not in session:
@@ -189,10 +197,20 @@ def index():
     
     current_user_email = session.get('email', None)
 
-    # Fetch all items from the 'items' table
-    conn = get_db()
+    category = request.args.get('category')
+    search_query = request.args.get('search')
+    
+    conn = sqlite3.connect('tellsell.db')
     cursor = conn.cursor()
-    cursor.execute('SELECT * FROM items')
+
+    if search_query:
+        cursor.execute('SELECT * FROM items WHERE itemname LIKE ? OR itemdesc LIKE ?',
+                       (f'%{search_query}%', f'%{search_query}%'))
+    elif category:
+        cursor.execute('SELECT * FROM items WHERE cat = ?', (category,))
+    else:
+        cursor.execute('SELECT * FROM items')
+
     items = cursor.fetchall()
     conn.close()
 
@@ -225,22 +243,13 @@ def add_item():
     itemname = request.form.get('itemname')
     itemdesc = request.form.get('itemdesc')
     price = request.form.get('price')
-
+    category = request.form.get('category')
+    
     # Insert the item into the 'items' table
     conn = get_db()
     cursor = conn.cursor()
 
-    # Handle file upload
-    if 'item_picture' in request.files:
-        file = request.files['item_picture']
-        if file.filename != '' and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            relative_path = filename
-            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            file.save(file_path)
-            print(file_path)
-
-    # Fetch the user_id based on the current session
+        # Fetch the user_id based on the current session
     if 'email' in session:
         email = session['email']
         print(email)
@@ -250,20 +259,44 @@ def add_item():
         if result is not None:
             user_id = result[0]
 
-            cursor.execute("INSERT INTO items (itemname, itemdesc, price, user_id, item_picture) VALUES (?, ?, ?, ?, ?)",
-                           (itemname, itemdesc, price, user_id, filename))
+                # Handle file upload
+            if 'item_picture' in request.files:
+                file = request.files['item_picture']
 
-            # Commit the changes and close the connection
-            conn.commit()
-            conn.close()
+                if file.filename != '' and allowed_file(file.filename):
+                    filename = secure_filename(file.filename)
+                    relative_path = filename
+                    file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                    file.save(file_path)
+                    print(file_path)
+            try:
+                cursor.execute("INSERT INTO items (itemname, itemdesc, price, user_id, item_picture, cat) VALUES (?, ?, ?, ?, ?, ?)",
+                           (itemname, itemdesc, price, user_id, filename, category))
+                conn.commit()
+            
+            except: #no picture provided
+                print("no image")
+                cursor.execute("INSERT INTO items (itemname, itemdesc, price, user_id, cat) VALUES (?, ?, ?, ?, ?)",
+                           (itemname, itemdesc, price, user_id, category))
+                conn.commit()
+
+            finally:    
+                conn.close()
 
             return redirect(url_for('index'))
+
         else:
             return "User not found", 404
+
     else:
         print("User not logged in")
         return redirect(url_for('login'))
 
+
+@app.route('/process_category', methods=['POST'])
+def process_category():
+    selected_category = request.form.get('category')
+    return f'Selected category: {selected_category}'
 
 
 
@@ -336,10 +369,16 @@ def delete_item(item_id):
 
         if picture_path:
             picture_path = picture_path[0]
+            print(picture_path)
 
-            # Delete the picture file if it exists
-            if os.path.exists(picture_path):
-                os.remove(picture_path)
+            #check if picturepath is not empty
+            if picture_path != None:
+                picture_path = os.path.join(uploads_directory, picture_path)
+                print(picture_path)
+            
+                # Delete the picture file if it exists
+                if os.path.exists(picture_path):
+                    os.remove(picture_path)
 
         # Delete the item only if it belongs to the logged-in user
         cursor.execute("DELETE FROM items WHERE id = ? AND user_id = ?", (item_id, user_id))
@@ -434,6 +473,100 @@ def user_profile(user_id):
     else:
         conn.close()
         return "User not found", 404
+
+@app.route('/report_user/<int:user_id>', methods=['POST'])
+def report_user(user_id):
+    if 'email' not in session:
+        return redirect(url_for('login'))
+
+    # Fetch the reporter's user_id based on the current session
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT id FROM users WHERE email = ?", (session['email'],))
+    reporter_id = cursor.fetchone()[0]
+
+    print(f"Reporter ID: {reporter_id}, Reported User ID: {user_id}")
+
+    # Check if the report already exists
+    cursor.execute("SELECT id FROM reports WHERE reporter_id = ? AND reported_user_id = ?", (reporter_id, user_id))
+    existing_report = cursor.fetchone()
+
+    if not existing_report and user_id != reporter_id:
+        # Insert the report into the 'reports' table
+        cursor.execute("INSERT INTO reports (reporter_id, reported_user_id) VALUES (?, ?)",
+                       (reporter_id, user_id))
+        conn.commit()
+        conn.close()
+
+        print("User reported successfully")
+        flash('User reported successfully', 'success')
+    else:
+        print("You have already reported this user")
+        flash('You have already reported this user', 'danger')
+
+    return redirect(url_for('user_profile', user_id=user_id))
+
+@app.route("/admin_dashboard")
+def admin_dashboard():
+    if 'email' not in session:
+        return redirect(url_for('login'))
+
+    # Fetch user information
+    conn = get_db()
+    cursor = conn.cursor()
+
+    # Fetch user information including admin status
+    cursor.execute("SELECT is_admin FROM users WHERE email = ?", (session['email'],))
+    is_admin = cursor.fetchone()[0]
+
+    # Check if the user is an admin
+    if is_admin == 1:
+        # Fetch reported users
+         
+        cursor.execute('''SELECT u.*, r.reporter_id AS reporter_id
+                  FROM users u
+                  JOIN reports r ON u.id = r.reported_user_id
+                  GROUP BY u.id, r.reporter_id''')
+
+        reported_users = cursor.fetchall()
+        print(reported_users)
+
+        conn.close()
+
+        return render_template('admin_dashboard.html', reported_users=reported_users)
+
+    else:
+        # Redirect regular users
+        print("no permission")
+        conn.close()
+        return redirect(url_for('index'))
+
+# Delete users as admin
+@app.route('/delete_user/<int:user_id>', methods=['POST'])
+def delete_user(user_id):
+    if 'email' not in session:
+        return redirect(url_for('login'))
+
+    conn = get_db()
+    cursor = conn.cursor()
+
+    # Fetch user information including admin status
+    cursor.execute("SELECT * FROM users WHERE email = ?", (session['email'],))
+    admin_user = cursor.fetchone()
+
+    # Check if the user is an admin
+    if admin_user and admin_user['is_admin']:
+        # Delete the user and associated reports
+        cursor.execute("DELETE FROM users WHERE id = ?", (user_id,))
+        cursor.execute("DELETE FROM reports WHERE reported_user_id = ?", (user_id,))
+        conn.commit()
+
+        flash(f'User with ID {user_id} deleted successfully', 'success')
+    else:
+        flash('You do not have permission to delete users', 'danger')
+
+    conn.close()
+    return redirect(url_for('admin_dashboard'))
 
 if __name__ == '__main__':
     app.run(debug=True)

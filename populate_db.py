@@ -19,24 +19,23 @@ cursor = conn.cursor()
 
 # Create three users
 for i in range(3):
-    first_name = f"User{i+1}"
-    last_name = "Doe"
+    name = f"User{i+1}"
     
     # Append a timestamp to ensure unique email addresses
     timestamp = int(time.time())
-    email = f"{first_name.lower()}.{last_name.lower()}.{timestamp}@stud.gyminterlaken.ch"
+    email = f"{name.lower()}.{timestamp}@stud.gyminterlaken.ch"
     
-    print(f"Creating user: {first_name} {last_name}, Email: {email}")
+    print(f"Creating user: {name}, Email: {email}")
 
-    password = "password123"  # You may want to hash this password in a real scenario
+    password = "password123"
 
     # Generate a salt and hash the password
     salt = bcrypt.gensalt()
     hashed_password = bcrypt.hashpw(password.encode("utf-8"), salt).decode("utf-8")
 
     # Insert the user into the 'users' table
-    cursor.execute("INSERT INTO users (firstname, lastname, password, email) VALUES (?, ?, ?, ?)",
-                   (first_name, last_name, hashed_password, email))
+    cursor.execute("INSERT INTO users (name, password, email) VALUES (?, ?, ?)",
+                   (name, hashed_password, email))
 
     # Get the user_id for the newly created user
     cursor.execute("SELECT id FROM users WHERE email = ?", (email,))

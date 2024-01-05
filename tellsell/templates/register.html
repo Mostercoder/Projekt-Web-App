@@ -1,27 +1,42 @@
 <!DOCTYPE html>
+<link rel="stylesheet" href="{{ url_for('static', filename='style_loginandregister.css') }}">
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+<script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
+
 <html>
-  <head>
-    <title>Register</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style_loginandregister.css') }}">
-  </head>
-  <body>
-    <h1>Register</h1>
+
+<head>
+	<div class="top_bar">
+
+	<img class="logo" src="{{ url_for('static', filename='logo.jpg') }}" alt="TellSellLogo">
+
+	</div>
+</head>
+
+<body>
+  <div class="login_box">
+
+    <h1><ion-icon name="log-in-outline"></ion-icon><a>Registrieren</a></h1>
+
     {% if error %}
       <p class="error">{{ error }}</p>
     {% endif %}
+    
     <form method="post">
-      <label for="email">School E-mail: </label>
-      <input type="email" id="email" name="email" required>
-      <br>
-      <label for="password">Password: </label>
-      <input type="password" id="password" name="password" required>
-      <br>
-      <button type="submit">Register</button>
+
+      <div class="login_grid">
+        <label for="name">Name: </label><input type="text" id="name" name="name" required>
+        <label for="email">E-Mail: </label><input type="email" id="email" name="email" required>
+        <label for="password">Passwort: </label><input type="password" id="password" name="password" required>
+      </div>
+
+      <button type="submit">Registrieren</button>
     </form>
-	</form>
-	<!--button to go to register-->
-	<form action="much_account" method="POST">
-		<button type="submit">Already have a Account?</button>
-	</form>
-  </body>
-</html>
+
+    <!--button to go to register-->
+    <form action="much_account" method="POST">
+    	<button type="submit">Schon Registriert?</button>
+    </form>
+
+  </div>
+</body>
