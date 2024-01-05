@@ -20,7 +20,6 @@ h1 ion-icon {
   color: rgb(255, 255, 255);
 }
 
-/* Styles for the main heading */
 h1 a {
   align-items: center;
   color: rgb(255, 255, 255);
@@ -29,10 +28,8 @@ h1 a {
   margin-left: 12px;
 }
 
-/* Styles for the subheadings */
 h2 {
   font-size: 24px;
-  margin-top: 30px;
   font-family: Helvetica, Arial, sans-serif;
   color: #ffffff;
 }
@@ -61,8 +58,14 @@ h2 {
 
 .grid-item .name {
   font-family: "Guill Sans", sans-serif;
-  padding-top: 5px;
   font-size: 22px;
+}
+
+.grid-item .description {
+  font-family: "Guill Sans", sans-serif;
+  padding-top: 5px;
+  font-weight: bolder;
+  font-size: 17px;
 }
 
 .grid-item ion-icon {
@@ -112,6 +115,7 @@ textarea {
 }
 
 ul {
+  padding-left: 0;
   list-style: none;
   overflow-y: hidden;
 }
@@ -121,11 +125,69 @@ p {
   color: rgb(255, 255, 255);
   font-weight: bolder;
   text-decoration: none;
+  margin-top: 0;
+}
+
+.profilegrid {
+  display: grid;
+  align-items: start;
+  width:60%;
+  grid-template-columns: 0.3fr 0.5fr;
+}
+
+.reviewgrid {
+  display: grid;
+  width:60%;
+  grid-template-columns: 0.3fr 0.5fr;
+}
+
+.review_report {
+  padding: 5px 10px;
+  margin-right: 10px;
+  
+  border: solid;
+  border-color: #ffffff;
+  border-width: 1px;
+  border-radius: 3px;
+  background-color: #ffffff;
+  transition: background-color 0.2s ease;
+}
+
+.review_report:last-of-type {
+  float: left;
+}
+
+.review_report a{
+  display: flex;
+  align-items: center;
+  font-weight: bolder;
+  font-size: 18px;
+  font-family: Helvetica, Arial, sans-serif;
+  color: black;
+  text-decoration: none;
+}
+
+.review_report a ion-icon {
+  margin-right: 8px; 
+}
+
+.review_report:hover {
+  background-color: rgba(1,63,138,1);
+  cursor: pointer; 
+}
+
+.review_report:hover a{
+  color: rgb(255, 255, 255);
+}
+
+.review_report:hover ion-icon {
+  color: rgb(255, 255, 255);
 }
 
 .home {
   position: absolute;
   bottom: 5%;
+  left: 21%;
 
   padding: 5px 10px;
   

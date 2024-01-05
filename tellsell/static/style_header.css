@@ -66,6 +66,7 @@
 
 .searchform button:hover{
   background-color: #012f75;
+  cursor: pointer;
 }
 
 .searchbar input[type="text"] {
@@ -197,4 +198,9 @@ ion-icon {
 
 .account_options button:hover ion-icon {
   color: rgb(255, 255, 255);
+}
+
+ul {
+  list-style: none;
+  overflow-y: hidden;
 }

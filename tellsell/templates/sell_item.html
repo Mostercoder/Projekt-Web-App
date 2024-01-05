@@ -30,26 +30,29 @@
       <li><a href="{{ url_for('index', category='Tutoring') }}"><ion-icon name="bulb-outline"></ion-icon>Tutoring</a></li>
     </ul>
 
-    <!-- Button to sell item -->
     <ul class="account_options">
-    <form action="{{ url_for('sell_item')}}" method="POST">
-      <button id="goto_sell_item" type="submit"><a><ion-icon name="add-outline"></ion-icon>Angebot erstellen</a></button>
-    </form>
-    <!-- Button to remember -->
-    <button id="remember" type="submit"><a><ion-icon name="heart-outline"></ion-icon>Merkliste</a></button>
-    <!-- Button to go to the user's items -->
-    <form action="{{ url_for('my_items') }}" method="GET">
-      <button id="my_items_button" type="submit"><a><ion-icon name="list-outline"></ion-icon>Meine Angebote</a></button>
-    </form>
-    <!-- Button to logout -->
-    <form action="{{ url_for('logout')}}" method="POST">
-      <button id="logout_button" type="submit">
-        <a>
-          <ion-icon name="{% if current_user_email %}log-out-outline{% else %}log-in-outline{% endif %}"></ion-icon>
-          {% if current_user_email %}Logout{% else %}Login{% endif %}
-        </a>
-      </button>
-    </form>
+      <!-- Button to sell item -->
+      <form action="{{ url_for('sell_item')}}" method="POST">
+        <button id="goto_sell_item" type="submit"><a><ion-icon name="add-outline"></ion-icon>Angebot erstellen</a></button>
+      </form>
+
+      <!-- Button to remember -->
+      <button id="remember" type="submit"><a><ion-icon name="heart-outline"></ion-icon>Merkliste</a></button>
+
+      <!-- Button to go to the user's items -->
+      <form action="{{ url_for('my_items') }}" method="GET">
+        <button id="my_items_button" type="submit"><a><ion-icon name="list-outline"></ion-icon>Meine Angebote</a></button>
+      </form>
+
+      <!-- Button to logout -->
+      <form action="{{ url_for('logout')}}" method="POST">
+        <button id="logout_button" type="submit">
+          <a>
+            <ion-icon name="{% if current_user_email %}log-out-outline{% else %}log-in-outline{% endif %}"></ion-icon>
+            {% if current_user_email %}Logout{% else %}Login{% endif %}
+          </a>
+        </button>
+      </form>
     
     </ul>
   </div>
@@ -110,7 +113,7 @@
   </form>
 
   <button class="home">
-    <a href="{{ url_for('index') }}"><ion-icon name="home-outline"></ion-icon>Back to Home</a>
+    <a href="{{ url_for('index') }}"><ion-icon name="home-outline"></ion-icon>Zurück zur Startseite</a>
   </button>
 </body>
 </html>
