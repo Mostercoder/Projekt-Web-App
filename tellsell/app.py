@@ -6,7 +6,7 @@ import sqlite3
 import time
 import hashlib
 import os
-import bcrypt
+import bcrypt 
 
 
 app = Flask(__name__)
@@ -170,10 +170,12 @@ def login():
 
         # Hash the password to compare it with the stored hash
         hashed_password = bcrypt.hashpw(password.encode("utf-8"), salt).decode("utf-8")
+        print(hashed_password)
         conn = sqlite3.connect('tellsell.db')
         c = conn.cursor()
         c.execute("SELECT * FROM users WHERE email = ? AND password = ?", (email, hashed_password))
         user = c.fetchone()
+        print(user)
         conn.close()
 
         if user is not None:
@@ -523,12 +525,12 @@ def admin_dashboard():
     conn = get_db()
     cursor = conn.cursor()
 
-    # Fetch user information including admin status
+    # Fetch user admin status
     cursor.execute("SELECT is_admin FROM users WHERE email = ?", (session['email'],))
-    is_admin = cursor.fetchone()[0]
+    is_admin = cursor.fetchone()
 
     # Check if the user is an admin
-    if is_admin == 1:
+    if is_admin[0] == 1:
         # Fetch reported users
          
         cursor.execute('''SELECT u.*, r.reporter_id AS reporter_id
@@ -555,23 +557,25 @@ def delete_user(user_id):
     if 'email' not in session:
         return redirect(url_for('login'))
 
+    # Fetch user information
     conn = get_db()
     cursor = conn.cursor()
 
-    # Fetch user information including admin status
-    cursor.execute("SELECT * FROM users WHERE email = ?", (session['email'],))
-    admin_user = cursor.fetchone()
+    # Fetch user admin status
+    cursor.execute("SELECT is_admin FROM users WHERE email = ?", (session['email'],))
+    is_admin = cursor.fetchone()
 
     # Check if the user is an admin
-    if admin_user and admin_user['is_admin']:
+    if is_admin[0] == 1:
         # Delete the user and associated reports
         cursor.execute("DELETE FROM users WHERE id = ?", (user_id,))
         cursor.execute("DELETE FROM reports WHERE reported_user_id = ?", (user_id,))
+        cursor.execute("DELETE FROM items WHERE user_id = ?", (user_id,))
         conn.commit()
 
-        flash(f'User with ID {user_id} deleted successfully', 'success')
+        print(f'User with ID {user_id} deleted successfully', 'success')
     else:
-        flash('You do not have permission to delete users', 'danger')
+        print('You do not have permission to delete users')
 
     conn.close()
     return redirect(url_for('admin_dashboard'))
