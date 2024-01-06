@@ -82,7 +82,8 @@
 
     <ul>
       {% for review in user_reviews %}
-        <p>{{ review[1] }} rated {{ review[3] }}/5 - {{ review[4] }}</p>
+        <p>Benutzer {{ review[0] }} bewertet {{ user[1] }} mit {{ review[3] }}/5 Sternen</p>
+        <p>Kommentar: {{ review[5] }}</p>
       {% endfor %}
     </ul>
     

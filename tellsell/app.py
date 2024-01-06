@@ -458,7 +458,7 @@ def user_profile(user_id):
 
     if user:
         # Fetch user reviews
-        cursor.execute("SELECT * FROM reviews WHERE receiver = ?", (user_id,))
+        cursor.execute("SELECT users.name, reviews.* FROM reviews JOIN users ON reviews.reviewer = users.id WHERE receiver = ?", (user_id,))
         user_reviews = cursor.fetchall()
 
         # Calculate average rating and number of reviews
@@ -469,7 +469,7 @@ def user_profile(user_id):
 
         # Pass the user_id parameter to the template
         return render_template('user_profile.html', user=user, user_reviews=user_reviews,
-                       average_rating=average_rating, num_reviews=num_reviews, user_id=user_id)
+                       average_rating=average_rating, num_reviews=num_reviews, user_id=user_id, )
     else:
         conn.close()
         return "User not found", 404
