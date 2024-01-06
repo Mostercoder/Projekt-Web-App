@@ -24,12 +24,10 @@
       </form>
 
       <!-- Button to logout -->
-      <form action="{{ url_for('logout')}}" method="POST">
+      <form action="{{ url_for('logout') }}" method="POST">
         <button id="logout_button" type="submit">
-          <a>
-            <ion-icon name="{% if current_user_email %}log-out-outline{% else %}log-in-outline{% endif %}"></ion-icon>
-            {% if current_user_email %}Logout{% else %}Login{% endif %}
-          </a>
+          <ion-icon name="log-out-outline"></ion-icon>
+          <span>Logout</span>
         </button>
       </form>
 
