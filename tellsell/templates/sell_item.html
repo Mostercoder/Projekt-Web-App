@@ -8,7 +8,10 @@
 <head>
   <div class="top_bar">
     <!-- Logo -->
-    <img class="logo" src="{{ url_for('static', filename='logo.jpg') }}" alt="TellSellLogo">
+    <a href="{{ url_for('index') }}">
+      <img class="logo" src="{{ url_for('static', filename='logo.jpg') }}" alt="TellSellLogo">
+    </a>
+    <!-- Searchbar-->    
     <div class="searchbar">
       <ion-icon name="search-outline" id="search-icon"></ion-icon>
       <form class="searchform" action="{{ url_for('index') }}" method="get">

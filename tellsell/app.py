@@ -38,7 +38,7 @@ def is_valid_email(email):
         v = validate_email(email)
         return True
     except EmailNotValidError as e:
-        # Email is not valid, exception message is human-readable
+        # Email is not valid
         return False
 
 
