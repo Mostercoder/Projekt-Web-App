@@ -1,9 +1,9 @@
 from flask import Flask, url_for, render_template, redirect, session, request, g, jsonify, send_from_directory, flash
 from werkzeug.utils import secure_filename
 from email_validator import validate_email, EmailNotValidError
+from datetime import datetime
 import sqlite3
 import time
-import datetime
 import hashlib
 import os
 import bcrypt
@@ -75,7 +75,8 @@ c.execute('''CREATE TABLE IF NOT EXISTS items
              price Decimal,
              user_id int,
              item_picture TEXT,
-             cat TEXT NOT NULL
+             cat TEXT NOT NULL,
+             date_added DATETIME
              );''')
 
 c.execute('''CREATE TABLE IF NOT EXISTS reports
@@ -199,6 +200,7 @@ def index():
 
     category = request.args.get('category')
     search_query = request.args.get('search')
+    sort_by = request.args.get('sort', 'itemname')
     
     conn = sqlite3.connect('tellsell.db')
     cursor = conn.cursor()
@@ -209,7 +211,7 @@ def index():
     elif category:
         cursor.execute('SELECT * FROM items WHERE cat = ?', (category,))
     else:
-        cursor.execute('SELECT * FROM items')
+        cursor.execute(f'SELECT * FROM items ORDER BY {sort_by}')
 
     items = cursor.fetchall()
     conn.close()
@@ -235,10 +237,10 @@ def no_account():
 def much_account():
     return redirect(url_for('login', _method='GET'))
 
-# add the item into the db
 @app.route('/add_item', methods=['POST', 'GET'])
 def add_item():
     print("trying to get the data")
+    
     # Get data from the request
     itemname = request.form.get('itemname')
     itemdesc = request.form.get('itemdesc')
@@ -249,7 +251,7 @@ def add_item():
     conn = get_db()
     cursor = conn.cursor()
 
-        # Fetch the user_id based on the current session
+    # Fetch the user_id based on the current session
     if 'email' in session:
         email = session['email']
         print(email)
@@ -259,7 +261,7 @@ def add_item():
         if result is not None:
             user_id = result[0]
 
-                # Handle file upload
+            # Handle file upload
             if 'item_picture' in request.files:
                 file = request.files['item_picture']
 
@@ -269,16 +271,22 @@ def add_item():
                     file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
                     file.save(file_path)
                     print(file_path)
+
             try:
-                cursor.execute("INSERT INTO items (itemname, itemdesc, price, user_id, item_picture, cat) VALUES (?, ?, ?, ?, ?, ?)",
-                           (itemname, itemdesc, price, user_id, filename, category))
+                current_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                
+                if 'item_picture' in request.files:
+                    cursor.execute("INSERT INTO items (itemname, itemdesc, price, user_id, item_picture, cat, date_added) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                                   (itemname, itemdesc, price, user_id, filename, category, current_date))
+                else:
+                    cursor.execute("INSERT INTO items (itemname, itemdesc, price, user_id, cat, date_added) VALUES (?, ?, ?, ?, ?, ?)",
+                                   (itemname, itemdesc, price, user_id, category, current_date))
+
                 conn.commit()
             
-            except: #no picture provided
-                print("no image")
-                cursor.execute("INSERT INTO items (itemname, itemdesc, price, user_id, cat) VALUES (?, ?, ?, ?, ?)",
-                           (itemname, itemdesc, price, user_id, category))
-                conn.commit()
+            except Exception as e:
+                print(f"Error inserting item: {e}")
+                conn.rollback()
 
             finally:    
                 conn.close()
