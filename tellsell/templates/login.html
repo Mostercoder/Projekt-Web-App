@@ -15,26 +15,26 @@
 
 <body>
 	<div class="login_box">
-
-	<h1><ion-icon name="log-in-outline"></ion-icon><a>Login</a></h1>
-
-	{% if error %}
-		<p class="error"><ion-icon name="warning-outline"></ion-icon>{{ error }}</p>
-	{% endif %}
-
-	<form method="post">
-		<div class="login_grid">
-		<label>E-Mail:</label><input type="text" id="email" name="email">
-		<label>Passwort:</label><input type="password" id="password" name="password">
-		</div>
-
-		<button type="submit">Login</button>
-	</form>
-
-	<!--button to go to register-->
-	<form action="no_account" method="POST">
-		<button type="submit">Registrieren</button>
-	</form>
+		
+		<h1><ion-icon name="log-in-outline"></ion-icon><a>Login</a></h1>
+		
+		{% if error %}
+			<p class="error"><ion-icon name="warning-outline"></ion-icon>{{ error }}</p>
+		{% endif %}
+		
+		<form method="post">
+			<div class="login_grid">
+			<label>E-Mail:</label><input type="text" id="email" name="email">
+			<label>Passwort:</label><input type="password" id="password" name="password">
+			</div>
+		
+			<button type="submit">Login</button>
+		</form>
+	
+		<!--button to go to register-->
+		<form action="no_account" method="POST">
+			<button type="submit">Registrieren</button>
+		</form>
 
 	</div>
 </body>

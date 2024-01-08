@@ -60,13 +60,6 @@
       <li><a href="{{ url_for('index', category='Sportartikel') }}"><ion-icon name="basketball-outline"></ion-icon>Sportartikel</a></li>
       <li><a href="{{ url_for('index', category='Tutoring') }}"><ion-icon name="bulb-outline"></ion-icon>Tutoring</a></li>
     </ul>
-
-    <!-- Sorting links -->
-    <div>
-      <a href="{{ url_for('index', sort='itemname') }}">Sort by Name</a>
-      <a href="{{ url_for('index', sort='date_added') }}">Sort by Most Recent</a>
-      <a href="{{ url_for('index', sort='price') }}">Sort by Price</a>
-    </div>
   </div>
 </head>
 
@@ -75,6 +68,14 @@
 
   <!-- Display all items -->
   <h1><ion-icon name="list-outline"></ion-icon><a>Angebote</a></h1>
+
+  <!-- Sorting links -->
+  <div>
+    <a>Sortiere nach: </a>
+    <a href="{{ url_for('index', sort='itemname') }}">Name</a>
+    <a href="{{ url_for('index', sort='date_added') }}">Neuste</a>
+    <a href="{{ url_for('index', sort='price') }}">Preis</a>
+  </div>
 
   {% if items %}
     <div class="grid-container">
