@@ -277,10 +277,10 @@ def add_item():
             try:
                 current_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 
-                if 'item_picture' in request.files:
+                try:
                     cursor.execute("INSERT INTO items (itemname, itemdesc, price, user_id, item_picture, cat, date_added) VALUES (?, ?, ?, ?, ?, ?, ?)",
                                    (itemname, itemdesc, price, user_id, filename, category, current_date))
-                else:
+                except:
                     cursor.execute("INSERT INTO items (itemname, itemdesc, price, user_id, cat, date_added) VALUES (?, ?, ?, ?, ?, ?)",
                                    (itemname, itemdesc, price, user_id, category, current_date))
 
