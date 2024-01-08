@@ -136,7 +136,7 @@ ion-icon {
   background-color: rgb(255, 255, 255);
   transition: background-color 0.3s ease;
   border-radius: .15vw;
-  padding: .355vw;
+  padding: .6vh .548vw;
 }
 
 .categories li a:hover {
@@ -157,7 +157,7 @@ ion-icon {
   padding: 0;
   position: fixed;
   top: 2vh;
-  left: 45vw;
+  left: 47.8vw;
 }
 
 .account_options a ion-icon {
