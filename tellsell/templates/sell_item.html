@@ -7,32 +7,8 @@
 
 <head>
   <div class="top_bar">
-    <!-- Logo -->
-    <a href="{{ url_for('index') }}">
-      <img class="logo" src="{{ url_for('static', filename='logo.jpg') }}" alt="TellSellLogo">
-    </a>
-    <!-- Searchbar-->    
-    <div class="searchbar">
-      <ion-icon name="search-outline" id="search-icon"></ion-icon>
-      <form class="searchform" action="{{ url_for('index') }}" method="get">
-          <input type="text" id="search" name="search" placeholder="Search">
-          <button type="submit"></button>
-      </form>
-    </div>
     
-    <!-- Categories -->
-    <ul class="categories">
-      <li><a href="{{ url_for('index') }}"><ion-icon name="apps"></ion-icon>Alle Kategorien</a></li>
-      <li><a href="{{ url_for('index', category='Bücher') }}"><ion-icon name="book-outline"></ion-icon>Bücher</a></li>
-      <li><a href="{{ url_for('index', category='Elektronik') }}"><ion-icon name="laptop-outline"></ion-icon>Elektronik</a></li>
-      <li><a href="{{ url_for('index', category='Fundwaren') }}"><ion-icon name="help-outline"></ion-icon>Fundwaren</a></li>
-      <li><a href="{{ url_for('index', category='Jobs') }}"><ion-icon name="business-outline"></ion-icon>Jobs</a></li>
-      <li><a href="{{ url_for('index', category='Kleidung') }}"><ion-icon name="shirt-outline"></ion-icon>Kleidung</a></li>
-      <li><a href="{{ url_for('index', category='Notizen') }}"><ion-icon name="document-outline"></ion-icon>Notizen</a></li>
-      <li><a href="{{ url_for('index', category='Sportartikel') }}"><ion-icon name="basketball-outline"></ion-icon>Sportartikel</a></li>
-      <li><a href="{{ url_for('index', category='Tutoring') }}"><ion-icon name="bulb-outline"></ion-icon>Tutoring</a></li>
-    </ul>
-
+    
     <ul class="account_options">
       <!-- Button to sell item -->
       <form action="{{ url_for('sell_item')}}" method="POST">
@@ -53,8 +29,35 @@
           <a><ion-icon name="log-out-outline"></ion-icon>Logout</a>
         </button>
       </form>
-    
+
     </ul>
+
+    <!-- Logo -->
+    <a href="{{ url_for('index') }}">
+      <img class="logo" src="{{ url_for('static', filename='logo.jpg') }}" alt="TellSellLogo">
+    </a>
+    <!-- searchbar-->    
+    <div class="searchbar">
+      <ion-icon name="search-outline" id="search-icon"></ion-icon>
+      <form class="searchform" action="{{ url_for('index') }}" method="get">
+          <input type="text" id="search" name="search" placeholder="Suchen">
+          <button type="submit"></button>
+      </form>
+    </div>
+
+    <!-- Categories -->
+    <ul class="categories">
+      <li><a href="{{ url_for('index') }}"><ion-icon name="apps"></ion-icon>Alle Kategorien</a></li>
+      <li><a href="{{ url_for('index', category='Bücher') }}"><ion-icon name="book-outline"></ion-icon>Bücher</a></li>
+      <li><a href="{{ url_for('index', category='Elektronik') }}"><ion-icon name="laptop-outline"></ion-icon>Elektronik</a></li>
+      <li><a href="{{ url_for('index', category='Fundwaren') }}"><ion-icon name="help-outline"></ion-icon>Fundwaren</a></li>
+      <li><a href="{{ url_for('index', category='Jobs') }}"><ion-icon name="business-outline"></ion-icon>Jobs</a></li>
+      <li><a href="{{ url_for('index', category='Kleidung') }}"><ion-icon name="shirt-outline"></ion-icon>Kleidung</a></li>
+      <li><a href="{{ url_for('index', category='Notizen') }}"><ion-icon name="document-outline"></ion-icon>Notizen</a></li>
+      <li><a href="{{ url_for('index', category='Sportartikel') }}"><ion-icon name="basketball-outline"></ion-icon>Sportartikel</a></li>
+      <li><a href="{{ url_for('index', category='Tutoring') }}"><ion-icon name="bulb-outline"></ion-icon>Tutoring</a></li>
+    </ul>
+  
   </div>
 </head>
 

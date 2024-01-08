@@ -71,10 +71,10 @@
 
   <!-- Sorting links -->
   <div>
-    <a>Sortiere nach: </a>
-    <a href="{{ url_for('index', sort='itemname') }}">Name</a>
-    <a href="{{ url_for('index', sort='date_added') }}">Neuste</a>
-    <a href="{{ url_for('index', sort='price') }}">Preis</a>
+    <a class="search">Sortiere nach: </a>
+    <a class="search" href="{{ url_for('index', sort='itemname') }}">Name</a>
+    <a class="search" href="{{ url_for('index', sort='date_added') }}">Neuste</a>
+    <a class="search" href="{{ url_for('index', sort='price') }}">Preis</a>
   </div>
 
   {% if items %}
