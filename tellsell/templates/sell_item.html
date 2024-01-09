@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <link rel="stylesheet" href="{{ url_for('static', filename='style_sell.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='style_header.css') }}">
+<script src="{{ url_for('static', filename='script.js') }}"></script>
 <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
 
 <html>
@@ -101,12 +102,13 @@
       <input class="price" type="number" id="price" name="price" step="0.01" min="0.01" required>
 
       <a>Bild hochladen:</a>
-      <div class="upload">
+        <div class="upload">
           <div class="upload-content">
               <ion-icon name="cloud-upload-outline"></ion-icon><a>Hochladen</a>
           </div>
-          <input type="file" id="item_picture" name="item_picture" accept="image/*">
+          <input type="file" id="item_picture" name="item_picture" accept="image/*" onchange="previewImage()">
       </div>
+      <img id="preview" src="" alt="Uploaded Image" style="max-width: 100%; max-height: 200px; margin-top: 10px; display: none;">
     
       <div></div>
 

@@ -41,3 +41,25 @@ function displayOwnerProfile(element) {
   // Redirect to the user profile page
   window.location.href = "/user_profile/" + user_id;
 }
+
+
+  function previewImage() {
+      var input = document.getElementById('item_picture');
+      var preview = document.getElementById('preview');
+      
+      console.log("File input:", input);
+      if (input.files && input.files[0]) {
+          console.log("Selected file:", input.files[0]);
+          var reader = new FileReader();
+          reader.onload = function(e) {
+              console.log("FileReader result:", e.target.result);
+              preview.src = e.target.result;
+              preview.style.display = 'block'; // Show the image
+          };
+          reader.readAsDataURL(input.files[0]);
+      } else {
+          console.log("No file selected");
+          preview.src = '';
+          preview.style.display = 'none'; // Hide the image if no file selected
+      }
+  }
