@@ -73,7 +73,7 @@
   <div>
     <a class="search">Sortiere nach: </a>
     <a class="search" href="{{ url_for('index', sort='itemname') }}">Name</a>
-    <a class="search" href="{{ url_for('index', sort='date_added') }}">Neuste</a>
+    <a class="search" href="{{ url_for('index', sort='date_added DESC') }}">Neuste</a>
     <a class="search" href="{{ url_for('index', sort='price') }}">Preis</a>
   </div>
 
