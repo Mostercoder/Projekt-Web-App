@@ -33,7 +33,7 @@ h1 a {
   display: grid;
   align-items: start;
   width: 60vw;
-  grid-template-columns: 0.4fr 0.36fr;
+  grid-template-columns: 0.25fr 0.35fr;
   grid-template-rows: 0.3fr 3fr 2.5fr 0.4fr 0.4fr;
   grid-column-gap: 0px;
   grid-row-gap: 2vh;
@@ -286,6 +286,16 @@ textarea {
 
 .upload:hover a {
   color:white;
+}
+
+.preview_img {
+  position: absolute;
+  top:40.25vh;
+  left: 64vw;
+  border-radius: 5px;
+
+  height: auto;
+  width: 15vw;
 }
 
 .home {
