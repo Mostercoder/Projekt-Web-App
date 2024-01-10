@@ -94,7 +94,7 @@ def calculate_average_rating(reviews):
         return 0  # Default value when no reviews are available
 
     print(reviews)
-    total_rating = sum(review[2] for review in reviews)  # Sum the rating from each review
+    total_rating = sum(review[4] for review in reviews)  # Sum the rating from each review
     average_rating = total_rating / len(reviews)
     return round(average_rating, 2)  # Round to two decimal places for clarity
 
@@ -442,7 +442,7 @@ def add_review(receiver_id):
             conn.commit()
             conn.close()
 
-            return render_template('review.html', rating=rating, receiver_id=receiver_id)
+            return redirect(url_for('user_profile', user_id=receiver_id))
 
         else:
             conn.close()
