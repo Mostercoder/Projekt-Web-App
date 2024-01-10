@@ -24,19 +24,19 @@
       </form>
 
       <!-- Button to logout -->
-      <form action="{{ url_for('logout')}}" method="POST">
+      <form action="{{ url_for('logout') }}" method="POST">
         <button id="logout_button" type="submit">
-          <a>
-            <ion-icon name="{% if current_user_email %}log-out-outline{% else %}log-in-outline{% endif %}"></ion-icon>
-            {% if current_user_email %}Logout{% else %}Login{% endif %}
-          </a>
+          <a><ion-icon name="log-out-outline"></ion-icon>Abmelden</a>
         </button>
       </form>
 
     </ul>
 
     <!-- Logo -->
-    <img class="logo" src="{{ url_for('static', filename='logo.jpg') }}" alt="TellSellLogo">
+    <a href="{{ url_for('index') }}">
+      <img class="logo" src="{{ url_for('static', filename='logo.jpg') }}" alt="TellSellLogo">
+    </a>
+    <!-- searchbar-->    
     <div class="searchbar">
       <ion-icon name="search-outline" id="search-icon"></ion-icon>
       <form class="searchform" action="{{ url_for('index') }}" method="get">
@@ -77,7 +77,7 @@
                     </form>
 
                     <div class="name">{{ item[1] }}</div>
-                    <p>{{ item[2] }}</p>
+                    <div class="description">{{ item[2] }}</div>
                     <div class="price">{{ item[3] }}.-</div>
 
                   </li>
@@ -89,7 +89,7 @@
     </div>
 
     <button class="home">
-      <a href="{{ url_for('index') }}"><ion-icon name="home-outline"></ion-icon>Back to Home</a>
+      <a href="{{ url_for('index') }}"><ion-icon name="home-outline"></ion-icon>Zurück zur Startseite</a>
     </button>
 </body>
 </html>

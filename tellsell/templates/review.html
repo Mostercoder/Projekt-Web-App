@@ -1,26 +1,89 @@
 <!DOCTYPE html>
-<html lang="en">
+<link rel="stylesheet" href="{{ url_for('static', filename='style_review.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='style_header.css') }}">
+<script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Review</title>
-</head>
+    <div class="top_bar">
+      
+      <ul class="account_options">
+        <!-- Button to sell item -->
+        <form action="{{ url_for('sell_item')}}" method="POST">
+          <button id="goto_sell_item" type="submit"><a><ion-icon name="add-outline"></ion-icon>Angebot erstellen</a></button>
+        </form>
+  
+        <!-- Button to remember -->
+        <button id="remember" type="submit"><a><ion-icon name="heart-outline"></ion-icon>Merkliste</a></button>
+  
+        <!-- Button to go to the user's items -->
+        <form action="{{ url_for('my_items') }}" method="GET">
+          <button id="my_items_button" type="submit"><a><ion-icon name="list-outline"></ion-icon>Meine Angebote</a></button>
+        </form>
+  
+        <!-- Button to logout -->
+        <form action="{{ url_for('logout') }}" method="POST">
+          <button id="logout_button" type="submit">
+            <a><ion-icon name="log-out-outline"></ion-icon>Abmelden</a>
+          </button>
+        </form>
+  
+      </ul>
+  
+      <!-- Logo -->
+      <a href="{{ url_for('index') }}">
+        <img class="logo" src="{{ url_for('static', filename='logo.jpg') }}" alt="TellSellLogo">
+      </a>
+      <!-- searchbar-->      
+      <div class="searchbar">
+        <ion-icon name="search-outline" id="search-icon"></ion-icon>
+        <form class="searchform" action="{{ url_for('index') }}" method="get">
+            <input type="text" id="search" name="search" placeholder="Suchen">
+            <button type="submit"></button>
+        </form>
+      </div>
+  
+      <!-- Categories -->
+      <ul class="categories">
+        <li><a href="{{ url_for('index') }}"><ion-icon name="apps"></ion-icon>Alle Kategorien</a></li>
+        <li><a href="{{ url_for('index', category='Bücher') }}"><ion-icon name="book-outline"></ion-icon>Bücher</a></li>
+        <li><a href="{{ url_for('index', category='Elektronik') }}"><ion-icon name="laptop-outline"></ion-icon>Elektronik</a></li>
+        <li><a href="{{ url_for('index', category='Fundwaren') }}"><ion-icon name="help-outline"></ion-icon>Fundwaren</a></li>
+        <li><a href="{{ url_for('index', category='Jobs') }}"><ion-icon name="business-outline"></ion-icon>Jobs</a></li>
+        <li><a href="{{ url_for('index', category='Kleidung') }}"><ion-icon name="shirt-outline"></ion-icon>Kleidung</a></li>
+        <li><a href="{{ url_for('index', category='Notizen') }}"><ion-icon name="document-outline"></ion-icon>Notizen</a></li>
+        <li><a href="{{ url_for('index', category='Sportartikel') }}"><ion-icon name="basketball-outline"></ion-icon>Sportartikel</a></li>
+        <li><a href="{{ url_for('index', category='Tutoring') }}"><ion-icon name="bulb-outline"></ion-icon>Tutoring</a></li>
+      </ul>
+    
+    </div>
+  </head>
+
 <body>
-    <h2>Add a Review</h2>
+    <h1><ion-icon name="clipboard-outline"></ion-icon><a>Bewertung verfassen</a></h1>
+
     <form action="{{ url_for('add_review', receiver_id=receiver_id) }}" method="post">
-        <label for="rating">Rating:</label>
-        <select id="rating" name="rating" required>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-        </select><br>
 
-        <label for="comment">Comment:</label><br>
-        <textarea id="comment" name="comment" rows="4" cols="50"></textarea><br>
+        <div class="rating_grid">
+            <p>Bewertung:</p>
+            <select id="rating" name="rating" required>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
 
-        <input type="submit" value="Submit">
+            <p>Kommentar:</p>
+            <textarea id="comment" name="comment" rows="4" cols="50"></textarea>
+
+            <br>
+            <button class="submit_button" type="submit"><a>Absenden</a></button>
+        </div>
     </form>
+
+    <button class="home">
+        <a href="{{ url_for('index') }}"><ion-icon name="home-outline"></ion-icon>Zurück zur Startseite</a>
+    </button>
 </body>
 </html>

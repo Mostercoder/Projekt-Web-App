@@ -1,12 +1,12 @@
 from flask import Flask, url_for, render_template, redirect, session, request, g, jsonify, send_from_directory, flash
 from werkzeug.utils import secure_filename
 from email_validator import validate_email, EmailNotValidError
+from datetime import datetime
 import sqlite3
 import time
-import datetime
 import hashlib
 import os
-import bcrypt
+import bcrypt 
 
 
 app = Flask(__name__)
@@ -38,7 +38,7 @@ def is_valid_email(email):
         v = validate_email(email)
         return True
     except EmailNotValidError as e:
-        # Email is not valid, exception message is human-readable
+        # Email is not valid
         return False
 
 
@@ -75,7 +75,8 @@ c.execute('''CREATE TABLE IF NOT EXISTS items
              price Decimal,
              user_id int,
              item_picture TEXT,
-             cat TEXT NOT NULL
+             cat TEXT NOT NULL,
+             date_added DATETIME
              );''')
 
 c.execute('''CREATE TABLE IF NOT EXISTS reports
@@ -93,7 +94,7 @@ def calculate_average_rating(reviews):
         return 0  # Default value when no reviews are available
 
     print(reviews)
-    total_rating = sum(review[2] for review in reviews)  # Sum the rating from each review
+    total_rating = sum(review[4] for review in reviews)  # Sum the rating from each review
     average_rating = total_rating / len(reviews)
     return round(average_rating, 2)  # Round to two decimal places for clarity
 
@@ -169,10 +170,12 @@ def login():
 
         # Hash the password to compare it with the stored hash
         hashed_password = bcrypt.hashpw(password.encode("utf-8"), salt).decode("utf-8")
+        print(hashed_password)
         conn = sqlite3.connect('tellsell.db')
         c = conn.cursor()
         c.execute("SELECT * FROM users WHERE email = ? AND password = ?", (email, hashed_password))
         user = c.fetchone()
+        print(user)
         conn.close()
 
         if user is not None:
@@ -199,6 +202,7 @@ def index():
 
     category = request.args.get('category')
     search_query = request.args.get('search')
+    sort_by = request.args.get('sort', 'itemname')
     
     conn = sqlite3.connect('tellsell.db')
     cursor = conn.cursor()
@@ -209,7 +213,7 @@ def index():
     elif category:
         cursor.execute('SELECT * FROM items WHERE cat = ?', (category,))
     else:
-        cursor.execute('SELECT * FROM items')
+        cursor.execute(f'SELECT * FROM items ORDER BY {sort_by}')
 
     items = cursor.fetchall()
     conn.close()
@@ -235,10 +239,10 @@ def no_account():
 def much_account():
     return redirect(url_for('login', _method='GET'))
 
-# add the item into the db
 @app.route('/add_item', methods=['POST', 'GET'])
 def add_item():
     print("trying to get the data")
+    
     # Get data from the request
     itemname = request.form.get('itemname')
     itemdesc = request.form.get('itemdesc')
@@ -249,7 +253,7 @@ def add_item():
     conn = get_db()
     cursor = conn.cursor()
 
-        # Fetch the user_id based on the current session
+    # Fetch the user_id based on the current session
     if 'email' in session:
         email = session['email']
         print(email)
@@ -259,7 +263,7 @@ def add_item():
         if result is not None:
             user_id = result[0]
 
-                # Handle file upload
+            # Handle file upload
             if 'item_picture' in request.files:
                 file = request.files['item_picture']
 
@@ -269,16 +273,22 @@ def add_item():
                     file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
                     file.save(file_path)
                     print(file_path)
+
             try:
-                cursor.execute("INSERT INTO items (itemname, itemdesc, price, user_id, item_picture, cat) VALUES (?, ?, ?, ?, ?, ?)",
-                           (itemname, itemdesc, price, user_id, filename, category))
+                current_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                
+                try:
+                    cursor.execute("INSERT INTO items (itemname, itemdesc, price, user_id, item_picture, cat, date_added) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                                   (itemname, itemdesc, price, user_id, filename, category, current_date))
+                except:
+                    cursor.execute("INSERT INTO items (itemname, itemdesc, price, user_id, cat, date_added) VALUES (?, ?, ?, ?, ?, ?)",
+                                   (itemname, itemdesc, price, user_id, category, current_date))
+
                 conn.commit()
             
-            except: #no picture provided
-                print("no image")
-                cursor.execute("INSERT INTO items (itemname, itemdesc, price, user_id, cat) VALUES (?, ?, ?, ?, ?)",
-                           (itemname, itemdesc, price, user_id, category))
-                conn.commit()
+            except Exception as e:
+                print(f"Error inserting item: {e}")
+                conn.rollback()
 
             finally:    
                 conn.close()
@@ -432,7 +442,7 @@ def add_review(receiver_id):
             conn.commit()
             conn.close()
 
-            return render_template('review.html', rating=rating, receiver_id=receiver_id)
+            return redirect(url_for('user_profile', user_id=receiver_id))
 
         else:
             conn.close()
@@ -458,7 +468,7 @@ def user_profile(user_id):
 
     if user:
         # Fetch user reviews
-        cursor.execute("SELECT * FROM reviews WHERE receiver = ?", (user_id,))
+        cursor.execute("SELECT users.name, reviews.* FROM reviews JOIN users ON reviews.reviewer = users.id WHERE receiver = ?", (user_id,))
         user_reviews = cursor.fetchall()
 
         # Calculate average rating and number of reviews
@@ -469,7 +479,7 @@ def user_profile(user_id):
 
         # Pass the user_id parameter to the template
         return render_template('user_profile.html', user=user, user_reviews=user_reviews,
-                       average_rating=average_rating, num_reviews=num_reviews, user_id=user_id)
+                       average_rating=average_rating, num_reviews=num_reviews, user_id=user_id, )
     else:
         conn.close()
         return "User not found", 404
@@ -515,12 +525,12 @@ def admin_dashboard():
     conn = get_db()
     cursor = conn.cursor()
 
-    # Fetch user information including admin status
+    # Fetch user admin status
     cursor.execute("SELECT is_admin FROM users WHERE email = ?", (session['email'],))
-    is_admin = cursor.fetchone()[0]
+    is_admin = cursor.fetchone()
 
     # Check if the user is an admin
-    if is_admin == 1:
+    if is_admin[0] == 1:
         # Fetch reported users
          
         cursor.execute('''SELECT u.*, r.reporter_id AS reporter_id
@@ -547,23 +557,25 @@ def delete_user(user_id):
     if 'email' not in session:
         return redirect(url_for('login'))
 
+    # Fetch user information
     conn = get_db()
     cursor = conn.cursor()
 
-    # Fetch user information including admin status
-    cursor.execute("SELECT * FROM users WHERE email = ?", (session['email'],))
-    admin_user = cursor.fetchone()
+    # Fetch user admin status
+    cursor.execute("SELECT is_admin FROM users WHERE email = ?", (session['email'],))
+    is_admin = cursor.fetchone()
 
     # Check if the user is an admin
-    if admin_user and admin_user['is_admin']:
+    if is_admin[0] == 1:
         # Delete the user and associated reports
         cursor.execute("DELETE FROM users WHERE id = ?", (user_id,))
         cursor.execute("DELETE FROM reports WHERE reported_user_id = ?", (user_id,))
+        cursor.execute("DELETE FROM items WHERE user_id = ?", (user_id,))
         conn.commit()
 
-        flash(f'User with ID {user_id} deleted successfully', 'success')
+        print(f'User with ID {user_id} deleted successfully', 'success')
     else:
-        flash('You do not have permission to delete users', 'danger')
+        print('You do not have permission to delete users')
 
     conn.close()
     return redirect(url_for('admin_dashboard'))

@@ -24,6 +24,7 @@ Table items {
   user_id INTEGER [ref: > users.id, not null, note: 'User ID of the item creator']
   item_picture TEXT [note: 'Path to the item picture']
   cat TEXT [not null, note: 'Category of the item']
+  added_at DATETIME [note: 'The date and time that the item got added']
 }
 
 Table reports {

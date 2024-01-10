@@ -22,19 +22,19 @@
       </form>
 
       <!-- Button to logout -->
-      <form action="{{ url_for('logout')}}" method="POST">
+      <form action="{{ url_for('logout') }}" method="POST">
         <button id="logout_button" type="submit">
-          <a>
-            <ion-icon name="{% if current_user_email %}log-out-outline{% else %}log-in-outline{% endif %}"></ion-icon>
-            {% if current_user_email %}Logout{% else %}Login{% endif %}
-          </a>
+          <a><ion-icon name="log-out-outline"></ion-icon>Abmelden</a>
         </button>
       </form>
-
+      
     </ul>
 
     <!-- Logo -->
-    <img class="logo" src="{{ url_for('static', filename='logo.jpg') }}" alt="TellSellLogo">
+    <a href="{{ url_for('index') }}">
+      <img class="logo" src="{{ url_for('static', filename='logo.jpg') }}" alt="TellSellLogo">
+    </a>
+    <!-- searchbar-->    
     <div class="searchbar">
       <ion-icon name="search-outline" id="search-icon"></ion-icon>
       <form class="searchform" action="{{ url_for('index') }}" method="get">
@@ -62,33 +62,44 @@
 <body>
     <h1><ion-icon name="list-outline"></ion-icon><a>Nutzerprofil</a></h1>
 
-    <p>Name: {{ user[1] }}</p>
-    <p>E-Mail: {{ user[3] }}</p>
+    <h2>Kontakt</h2>
+    <div class="profilegrid">
+      <p>Name: </p> 
+      <p>{{ user[1] }}</p>
+      <p>E-Mail: </p>
+      <p>{{ user[3] }}</p>
+    </div>
 
     <!-- Display user reviews -->
-    <h2>Nutzerbewertungen</h2>
+    <h2>Bewertungen</h2>
 
-    <p>Average Rating: {{ average_rating }}</p>
-    <p>Number of Reviews: {{ num_reviews }}</p>
-    
+    <div class="profilegrid">
+      <p>Durchschnittliche Bewertung:</p>
+      <p>{{ average_rating }}
+      <p>Anzahl Bewertungen:</p>
+      <p>{{ num_reviews }}</p>
+    </div>
+
     <ul>
-        {% for review in user_reviews %}
-            <li>{{ review[1] }} rated {{ review[3] }} - {{ review[4] }}</li>
-        {% endfor %}
+      {% for review in user_reviews %}
+        <p>Benutzer {{ review[0] }} bewertet {{ user[1] }} mit {{ review[4] }}/5 Sternen</p>
+        <p>Kommentar: {{ review[5] }}</p>
+      {% endfor %}
     </ul>
+    
 
     <!-- Button to add a review -->
     <form action="{{ url_for('add_review', receiver_id=user[0]) }}" method="get">
-        <input type="submit" value="Review This User">
+        <button class="review_report" type="submit"><a><ion-icon name="create-outline"></ion-icon>Nutzer bewerten</a>
     </form>
 
     <!-- Button to report user -->
     <form action="{{ url_for('report_user', user_id=user[0]) }}" method="post">
-        <input type="submit" value="Report User">
+        <button class="review_report" type="submit"><a><ion-icon name="warning-outline"></ion-icon>Nutzer melden</a>
     </form>
 
     <button class="home">
-        <a href="{{ url_for('index') }}"><ion-icon name="home-outline"></ion-icon>Back to Home</a>
+        <a href="{{ url_for('index') }}"><ion-icon name="home-outline"></ion-icon>Zurück zur Startseite</a>
     </button>
 </body>
 </html>
