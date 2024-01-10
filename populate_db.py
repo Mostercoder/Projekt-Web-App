@@ -1,6 +1,7 @@
 import sqlite3
 import random
 import bcrypt
+from datetime import datetime
 import time
 
 # Function to generate a random name for the item
@@ -20,11 +21,11 @@ cursor = conn.cursor()
 # Create three users
 for i in range(3):
     name = f"User{i+1}"
-    
+
     # Append a timestamp to ensure unique email addresses
     timestamp = int(time.time())
     email = f"{name.lower()}.{timestamp}@stud.gyminterlaken.ch"
-    
+
     print(f"Creating user: {name}, Email: {email}")
 
     password = "password123"
@@ -48,9 +49,11 @@ for i in range(3):
         item_name = generate_item_name()
         item_desc = f"Description for {item_name}"
         item_price = generate_item_price()
+        item_cat = "Category"
 
-        cursor.execute("INSERT INTO items (itemname, itemdesc, price, user_id) VALUES (?, ?, ?, ?)",
-                       (item_name, item_desc, item_price, user_id))
+        # Insert the item into the 'items' table with the current timestamp
+        cursor.execute("INSERT INTO items (itemname, itemdesc, price, user_id, date_added, cat) VALUES (?, ?, ?, ?, ?, ?)",
+                       (item_name, item_desc, item_price, user_id, datetime.now(), item_cat))
 
     print(f"Items created for user with ID: {user_id}")
 
@@ -58,4 +61,4 @@ for i in range(3):
 conn.commit()
 conn.close()
 
-print("Database populated with three users and placeholder items.")
+print("Database populated with users and placeholder items, :D")
