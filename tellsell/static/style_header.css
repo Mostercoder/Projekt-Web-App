@@ -205,3 +205,13 @@ ul {
   list-style: none;
   overflow-y: hidden;
 }
+
+@media (max-width: 1920px){
+  .account_options button {
+    margin-left: .76vw;
+  }
+
+  .categories li {
+    padding-left: .71vw;
+  }
+}

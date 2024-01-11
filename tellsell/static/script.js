@@ -34,6 +34,7 @@ function toggleHeart() {
       heartIcon.setAttribute('name', 'heart-outline');
     }
     }
+
 function displayOwnerProfile(element) {
   // Get the user_id from the data attribute
   var user_id = element.getAttribute("data-user-id");
@@ -63,3 +64,22 @@ function displayOwnerProfile(element) {
           preview.style.display = 'none'; // Hide the image if no file selected
       }
   }
+
+function toggleDropdown() {
+  var sortBtn = document.querySelector('.sort-btn');
+  var sortDropdown = document.querySelector('.sort-dropdown');
+
+  sortDropdown.style.display = (sortDropdown.style.display === 'block') ? 'none' : 'block';
+  sortBtn.classList.toggle('active', sortDropdown.style.display === 'block');
+}
+
+document.addEventListener('click', function (event) {
+  var sortContainer   = document.getElementById('sortContainer');
+  var sortDropdown    = document.querySelector('.sort-dropdown');
+  var sortBtn         = document.querySelector('.sort-btn');
+
+  if (!sortContainer.contains(event.target)) {
+    sortDropdown.style.display = 'none';
+    sortBtn.classList.remove('active');
+  }
+});
