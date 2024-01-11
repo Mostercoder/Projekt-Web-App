@@ -67,15 +67,20 @@
   <script type="module" src="./static/script.js"></script>
 
   <!-- Display all items -->
-  <h1><ion-icon name="list-outline"></ion-icon><a>Angebote</a></h1>
+  <h1>
+    <ion-icon name="list-outline"></ion-icon>  
+    <a>Angebote</a>
+  </h1>
 
-  <!-- Sorting links -->
-  <div>
-    <a class="search">Sortiere nach: </a>
-    <a class="search" href="{{ url_for('index', sort='itemname') }}">Name</a>
-    <a class="search" href="{{ url_for('index', sort='date_added DESC') }}">Neuste</a>
-    <a class="search" href="{{ url_for('index', sort='price') }}">Preis</a>
-  </div>
+    <!-- Sorting links -->
+    <div class="sort-container">
+      <button class="sort-btn" onclick="toggleDropdown()"><ion-icon name="funnel-outline"></ion-icon>Sortiere nach:</button>
+      <div class="sort-dropdown" id="sortDropdown">
+        <a class="search" href="{{ url_for('index', sort='itemname') }}">Name</a>
+        <a class="search" href="{{ url_for('index', sort='date_added DESC') }}">Neuste</a>
+        <a class="search" href="{{ url_for('index', sort='price') }}">Preis</a>
+      </div>
+    </div>
 
   {% if items %}
     <div class="grid-container">
